@@ -10,3 +10,10 @@
 
 - 로그인 시 accessToken, refreshToken 발급
 - refreshToken 검증 후 accessToken 재발급은 react에서 핸들링하도록 수정해야 함.
+- settings - live Templates - add group
+  ```
+  /**
+  * description    : $MEMO$
+  * $DATE$   by  taejin
+  */
+  ```

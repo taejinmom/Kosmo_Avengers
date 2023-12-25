@@ -1,27 +1,27 @@
 create table MEMBER (
-MEM_NO VARCHAR(40) PRIMARY KEY,
-LOGIN_ID VARCHAR(20) unique,
-LOGIN_PW VARCHAR(100),
-role VARCHAR(10), -- 권한(ADMIN,MEMBER 구분 값)
-MEM_NAME VARCHAR(30),
-MEM_ADDR1 VARCHAR(20),
-MEM_ADDR2 VARCHAR(20),
-MEM_STATUS CHAR(1) , -- 회원 상태 :: 1 가입 0 휴면 99 탈퇴?
-MEM_TEL VARCHAR(20),
-MEM_GEN CHAR(1),
-MEM_BIRTH VARCHAR(8),
-MEM_BIRTH_YN CHAR(1),
-REG_ID VARCHAR(40), -- 생성한 회원
-REG_DATE VARCHAR(30), -- 생성 날짜
-CHG_ID VARCHAR(40), -- 변경한 회원
-CHG_DATE VARCHAR(30) -- 변경 날짜
+    MEM_NO VARCHAR(40) PRIMARY KEY,
+    LOGIN_ID VARCHAR(20) unique,
+    LOGIN_PW VARCHAR(100),
+    role VARCHAR(10), -- 권한(ADMIN,MEMBER 구분 값)
+    MEM_NAME VARCHAR(30),
+    MEM_ADDR1 VARCHAR(20),
+    MEM_ADDR2 VARCHAR(20),
+    MEM_STATUS CHAR(1) , -- 회원 상태 :: 1 가입 0 휴면 99 탈퇴?
+    MEM_TEL VARCHAR(20),
+    MEM_GEN CHAR(1),
+    MEM_BIRTH VARCHAR(8),
+    MEM_BIRTH_YN CHAR(1),
+    REG_ID VARCHAR(40), -- 생성한 회원
+    REG_DATE VARCHAR(30), -- 생성 날짜
+    CHG_ID VARCHAR(40), -- 변경한 회원
+    CHG_DATE VARCHAR(30) -- 변경 날짜
 );
 
 -- 리프레시 토큰 테이블
-CREATE TABLE REFRESHTOKEN (
-REFRESHTOKEN_ID varchar(40) primary key,
-REFRESHTOKEN varchar(150) NULL,
-KEY_ID varchar(40) NULL
+create table REFRESHTOKEN (
+    REFRESHTOKEN_ID varchar(40) primary key,
+    REFRESHTOKEN varchar(150) NULL,
+    KEY_ID varchar(40) NULL
 );
 
 create table MEMBER (
@@ -52,7 +52,7 @@ create table MEM_HIST(
 );
 create sequence MEM_HIST_seq increment by 1 start with 1;
 
-\
+
 
 
 
