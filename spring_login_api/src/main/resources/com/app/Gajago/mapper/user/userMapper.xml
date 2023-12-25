@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?> <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.app.Gajago.mapper.user.UserMapper">
+    <select id="loginCheck" resultType="int">
+        SELECT
+            1
+        FROM
+            T_USER
+        WHERE 1=1
+        AND login_id = #{login_id}
+        AND login_pw = #{login_pw}
+    </select>
+    <select id="loginCheckById" resultType="String">
+        SELECT
+            login_pw
+        FROM
+            T_USER
+        WHERE 1=1
+        AND login_id = #{id}
+
+    </select>
+    <select id="getLoginUserByLoginId" parameterType="String" resultType="com.app.Gajago.dto.user.UserResponseDto">
+        SELECT
+            login_id,name,role
+        FROM
+            T_USER
+        WHERE 1=1
+        AND login_id = #{login_id}
+    </select>
+    <insert id="userInsert" parameterType="com.app.Gajago.dto.user.UserDto">
+        insert into T_USER(id,login_id,login_pw,name,email,role)
+        values(#{id},#{login_id},#{login_pw},#{name},#{email},#{role})
+    </insert>
+    <delete id="start">
+        DELETE
+        FROM
+        T_USER
+    </delete>
+</mapper>
