@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?> <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.app.avengers.DJMT.mapper.token.RefreshTokenMapper">
+    <select id="existsByKeyId" parameterType="String" >
+        SELECT COUNT(1)
+        FROM REFRESHTOKEN
+        WHERE key_id = #{key_id}
+    </select>
+    <delete id="deleteByKeyId" parameterType="String">
+        DELETE FROM REFRESHTOKEN
+        WHERE key_id = #{key_id}
+    </delete>
+    <insert id="saveToken" parameterType="com.app.avengers.DJMT.dto.token.RefreshTokenDto">
+        INSERT INTO REFRESHTOKEN
+        (refreshToken_id,refreshToken,key_id)
+        VALUES
+        (#{refreshToken_id},#{refreshToken},#{key_id})
+    </insert>
+    <select id="findByRefreshToken" parameterType="String">
+        SELECT * FROM REFRESHTOKEN
+        WHERE REFRESHTOKEN = #{refreshToken}
+    </select>
+</mapper>
