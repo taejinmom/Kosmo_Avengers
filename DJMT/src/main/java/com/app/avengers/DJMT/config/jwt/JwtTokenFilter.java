@@ -1,5 +1,6 @@
 package com.app.avengers.DJMT.config.jwt;
 
+import com.app.avengers.DJMT.dto.member.MemberDto;
 import com.app.avengers.DJMT.dto.member.MemberResponseDto;
 import com.app.avengers.DJMT.service.member.MemberService;
 import jakarta.servlet.FilterChain;
@@ -81,7 +82,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         String loginId = JwtTokenUtil.getLoginId(token, secretKey);
 
         // 추출한 loginId로 User 찾아오기
-        MemberResponseDto loginUser = memberService.getLoginUserByLoginId(loginId);
+        MemberDto loginUser = memberService.getMemberInfoByLoginId(loginId);
 
         // loginUser 정보로 UsernamePasswordAuthenticationToken 발급
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(

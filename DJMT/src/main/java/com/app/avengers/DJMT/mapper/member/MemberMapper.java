@@ -10,7 +10,6 @@ import java.util.Optional;
 public interface MemberMapper {
 
     public MemberResponseDto getLoginUserByLoginId(String login_id);
-    public int loginCheck(MemberResponseDto memberResponseDto);
     public Optional<String> loginCheckPw(String login_id);
     public void memberSave(MemberDto memberDto);
     public MemberDto getMemberInfoByLoginId(String login_id);

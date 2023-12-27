@@ -39,15 +39,11 @@ const HomeView = props => {
             setTokenDataCheck(true)
           })
           .catch(error => {
-            console.log(error)
-            if (error.response.status === 402) {
-              console.log('refreshToken 유효기간 만료!')
-              setTokenDataCheck(false)
-              removeCookie('refreshToken')
-              removeCookie('jwtToken')
-              removeCookie('bodyJson')
-            }
-            // setTokenDataCheck(false)
+            console.log('refreshToken 유효기간 만료!')
+            removeCookie('refreshToken')
+            removeCookie('jwtToken')
+            removeCookie('bodyJson')
+            setTokenDataCheck(false)
           })
       })
   }, [])

@@ -37,8 +37,12 @@ public class JwtService {
     }
 
     public RefreshTokenDto getRefreshToken(String refreshToken){
-
-        return refreshTokenMapper.findByRefreshToken(refreshToken);
+        try{
+            return refreshTokenMapper.findByRefreshToken(refreshToken);
+        }catch (Exception e){
+            log.error("refreshToken null1!");
+            return null;
+        }
     }
 
     /**
@@ -46,11 +50,15 @@ public class JwtService {
      * 2023-12-23   by  taejin
      */
     public Map<String, String> validateRefreshToken(String refreshToken){
-        RefreshTokenDto refreshTokenDto1 = getRefreshToken(refreshToken);
-        String createdAccessToken = jwtTokenProvider.validateRefreshToken(refreshTokenDto1.getRefreshToken());
+        try{
+            RefreshTokenDto refreshTokenDto1 = getRefreshToken(refreshToken);
+            String createdAccessToken = jwtTokenProvider.validateRefreshToken(refreshTokenDto1.getRefreshToken());
+            return createRefreshJson(createdAccessToken);
+        }catch (Exception e){
+            log.error("refreshToken null2!");
+            return null;
+        }
 
-
-        return createRefreshJson(createdAccessToken);
     }
     
     /**

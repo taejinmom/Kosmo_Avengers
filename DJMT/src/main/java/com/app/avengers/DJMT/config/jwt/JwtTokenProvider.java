@@ -1,5 +1,6 @@
 package com.app.avengers.DJMT.config.jwt;
 
+import com.app.avengers.DJMT.dto.member.MemberDto;
 import com.app.avengers.DJMT.dto.member.MemberResponseDto;
 import com.app.avengers.DJMT.dto.token.TokenDto;
 import com.app.avengers.DJMT.service.member.MemberService;
@@ -84,8 +85,8 @@ public class JwtTokenProvider {
      * 2023-12-23   by  taejin       
      */
     public Authentication getAuthentication(String token) {
-        MemberResponseDto memberResponseDto = memberService.getLoginUserByLoginId(this.getUserPk(token));
-        return new UsernamePasswordAuthenticationToken(memberResponseDto, "", List.of(new SimpleGrantedAuthority(memberResponseDto.getRole().name())));
+        MemberDto memberDto = memberService.getMemberInfoByLoginId(this.getUserPk(token));
+        return new UsernamePasswordAuthenticationToken(memberDto, "", List.of(new SimpleGrantedAuthority(memberDto.getRole().name())));
     }
 
     /**

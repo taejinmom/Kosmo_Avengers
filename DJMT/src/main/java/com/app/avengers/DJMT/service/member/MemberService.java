@@ -19,14 +19,6 @@ public class MemberService implements MemberRepository {
     private final MemberMapper memberMapper;
     private final MemberMgr memberMgr;
 
-    /**
-     * description    : 토큰 유효성 체크를 위한 메소드
-     * 2023-12-22   by  taejin
-     */
-    @Override
-    public MemberResponseDto getLoginUserByLoginId(String login_id) {
-        return memberMapper.getLoginUserByLoginId(login_id);
-    }
 
     /**
      * description    : 로그인 -> 패스워드 validation
@@ -61,7 +53,10 @@ public class MemberService implements MemberRepository {
         memberDto = memberMgr.makeMemberDto(memberDto);
         memberMapper.memberSave(memberDto);
     }
-
+    /**
+     * description    : 토큰 유효성 체크를 후
+     * 2023-12-22   by  taejin
+     */
     @Override
     public MemberDto getMemberInfoByLoginId(String login_id) {
         return memberMapper.getMemberInfoByLoginId(login_id);

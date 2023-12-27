@@ -11,15 +11,6 @@
         WHERE 1=1
         AND login_id = #{login_id}
     </select>
-    <!-- 로그인 시 패스워드 체크 -->
-    <select id="loginCheck" parameterType="com.app.avengers.DJMT.dto.member.MemberResponseDto" resultType="int">
-        select
-            1
-        from MEMBER
-        where 1 = 1
-        and login_id = #{login_id}
-        and login_pw = #{login_pw}
-    </select>
     <!-- 로그인 시 ID로 PW select -->
     <select id="loginCheckPw" parameterType="String" resultType="String">
         select

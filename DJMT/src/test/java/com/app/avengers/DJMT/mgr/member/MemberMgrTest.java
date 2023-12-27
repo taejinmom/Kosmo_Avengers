@@ -1,6 +1,7 @@
 package com.app.avengers.DJMT.mgr.member;
 
 import com.app.avengers.DJMT.service.common.CommonService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -31,6 +32,10 @@ class MemberMgrTest {
         if(passwordEncoder.matches("1234",inDbPassword)){
             log.info("Success!!");
         }
-
 ;    }
+    @Test
+    void checkMethod() {
+
+    }
+
 }

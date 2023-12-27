@@ -139,11 +139,21 @@ const Login = () => {
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                sx={{ mb: 2 }}
                 size="large"
                 href="/join"
               >
                 회원가입
+              </Button>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mb: 2 }}
+                size="large"
+                href="/"
+              >
+                Home
               </Button>
             </FormControl>
           </Box>

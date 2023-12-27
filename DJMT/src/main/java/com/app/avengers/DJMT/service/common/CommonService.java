@@ -13,11 +13,14 @@ package com.app.avengers.DJMT.service.common;
 
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 
@@ -27,6 +30,11 @@ public class CommonService {
     public String makeUUID(String category){
         return category.concat(UUID.randomUUID().toString().replaceAll("-",""));
     }
-    public String passwordEncoded(String password) { return passwordEncoder.encode(password); }
-    public boolean passwordDecoded(String newPass,String oldPass){ return passwordEncoder.matches(newPass,oldPass); }
+    public String passwordEncoded(String password) {
+        return passwordEncoder.encode(password);
+    }
+    public boolean passwordDecoded(String newPass,String oldPass){
+        return passwordEncoder.matches(newPass,oldPass);
+    }
+
 }
