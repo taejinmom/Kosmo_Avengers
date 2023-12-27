@@ -3,7 +3,7 @@ package com.app.avengers.DJMT.config;
 import com.app.avengers.DJMT.config.jwt.JwtAuthenticationFilter;
 import com.app.avengers.DJMT.config.jwt.JwtTokenProvider;
 import com.app.avengers.DJMT.dto.auth.RoleDto;
-import com.app.avengers.DJMT.service.MemberService;
+import com.app.avengers.DJMT.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,7 +38,8 @@ public class SecurityConfig {
                 .authorizeRequests(
                         authorize ->
                                 authorize
-                                .requestMatchers("/api/join","/api/login","/api/test","/api/refresh").permitAll()
+                                .requestMatchers("/api/join","/api/login","/api/test").permitAll()
+                                .requestMatchers("/api/validateToken").authenticated() // 권한 체크 시 실패할경우 실행
                                 //.requestMatchers("/api/refresh").permitAll()
                                 .requestMatchers("/api/admin/**").hasAuthority(RoleDto.ADMIN.name())
                                 .anyRequest().permitAll()

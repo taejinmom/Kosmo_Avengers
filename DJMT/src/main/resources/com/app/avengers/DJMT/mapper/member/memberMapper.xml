@@ -28,6 +28,13 @@
         where 1 = 1
         and login_id = #{login_id}
     </select>
+    <select id="getMemberInfoByLoginId" parameterType="String" resultType="com.app.avengers.DJMT.dto.member.MemberDto">
+        select
+            *
+        from MEMBER
+        where 1 = 1
+        and login_id = #{login_id}
+    </select>
     <insert id="memberSave" parameterType="com.app.avengers.DJMT.dto.member.MemberDto">
         insert into MEMBER(mem_no,login_id,login_pw,mem_name,role,mem_status,reg_id,reg_date,chg_id,chg_date)
         values (#{mem_no}, #{login_id}, #{login_pw}, #{mem_name}, #{role}, #{mem_status}, #{reg_id}, #{reg_date}, #{chg_id}, #{chg_date})

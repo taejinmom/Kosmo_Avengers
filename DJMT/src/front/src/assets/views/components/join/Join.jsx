@@ -17,6 +17,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles'
 import axios from 'axios'
 import { flushSync } from 'react-dom'
 import JoinData, { joinItem } from '../../../constants/join/JoinData'
+import { useNavigate } from 'react-router-dom'
 
 const Join = () => {
   const theme = createTheme()
@@ -34,7 +35,8 @@ const Join = () => {
     email: '',
     mem_name: '',
   })
-  console.log('check!!', pwChk)
+  const navigate = useNavigate()
+
   // 패스워드 재입력 체크
   const handlePassCheck = e => {
     setRepeatPassword(e.target.value)
@@ -66,12 +68,6 @@ const Join = () => {
       setPasswordChecked(false)
     }
   })
-
-  useEffect(e => {
-    axios.get('api/test').then(response => {
-      console.log(response)
-    })
-  }, [])
 
   // 패스워드 재입력 테스트
 
@@ -107,7 +103,7 @@ const Join = () => {
     axios
       .post('api/join', joinData)
       .then(res => {
-        console.log(res)
+        navigate('/login')
       })
       .catch(error => {
         console.log(error)

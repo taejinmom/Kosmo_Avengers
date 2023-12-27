@@ -4,19 +4,38 @@ import axios from 'axios'
 import { useCookies } from 'react-cookie'
 
 const Header = props => {
-  const [cookies, setCookie, removeCookie] = useCookies([])
   const [tokenData, setTokendata] = useState({
     login_id: '',
-    name: '',
+    mem_name: '',
     role: '',
   })
-  const { tokenDataCheck, setTokenDataCheck } = props
+  const {
+    tokenDataCheck,
+    setTokenDataCheck,
+    cookies,
+    setCookies,
+    removeCookie,
+  } = props
   const [show, setShow] = useState(false)
 
+  useEffect(() => {
+    console.log('logout!', cookies.bodyJson)
+    if (cookies.bodyJson === undefined) {
+      setTokendata({ ...tokenData, login_id: '', mem_name: '', role: '' })
+    } else {
+      setTokendata({
+        ...tokenData,
+        login_id: cookies.bodyJson.login_id,
+        mem_name: cookies.bodyJson.mem_name,
+      })
+    }
+  }, [])
+
+  console.log('Header.jsx cookies -> ')
   const toggleMenu = () => {
     setShow(prevShow => !prevShow)
   }
-
+  console.log('tokenData', tokenData)
   return (
     <>
       <header id="header" role="banner">
@@ -41,6 +60,7 @@ const Header = props => {
               })}
               {tokenDataCheck && (
                 <li>
+                  {tokenData.mem_name}님 안녕하세요
                   <a
                     href="/"
                     onClick={e => {
@@ -52,7 +72,6 @@ const Header = props => {
                   >
                     Logout
                   </a>
-                  {tokenData.name}님 안녕하세요
                 </li>
               )}
               {!tokenDataCheck && (

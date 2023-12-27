@@ -18,5 +18,6 @@ public class TokenDto {
     private String accessToken;
     private String refreshToken;
     private String key;
+    private String mem_name;
 
 }

@@ -4,6 +4,8 @@ package com.app.avengers.DJMT.dto.member;
 import com.app.avengers.DJMT.dto.auth.RoleDto;
 import lombok.*;
 
+import java.util.Map;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -25,5 +27,10 @@ public class MemberDto {
     private String chg_id;
     private String chg_date;
 
+    public void toDto(Map<String ,String> map){
+        map.forEach((key, value)->{
+            
+        });
+    }
 
 }

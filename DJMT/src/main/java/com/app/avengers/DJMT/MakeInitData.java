@@ -1,14 +1,11 @@
 package com.app.avengers.DJMT;
 
-import com.app.avengers.DJMT.constants.Constants;
 import com.app.avengers.DJMT.dto.auth.RoleDto;
 import com.app.avengers.DJMT.dto.member.MemberDto;
-import com.app.avengers.DJMT.service.MemberService;
+import com.app.avengers.DJMT.service.member.MemberService;
 import com.app.avengers.DJMT.service.common.CommonService;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 

@@ -1,4 +1,4 @@
-package com.app.avengers.DJMT.service;
+package com.app.avengers.DJMT.service.member;
 
 import com.app.avengers.DJMT.dto.member.MemberDto;
 import com.app.avengers.DJMT.dto.member.MemberResponseDto;
@@ -33,13 +33,13 @@ public class MemberService implements MemberRepository {
      * 2023-12-22   by  taejin
      */
     @Override
-    public int loginCheck(MemberDto memberDto) {
+    public MemberDto loginCheck(MemberResponseDto memberResponseDto) {
         if(memberMgr.loginvalidation(
-                memberDto.getLogin_pw(), loginCheckPw(memberDto.getLogin_id()).orElse(""))
+                memberResponseDto.getLogin_pw(), loginCheckPw(memberResponseDto.getLogin_id()).orElse(""))
             ){
-            return 1;
+            return memberMapper.getMemberInfoByLoginId(memberResponseDto.getLogin_id());
         }
-        return 0;
+        return null;
     }
 
     /**
@@ -60,6 +60,11 @@ public class MemberService implements MemberRepository {
         // memberDto 만들기 - uuid, 패스워드 인코딩, 가입날짜.. 등등  추가할 예정
         memberDto = memberMgr.makeMemberDto(memberDto);
         memberMapper.memberSave(memberDto);
+    }
+
+    @Override
+    public MemberDto getMemberInfoByLoginId(String login_id) {
+        return memberMapper.getMemberInfoByLoginId(login_id);
     }
 
     /**

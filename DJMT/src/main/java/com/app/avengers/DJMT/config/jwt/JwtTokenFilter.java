@@ -1,7 +1,7 @@
 package com.app.avengers.DJMT.config.jwt;
 
 import com.app.avengers.DJMT.dto.member.MemberResponseDto;
-import com.app.avengers.DJMT.service.MemberService;
+import com.app.avengers.DJMT.service.member.MemberService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;

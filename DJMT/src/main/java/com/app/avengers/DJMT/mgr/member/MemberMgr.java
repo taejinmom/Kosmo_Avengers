@@ -23,7 +23,6 @@ public class MemberMgr {
      * 2023-12-22   by  taejin
      */
     public boolean loginvalidation(String newPass,String oldPass){
-        log.error("old password = " + oldPass);
         return commonService.passwordDecoded(newPass, oldPass);
     }
     /**

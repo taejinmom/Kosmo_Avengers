@@ -1,7 +1,6 @@
 package com.app.avengers.DJMT.config.jwt;
 
-import com.app.avengers.DJMT.service.MemberService;
-import io.jsonwebtoken.ExpiredJwtException;
+import com.app.avengers.DJMT.service.member.MemberService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Optional;
 
 //해당 클래스는 JwtTokenProvider가 검증을 끝낸 Jwt로부터 유저 정보를 조회해와서 UserPasswordAuthenticationFilter 로 전달합니다.
