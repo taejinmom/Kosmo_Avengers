@@ -20,27 +20,11 @@ create table MEMBER (
 -- 리프레시 토큰 테이블
 create table REFRESHTOKEN (
     REFRESHTOKEN_ID varchar(40) primary key,
-    REFRESHTOKEN varchar(150) NULL,
+    REFRESHTOKEN varchar(255) NULL,
     KEY_ID varchar(40) NULL
 );
 
-create table MEMBER (
-    MEM_NO number PRIMARY KEY, 
-    MEM_ID VARCHAR(20) unique,
-    MEM_status CHAR(1) , -- 회원 상태 :: 1 가입 0 휴면 99 탈퇴?
-    MEM_PW VARCHAR(20),
-    MEM_NM VARCHAR(30),
-    MEM_ADDR1 VARCHAR(20),
-    MEM_ADDR2 VARCHAR(20),
-    MEM_TEL VARCHAR(20),
-    MEM_GEN CHAR(1),
-    MEM_BIRTH VARCHAR(8),
-    MEM_BIRTH_YN CHAR(1),
-    REG_ID VARCHAR(40),     -- 등록한 회원
-    REG_DATE VARCHAR(20), -- 생성 날짜
-    CHG_ID VARCHAR(40),     -- 변경한 회원
-    CHG_DATE VARCHAR(20) -- 변경 날짜
-);
+
 create sequence MEMBER_seq increment by 1 start with 1;
 
 create table MEM_HIST(
