@@ -13,7 +13,7 @@ public class RefreshTokenDto {
 
     private String refreshToken_id;
     private String refreshToken;
-    private String key_id;
+    private String mem_no;
     private String ref_id;
 
 }

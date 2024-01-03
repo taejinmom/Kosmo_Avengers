@@ -3,13 +3,13 @@
 
 <mapper namespace="com.app.avengers.DJMT.mapper.member.MemberMapper">
     <!-- 토큰에서  값가져오기   -->
-    <select id="getLoginUserByLoginId" parameterType="String" resultType="com.app.avengers.DJMT.dto.member.MemberResponseDto">
+    <select id="ValidateTokenByMemNo" parameterType="String" resultType="com.app.avengers.DJMT.dto.member.MemberDto">
         SELECT
-        login_id,mem_name,role
+        *
         FROM
         MEMBER
         WHERE 1=1
-        AND login_id = #{login_id}
+        AND mem_no = #{mem_no}
     </select>
     <!-- 로그인 시 ID로 PW select -->
     <select id="loginCheckPw" parameterType="String" resultType="String">

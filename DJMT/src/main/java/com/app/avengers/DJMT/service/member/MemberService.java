@@ -20,6 +20,11 @@ public class MemberService implements MemberRepository {
     private final MemberMgr memberMgr;
 
 
+    @Override
+    public MemberDto ValidateTokenByMemNo(String mem_no) {
+        return memberMapper.ValidateTokenByMemNo(mem_no);
+    }
+
     /**
      * description    : 로그인 -> 패스워드 validation
      * 2023-12-22   by  taejin

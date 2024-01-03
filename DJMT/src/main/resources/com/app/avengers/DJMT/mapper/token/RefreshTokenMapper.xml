@@ -5,17 +5,17 @@
     <select id="existsByKeyId" parameterType="String" >
         SELECT COUNT(1)
         FROM REFRESHTOKEN
-        WHERE key_id = #{key_id}
+        WHERE mem_no = #{mem_no}
     </select>
     <delete id="deleteByKeyId" parameterType="String">
         DELETE FROM REFRESHTOKEN
-        WHERE key_id = #{key_id}
+        WHERE mem_no = #{mem_no}
     </delete>
     <insert id="saveToken" parameterType="com.app.avengers.DJMT.dto.token.RefreshTokenDto">
         INSERT INTO REFRESHTOKEN
-        (refreshToken_id,refreshToken,key_id)
+        (refreshToken_id,refreshToken,mem_no)
         VALUES
-        (#{refreshToken_id},#{refreshToken},#{key_id})
+        (#{refreshToken_id},#{refreshToken},#{mem_no})
     </insert>
     <select id="findByRefreshToken" parameterType="String">
         SELECT * FROM REFRESHTOKEN

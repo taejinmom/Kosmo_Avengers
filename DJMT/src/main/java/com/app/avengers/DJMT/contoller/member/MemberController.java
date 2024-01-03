@@ -36,7 +36,7 @@ public class MemberController {
         try {
             MemberDto memberDto = memberService.loginCheck(memberResponseDto);
             if (memberDto != null) {
-                TokenDto tokenDto = jwtTokenProvider.createAccessToken(memberDto.getLogin_id(), memberDto.getRole(), memberDto.getMem_name());
+                TokenDto tokenDto = jwtTokenProvider.createAccessToken(memberDto.getMem_no(), memberDto.getRole(), memberDto.getMem_name());
                 jwtService.login(tokenDto);
                 return new ResponseEntity<>(tokenDto, HttpStatus.OK);
             }

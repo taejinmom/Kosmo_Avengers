@@ -26,8 +26,8 @@ public class JwtService {
     private final RefreshTokenMapper refreshTokenMapper;
     @Transactional
     public void login(TokenDto tokenDto){
-        RefreshTokenDto refreshTokenDto = RefreshTokenDto.builder().refreshToken_id(commonService.makeUUID(Constants.MEMBER)).key_id(tokenDto.getKey()).refreshToken(tokenDto.getRefreshToken()).build();
-        String loginUserKeyId = refreshTokenDto.getKey_id();
+        RefreshTokenDto refreshTokenDto = RefreshTokenDto.builder().refreshToken_id(commonService.makeUUID(Constants.MEMBER)).mem_no(tokenDto.getKey()).refreshToken(tokenDto.getRefreshToken()).build();
+        String loginUserKeyId = refreshTokenDto.getMem_no();
         if(refreshTokenMapper.existsByKeyId(loginUserKeyId) > 0){
             log.info("기존의 존재하는 refresh 토큰 삭제");
             refreshTokenMapper.deleteByKeyId(loginUserKeyId);

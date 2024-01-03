@@ -52,10 +52,10 @@ public class JwtTokenProvider {
      * description    : JWT 토큰 생성
      * 2023-12-23   by  taejin       
      */
-    public TokenDto createAccessToken(String login_id, Object roles,String mem_name) {
+    public TokenDto createAccessToken(String mem_no, Object roles,String mem_name) {
 
-        Claims claims = Jwts.claims().setSubject(login_id); // JWT payload 에 저장되는 정보단위
-        claims.put("loginId", login_id); // 정보는 key / value 쌍으로 저장된다.
+        Claims claims = Jwts.claims().setSubject(mem_no); // JWT payload 에 저장되는 정보단위
+        claims.put("mem_no", mem_no); // 정보는 key / value 쌍으로 저장된다.
         claims.put("roles", roles);
         Date now = new Date();
 
@@ -77,7 +77,7 @@ public class JwtTokenProvider {
                 // signature 에 들어갈 secret값 세팅
                 .compact();
 
-        return TokenDto.builder().accessToken(accessToken).refreshToken(refreshToken).key(login_id).mem_name(mem_name).build();
+        return TokenDto.builder().accessToken(accessToken).refreshToken(refreshToken).key(mem_no).mem_name(mem_name).build();
     }
 
     /**
@@ -85,7 +85,7 @@ public class JwtTokenProvider {
      * 2023-12-23   by  taejin       
      */
     public Authentication getAuthentication(String token) {
-        MemberDto memberDto = memberService.getMemberInfoByLoginId(this.getUserPk(token));
+        MemberDto memberDto = memberService.ValidateTokenByMemNo(this.getUserPk(token));
         return new UsernamePasswordAuthenticationToken(memberDto, "", List.of(new SimpleGrantedAuthority(memberDto.getRole().name())));
     }
 
@@ -94,7 +94,7 @@ public class JwtTokenProvider {
      * 2023-12-23   by  taejin       
      */
     public String getUserPk(String token) {
-        return (String)Jwts.parser().setSigningKey(accessSecretKey).parseClaimsJws(token).getBody().get("loginId");
+        return (String)Jwts.parser().setSigningKey(accessSecretKey).parseClaimsJws(token).getBody().get("mem_no");
     }
 
     /**
@@ -160,7 +160,7 @@ public class JwtTokenProvider {
     public String recreationAccessToken(String userPk, Object roles){
 
         Claims claims = Jwts.claims().setSubject(userPk); // JWT payload 에 저장되는 정보단위
-        claims.put("loginId", userPk);
+        claims.put("mem_no", userPk);
         claims.put("roles", roles); // 정보는 key / value 쌍으로 저장된다.
         Date now = new Date();
 
