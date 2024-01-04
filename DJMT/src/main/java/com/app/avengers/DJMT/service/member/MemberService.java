@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.Optional;
 
 @Slf4j
@@ -30,11 +31,11 @@ public class MemberService implements MemberRepository {
      * 2023-12-22   by  taejin
      */
     @Override
-    public MemberDto loginCheck(MemberResponseDto memberResponseDto) {
+    public MemberDto loginCheck(MemberDto memberDto) {
         if(memberMgr.loginvalidation(
-                memberResponseDto.getLogin_pw(), loginCheckPw(memberResponseDto.getLogin_id()).orElse(""))
+                memberDto.getLogin_pw(), loginCheckPw(memberDto.getLogin_id()).orElse(""))
             ){
-            return memberMapper.getMemberInfoByLoginId(memberResponseDto.getLogin_id());
+            return memberMapper.getMemberInfoByLoginId(memberDto.getLogin_id());
         }
         return null;
     }
@@ -75,5 +76,19 @@ public class MemberService implements MemberRepository {
     public void start() {
         memberMapper.start();
         log.info("delete 시작 ");
+    }
+
+    public HashMap<String,Object> memberLoginValidateEvent(MemberDto memberDto) {
+        HashMap<String,Object> map = new HashMap<>();
+        String inputPassword = memberDto.getLogin_pw();
+
+        memberDto = memberMapper.findMemberById(memberDto.getLogin_id());
+        String dbPassword = memberDto.getLogin_pw();
+        if(memberMgr.loginvalidation(inputPassword,dbPassword)){
+            map.put("memberData",memberDto);
+
+        }
+
+        return null;
     }
 }

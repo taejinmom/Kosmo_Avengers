@@ -33,4 +33,10 @@
     <delete id="start">
         delete from MEMBER
     </delete>
+    <select id="findMemberById" parameterType="String">
+        select
+            *
+        from member
+        where login_id = #{login_id}
+    </select>
 </mapper>

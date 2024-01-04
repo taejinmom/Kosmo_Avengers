@@ -31,10 +31,12 @@ public class MemberController {
      * 2023-12-23   by  taejin
      */
     @PostMapping("/api/login")
-    public ResponseEntity<?> login(@RequestBody MemberResponseDto memberResponseDto) {
-        log.info("userid = {}", memberResponseDto.getLogin_id());
+    public ResponseEntity<?> login(@RequestBody MemberDto memberDto) {
+        log.info("userid = {}", memberDto.getLogin_id());
         try {
-            MemberDto memberDto = memberService.loginCheck(memberResponseDto);
+
+            //memberDto = memberService.loginCheck(memberDto);
+
             if (memberDto != null) {
                 TokenDto tokenDto = jwtTokenProvider.createAccessToken(memberDto.getMem_no(), memberDto.getRole(), memberDto.getMem_name());
                 jwtService.login(tokenDto);

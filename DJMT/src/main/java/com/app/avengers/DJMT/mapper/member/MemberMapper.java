@@ -14,4 +14,5 @@ public interface MemberMapper {
     public void memberSave(MemberDto memberDto);
     public MemberDto getMemberInfoByLoginId(String login_id);
     public void start();
+    MemberDto findMemberById(String login_id);
 }
