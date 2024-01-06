@@ -70,9 +70,9 @@ const Login = () => {
       .post('api/login', loginData)
       .then(res => {
         console.log(res.data)
-        setCookie('jwtToken', res.data.accessToken)
-        setCookie('refreshToken', res.data.refreshToken)
-        setCookie('bodyJson', res.data)
+        setCookie('jwtToken', res.data.tokenData.accessToken)
+        setCookie('refreshToken', res.data.tokenData.refreshToken)
+        setCookie('memberData', res.data.memberData)
         navigate('/')
       })
       .catch(error => {

@@ -1,7 +1,6 @@
 package com.app.avengers.DJMT.config.jwt;
 
 import com.app.avengers.DJMT.dto.member.MemberDto;
-import com.app.avengers.DJMT.dto.member.MemberResponseDto;
 import com.app.avengers.DJMT.dto.token.TokenDto;
 import com.app.avengers.DJMT.service.member.MemberService;
 import io.jsonwebtoken.Claims;
@@ -52,7 +51,7 @@ public class JwtTokenProvider {
      * description    : JWT 토큰 생성
      * 2023-12-23   by  taejin       
      */
-    public TokenDto createAccessToken(String mem_no, Object roles,String mem_name) {
+    public TokenDto createAccessToken(String mem_no, Object roles) {
 
         Claims claims = Jwts.claims().setSubject(mem_no); // JWT payload 에 저장되는 정보단위
         claims.put("mem_no", mem_no); // 정보는 key / value 쌍으로 저장된다.
@@ -77,7 +76,7 @@ public class JwtTokenProvider {
                 // signature 에 들어갈 secret값 세팅
                 .compact();
 
-        return TokenDto.builder().accessToken(accessToken).refreshToken(refreshToken).key(mem_no).mem_name(mem_name).build();
+        return TokenDto.builder().accessToken(accessToken).refreshToken(refreshToken).key(mem_no).build();
     }
 
     /**

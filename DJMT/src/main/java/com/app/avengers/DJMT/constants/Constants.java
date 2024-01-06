@@ -9,4 +9,10 @@ public class Constants {
     public static final String MEMBER_STATUS_1 = "1"; // 사용중
     public static final String MEMBER_STATUS_0 = "0"; // 휴면
     public static final String MEMBER_STATUS_99 = "99"; // 탈퇴
+
+    // common
+    public static final String COMMON_CONSTANTS_Y = "Y";
+    public static final String COMMON_CONSTANTS_N = "N";
+    public static final String COMMON_CONSTANTS_VALIDATION = "VALIDATIN";
+
 }

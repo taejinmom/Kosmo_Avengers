@@ -26,6 +26,7 @@ public class MemberDto {
     private String reg_date;
     private String chg_id;
     private String chg_date;
+    private String valid = "N";
 
     public void toDto(Map<String ,String> map){
         map.forEach((key, value)->{

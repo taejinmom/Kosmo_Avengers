@@ -1,6 +1,5 @@
 package com.app.avengers.DJMT.config.jwt;
 
-import com.app.avengers.DJMT.service.member.MemberService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
@@ -25,7 +24,6 @@ import java.util.Optional;
 public class JwtAuthenticationFilter extends GenericFilterBean {
 
     private final JwtTokenProvider jwtTokenProvider;
-    private final MemberService memberService;
 
     // http 요청을 여기서 먼저 체크
     @Override
@@ -55,8 +53,9 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
             // SecurityContext 에 Authentication 객체를 저장합니다.
             SecurityContextHolder.getContext().setAuthentication(authentication);
             chain.doFilter(request, response);
+        }else{
+            chain.doFilter(request, response);
         }
-        chain.doFilter(request, response);
         // 발급받은 jwtToken이 유효한 토큰인지 확인
 //        if (cookie != null && jwtTokenProvider.validateToken(cookie.getValue())) {
 //            // 토큰이 유효하면 토큰으로부터 유저 정보를 받아옵니다.

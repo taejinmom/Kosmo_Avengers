@@ -19,19 +19,17 @@ const Header = props => {
   const [show, setShow] = useState(false)
 
   useEffect(() => {
-    console.log('logout!', cookies.bodyJson)
-    if (cookies.bodyJson === undefined) {
+    if (cookies.memberData === undefined) {
       setTokendata({ ...tokenData, login_id: '', mem_name: '', role: '' })
     } else {
       setTokendata({
         ...tokenData,
-        login_id: cookies.bodyJson.login_id,
-        mem_name: cookies.bodyJson.mem_name,
+        login_id: cookies.memberData.login_id,
+        mem_name: cookies.memberData.mem_name,
       })
     }
   }, [])
 
-  console.log('Header.jsx cookies -> ')
   const toggleMenu = () => {
     setShow(prevShow => !prevShow)
   }
@@ -65,7 +63,7 @@ const Header = props => {
                     href="/"
                     onClick={e => {
                       removeCookie('jwtToken')
-                      removeCookie('bodyJson')
+                      removeCookie('memberData')
                       removeCookie('refreshToken')
                       setTokenDataCheck(tokenData, false)
                     }}

@@ -16,7 +16,7 @@ const HomeView = props => {
   const [tokenDataCheck, setTokenDataCheck] = useState(false)
 
   useEffect(() => {
-    if (cookies.bodyJson === undefined) return
+    if (cookies.memberData === undefined) return
     axios
       .get('api/validateToken')
       .then(res => {
@@ -30,7 +30,7 @@ const HomeView = props => {
         console.log(error)
         axios
           .post('api/refresh', {
-            refreshToken: cookies.bodyJson.refreshToken,
+            refreshToken: cookies.refreshToken,
           })
           .then(res => {
             console.log('이전 쿠키 cookie', cookies.jwtToken)
@@ -42,7 +42,7 @@ const HomeView = props => {
             console.log('refreshToken 유효기간 만료!')
             removeCookie('refreshToken')
             removeCookie('jwtToken')
-            removeCookie('bodyJson')
+            removeCookie('memberData')
             setTokenDataCheck(false)
           })
       })

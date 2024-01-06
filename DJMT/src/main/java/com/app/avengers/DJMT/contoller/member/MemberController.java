@@ -1,21 +1,23 @@
 package com.app.avengers.DJMT.contoller.member;
 
 import com.app.avengers.DJMT.config.jwt.JwtTokenProvider;
+import com.app.avengers.DJMT.constants.Constants;
 import com.app.avengers.DJMT.dto.member.MemberDto;
 import com.app.avengers.DJMT.dto.member.MemberResponseDto;
 import com.app.avengers.DJMT.dto.token.TokenDto;
-import com.app.avengers.DJMT.service.member.MemberService;
 import com.app.avengers.DJMT.service.jwt.JwtService;
+import com.app.avengers.DJMT.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashMap;
 
 
 @Slf4j
@@ -24,7 +26,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemberController {
     private final MemberService memberService;
     private final JwtTokenProvider jwtTokenProvider;
-    private final JwtService jwtService;
 
     /**
      * description    : 로그인 액션
@@ -34,17 +35,17 @@ public class MemberController {
     public ResponseEntity<?> login(@RequestBody MemberDto memberDto) {
         log.info("userid = {}", memberDto.getLogin_id());
         try {
-
-            //memberDto = memberService.loginCheck(memberDto);
-
-            if (memberDto != null) {
-                TokenDto tokenDto = jwtTokenProvider.createAccessToken(memberDto.getMem_no(), memberDto.getRole(), memberDto.getMem_name());
-                jwtService.login(tokenDto);
-                return new ResponseEntity<>(tokenDto, HttpStatus.OK);
+            HashMap<String,Object> map = new HashMap<>();
+            memberDto = memberService.loginCheck(memberDto);
+            if(memberDto.getValid().equals(Constants.COMMON_CONSTANTS_Y)){
+                TokenDto tokenDto = jwtTokenProvider.createAccessToken(memberDto.getMem_no(),memberDto.getRole());
+                map.put("tokenData",tokenDto);
+                map.put("memberData",memberDto);
             }
+            return new ResponseEntity<>(map,HttpStatus.OK);
         }catch (NullPointerException e){
             e.printStackTrace();
-            log.error("로그인 실패 memberDto => null");
+            log.error("로그인 실패!!");
         }
         return new ResponseEntity<>("fail",HttpStatus.UNAUTHORIZED);
     }

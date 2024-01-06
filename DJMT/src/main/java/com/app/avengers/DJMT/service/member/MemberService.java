@@ -1,7 +1,7 @@
 package com.app.avengers.DJMT.service.member;
 
+import com.app.avengers.DJMT.constants.Constants;
 import com.app.avengers.DJMT.dto.member.MemberDto;
-import com.app.avengers.DJMT.dto.member.MemberResponseDto;
 import com.app.avengers.DJMT.mapper.member.MemberMapper;
 import com.app.avengers.DJMT.mgr.member.MemberMgr;
 import com.app.avengers.DJMT.repository.member.MemberRepository;
@@ -35,7 +35,9 @@ public class MemberService implements MemberRepository {
         if(memberMgr.loginvalidation(
                 memberDto.getLogin_pw(), loginCheckPw(memberDto.getLogin_id()).orElse(""))
             ){
-            return memberMapper.getMemberInfoByLoginId(memberDto.getLogin_id());
+            memberDto = memberMapper.getMemberInfoByLoginId(memberDto.getLogin_id());
+            memberDto.setValid(Constants.COMMON_CONSTANTS_Y);
+            return memberDto;
         }
         return null;
     }
@@ -76,19 +78,5 @@ public class MemberService implements MemberRepository {
     public void start() {
         memberMapper.start();
         log.info("delete 시작 ");
-    }
-
-    public HashMap<String,Object> memberLoginValidateEvent(MemberDto memberDto) {
-        HashMap<String,Object> map = new HashMap<>();
-        String inputPassword = memberDto.getLogin_pw();
-
-        memberDto = memberMapper.findMemberById(memberDto.getLogin_id());
-        String dbPassword = memberDto.getLogin_pw();
-        if(memberMgr.loginvalidation(inputPassword,dbPassword)){
-            map.put("memberData",memberDto);
-
-        }
-
-        return null;
     }
 }
