@@ -7,7 +7,6 @@ import com.app.avengers.DJMT.dto.member.MemberDto;
 import com.app.avengers.DJMT.service.common.CommonService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.el.stream.Optional;
 import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
@@ -31,8 +30,8 @@ public class MemberMgr {
      * 2023-12-22   by  taejin       
      */
     public MemberDto makeMemberDto(MemberDto memberDto){
-        //
-        String uid = commonService.makeUUID(Constants.MEMBER);
+        // 선언
+        String uid = commonService.generateUUID(Constants.MEMBER);
         String currentPassword = memberDto.getLogin_pw();
         String encodingPassword = commonService.passwordEncoded(currentPassword);
 
@@ -43,7 +42,6 @@ public class MemberMgr {
             memberDto.setRole(RoleDto.USER);
         }
         memberDto.setMem_status(Constants.MEMBER_STATUS_1);
-
         memberDto.setReg_id(uid);
         memberDto.setReg_date(currentDate());
         memberDto.setChg_id(uid);

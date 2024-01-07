@@ -97,14 +97,6 @@ public class JwtTokenProvider {
     }
 
     /**
-     * description    : Request의 Header에서 token 값을 가져옵니다. "Authorization" : "TOKEN값'
-     * 2023-12-23   by  taejin
-     */
-    public String resolveToken(HttpServletRequest request) {
-        return request.getHeader("Authorization");
-    }
-
-    /**
      * description   : 헤더 대신 쿠키에서 값 가져오기 -> 프론트에서 등록을 jwtToken으로 했음
      * 2023-12-23   by   taejin      
      */

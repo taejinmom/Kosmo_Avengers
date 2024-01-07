@@ -1,5 +1,6 @@
-import { HashRouter, Routes, Route } from "react-router-dom"
+import { HashRouter, Routes, Route, Link } from 'react-router-dom'
 import Layout from './components/layout/Layout.jsx'
+import { ReactQueryDevtools } from 'react-query/devtools'
 import Home from './pages/home/Home.jsx'
 import Join from './pages/member/Join.jsx'
 import Login from './pages/member/Login.jsx'
@@ -19,6 +20,7 @@ function App() {
             <Route path="/productDetail" element={<ProductDetail />} />
           </Route>
         </Routes>
+        <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
       </HashRouter>
     </>
   )
