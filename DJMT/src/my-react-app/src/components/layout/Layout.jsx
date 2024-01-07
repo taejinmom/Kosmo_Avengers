@@ -5,7 +5,7 @@ import Header from '../header/Header.jsx'
 import Footer from '../footer/Footer.jsx'
 import { useQuery } from 'react-query'
 import axios from 'axios'
-import { login } from '../../pages/member/reactQuery/MemberReactQuery.jsx'
+import { login } from '../../pages/member/reactQuery/MemberHandler.jsx'
 import { useCookies } from 'react-cookie'
 
 const Layout = () => {

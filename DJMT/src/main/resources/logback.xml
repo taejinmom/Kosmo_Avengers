@@ -1,4 +1,5 @@
 <configuration>
+
     <conversionRule conversionWord="ex" converterClass="com.app.avengers.DJMT.config.ExceptionLogConverter"/>
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>

@@ -1,9 +1,8 @@
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import './Header.css'
 import { useEffect } from 'react'
-import { useQuery } from 'react-query'
-import request from '../../api/core'
-import { validateToken } from '../../pages/member/reactQuery/MemberReactQuery'
+
+import { validateToken } from '../../pages/member/reactQuery/MemberHandler'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 import { isLogin } from '../../pages/member/atom/LoginAtom'
 import { logoutHandler } from '../../pages/member/MemberFunction'
@@ -11,10 +10,13 @@ import { logoutHandler } from '../../pages/member/MemberFunction'
 const Header = props => {
   const { cookies, setCookie, removeCookie } = props
   const [isLoginCheck, setIsLoginCheck] = useRecoilState(isLogin)
+  const location = useLocation()
   useEffect(() => {
-    validateToken(cookies, setCookie, removeCookie, setIsLoginCheck)
-  }, [])
-  const mem_name = cookies.memberData.mem_name
+    if (isLoginCheck) {
+      console.log('location data >> ', location)
+    }
+  })
+
   return (
     <>
       <header>
@@ -33,7 +35,7 @@ const Header = props => {
                 </>
               ) : (
                 <li>
-                  <span>{mem_name}님 환영합니다 </span>
+                  <span>{}님 환영합니다 </span>
                   <a
                     href="/"
                     onClick={e => {
