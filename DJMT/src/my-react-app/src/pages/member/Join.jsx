@@ -5,7 +5,7 @@ import { memberData } from './MemberData'
 
 import { inputHandler } from './MemberFunction'
 import { Children, useRef } from 'react'
-import { join } from './reactQuery/MemberReactQuery'
+import { join } from './reactQuery/MemberHandler'
 import { useNavigate } from 'react-router-dom'
 
 function Join() {

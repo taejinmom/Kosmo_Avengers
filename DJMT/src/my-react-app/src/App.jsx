@@ -6,8 +6,22 @@ import Join from './pages/member/Join.jsx'
 import Login from './pages/member/Login.jsx'
 import ProductList from './pages/product/ProductList.jsx'
 import ProductDetail from './pages/product/ProductDetail.jsx'
+import { useEffect } from 'react'
+import { validateToken } from './pages/member/reactQuery/MemberHandler.jsx'
+import { isLogin } from './pages/member/atom/LoginAtom.jsx'
+import { useRecoilState } from 'recoil'
+import { useCookies } from 'react-cookie'
 
 function App() {
+  const [cookies, setCookie, removeCookie] = useCookies([])
+  const [isLoginCheck, setIsLoginCheck] = useRecoilState(isLogin)
+  useEffect(() => {
+    validateToken(cookies, setCookie, removeCookie, setIsLoginCheck).then(
+      data => {
+        console.log({ data, isLoginCheck })
+      }
+    )
+  }, [])
   return (
     <>
       <HashRouter>
