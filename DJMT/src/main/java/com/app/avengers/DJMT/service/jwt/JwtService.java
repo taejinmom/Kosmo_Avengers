@@ -26,7 +26,7 @@ public class JwtService {
     private final RefreshTokenMapper refreshTokenMapper;
     @Transactional
     public void login(TokenDto tokenDto){
-        RefreshTokenDto refreshTokenDto = RefreshTokenDto.builder().refreshToken_id(commonService.makeUUID(Constants.MEMBER)).mem_no(tokenDto.getKey()).refreshToken(tokenDto.getRefreshToken()).build();
+        RefreshTokenDto refreshTokenDto = RefreshTokenDto.builder().refreshToken_id(commonService.generateUUID(Constants.REFRESHTOKEN)).mem_no(tokenDto.getKey()).refreshToken(tokenDto.getRefreshToken()).build();
         String loginUserKeyId = refreshTokenDto.getMem_no();
         if(refreshTokenMapper.existsByKeyId(loginUserKeyId) > 0){
             log.info("기존의 존재하는 refresh 토큰 삭제");
@@ -51,11 +51,11 @@ public class JwtService {
      */
     public Map<String, String> validateRefreshToken(String refreshToken){
         try{
-            RefreshTokenDto refreshTokenDto1 = getRefreshToken(refreshToken);
-            String createdAccessToken = jwtTokenProvider.validateRefreshToken(refreshTokenDto1.getRefreshToken());
+            RefreshTokenDto refreshTokenDto = getRefreshToken(refreshToken);
+            String createdAccessToken = jwtTokenProvider.validateRefreshToken(refreshTokenDto.getRefreshToken());
             return createRefreshJson(createdAccessToken);
         }catch (Exception e){
-            log.error("refreshToken null2!");
+            log.error(Thread.currentThread().getStackTrace()[0].getMethodName() + "refreshToken null!!");
             return null;
         }
 

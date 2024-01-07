@@ -4,6 +4,7 @@
 <mapper namespace="com.app.avengers.DJMT.mapper.member.MemberMapper">
     <!-- 토큰에서  값가져오기   -->
     <select id="ValidateTokenByMemNo" parameterType="String" resultType="com.app.avengers.DJMT.dto.member.MemberDto">
+        /* com\app\avengers\DJMT\mapper\member\memberMapper.xml - ValidateTokenByMemNo */
         SELECT
         *
         FROM
@@ -11,15 +12,18 @@
         WHERE 1=1
         AND mem_no = #{mem_no}
     </select>
+
     <!-- 로그인 시 ID로 PW select -->
     <select id="loginCheckPw" parameterType="String" resultType="String">
-        select
+     /* com\app\avengers\DJMT\mapper\member\memberMapper.xml - loginCheckPw */
+     select
             login_pw
         from MEMBER
         where 1 = 1
         and login_id = #{login_id}
     </select>
     <select id="getMemberInfoByLoginId" parameterType="String" resultType="com.app.avengers.DJMT.dto.member.MemberDto">
+        /* com\app\avengers\DJMT\mapper\member\memberMapper.xml -  getMemberInfoByLoginId */
         select
             *
         from MEMBER
@@ -27,10 +31,12 @@
         and login_id = #{login_id}
     </select>
     <insert id="memberSave" parameterType="com.app.avengers.DJMT.dto.member.MemberDto">
+        /* com\app\avengers\DJMT\mapper\member\memberMapper.xml - memberSave */
         insert into MEMBER(mem_no,login_id,login_pw,mem_name,role,mem_status,reg_id,reg_date,chg_id,chg_date)
         values (#{mem_no}, #{login_id}, #{login_pw}, #{mem_name}, #{role}, #{mem_status}, #{reg_id}, #{reg_date}, #{chg_id}, #{chg_date})
     </insert>
     <delete id="start">
+        /* com\app\avengers\DJMT\mapper\member\memberMapper.xml - start */
         delete from MEMBER
     </delete>
     <select id="findMemberById" parameterType="String">

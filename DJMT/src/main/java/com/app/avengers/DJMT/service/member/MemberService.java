@@ -8,8 +8,6 @@ import com.app.avengers.DJMT.repository.member.MemberRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
 import java.util.Optional;
 
 @Slf4j
@@ -20,7 +18,10 @@ public class MemberService implements MemberRepository {
     private final MemberMapper memberMapper;
     private final MemberMgr memberMgr;
 
-
+    /**
+     * description    : 토큰 유효성 체크
+     * 2024-01-07   by  taejin       
+     */
     @Override
     public MemberDto ValidateTokenByMemNo(String mem_no) {
         return memberMapper.ValidateTokenByMemNo(mem_no);
@@ -32,11 +33,13 @@ public class MemberService implements MemberRepository {
      */
     @Override
     public MemberDto loginCheck(MemberDto memberDto) {
+        // 패스워드 체크
         if(memberMgr.loginvalidation(
                 memberDto.getLogin_pw(), loginCheckPw(memberDto.getLogin_id()).orElse(""))
             ){
+            // 패스워드 체크 성공 시 member데이터 추출
             memberDto = memberMapper.getMemberInfoByLoginId(memberDto.getLogin_id());
-            memberDto.setValid(Constants.COMMON_CONSTANTS_Y);
+            memberDto.setValid(Constants.COMMON_CONSTANTS_Y); // default = N
             return memberDto;
         }
         return null;
@@ -58,16 +61,7 @@ public class MemberService implements MemberRepository {
     @Override
     public void memberSave(MemberDto memberDto) {
         // memberDto 만들기 - uuid, 패스워드 인코딩, 가입날짜.. 등등  추가할 예정
-        memberDto = memberMgr.makeMemberDto(memberDto);
-        memberMapper.memberSave(memberDto);
-    }
-    /**
-     * description    : 토큰 유효성 체크를 후
-     * 2023-12-22   by  taejin
-     */
-    @Override
-    public MemberDto getMemberInfoByLoginId(String login_id) {
-        return memberMapper.getMemberInfoByLoginId(login_id);
+        memberMapper.memberSave(memberMgr.makeMemberDto(memberDto));
     }
 
     /**

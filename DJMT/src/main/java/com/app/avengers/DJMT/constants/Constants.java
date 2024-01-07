@@ -2,6 +2,8 @@ package com.app.avengers.DJMT.constants;
 
 public class Constants {
     public static final String MEMBER = "MEM";
+    public static final String REFRESHTOKEN = "TK";
+
     public static final String ROLE_MEMBER = "MEMBER";
     public static final String ROLE_ADMIN = "ADMIN";
 
