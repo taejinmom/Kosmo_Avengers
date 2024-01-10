@@ -4,45 +4,42 @@
 <mapper namespace="com.app.avengers.DJMT.mapper.member.MemberMapper">
     <!-- 토큰에서  값가져오기   -->
     <select id="ValidateTokenByMemNo" parameterType="String" resultType="com.app.avengers.DJMT.dto.member.MemberDto">
-        /* com\app\avengers\DJMT\mapper\member\memberMapper.xml - ValidateTokenByMemNo */
         SELECT
         *
         FROM
         MEMBER
         WHERE 1=1
         AND mem_no = #{mem_no}
+        /* com\app\avengers\DJMT\mapper\member\memberMapper.xml - ValidateTokenByMemNo */
     </select>
 
     <!-- 로그인 시 ID로 PW select -->
     <select id="loginCheckPw" parameterType="String" resultType="String">
-     /* com\app\avengers\DJMT\mapper\member\memberMapper.xml - loginCheckPw */
      select
             login_pw
         from MEMBER
         where 1 = 1
         and login_id = #{login_id}
+        /* com\app\avengers\DJMT\mapper\member\memberMapper.xml - loginCheckPw */
     </select>
+    <!-- ID로 memberDto select -->
     <select id="getMemberInfoByLoginId" parameterType="String" resultType="com.app.avengers.DJMT.dto.member.MemberDto">
-        /* com\app\avengers\DJMT\mapper\member\memberMapper.xml -  getMemberInfoByLoginId */
         select
             *
         from MEMBER
         where 1 = 1
         and login_id = #{login_id}
+        /* com\app\avengers\DJMT\mapper\member\memberMapper.xml -  getMemberInfoByLoginId */
     </select>
+    <!-- 회원가입 -->
     <insert id="memberSave" parameterType="com.app.avengers.DJMT.dto.member.MemberDto">
-        /* com\app\avengers\DJMT\mapper\member\memberMapper.xml - memberSave */
         insert into MEMBER(mem_no,login_id,login_pw,mem_name,role,mem_status,reg_id,reg_date,chg_id,chg_date)
         values (#{mem_no}, #{login_id}, #{login_pw}, #{mem_name}, #{role}, #{mem_status}, #{reg_id}, #{reg_date}, #{chg_id}, #{chg_date})
+        /* com\app\avengers\DJMT\mapper\member\memberMapper.xml - memberSave */
     </insert>
     <delete id="start">
-        /* com\app\avengers\DJMT\mapper\member\memberMapper.xml - start */
         delete from MEMBER
+        /* com\app\avengers\DJMT\mapper\member\memberMapper.xml - start */
     </delete>
-    <select id="findMemberById" parameterType="String">
-        select
-            *
-        from member
-        where login_id = #{login_id}
-    </select>
+
 </mapper>
