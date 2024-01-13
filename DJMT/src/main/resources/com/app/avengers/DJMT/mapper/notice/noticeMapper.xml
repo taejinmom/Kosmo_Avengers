@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?> <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.app.avengers.DJMT.mapper.notice.NoticeMapper">
+
+    <select id="getNoticeInfoByNtcNo" parameterType="long" resultType="com.app.avengers.DJMT.dto.notice.NoticeDto">
+        select
+        ntc_no, ntc_title, ntc_comm, ntc_status, ntc_cate, reg_id, reg_date, chg_date, chg_id
+        from notice
+        where 1 = 1
+        and ntc_no = #{ntc_no}
+    </select>
+    <select id="getNoticeList" resultType="com.app.avengers.DJMT.dto.notice.NoticeDto">
+        select
+        *
+        from notice
+        where 1 = 1
+    </select>
+    <insert id="insertNotice" parameterType="com.app.avengers.DJMT.dto.notice.NoticeDto">
+        insert into notice(ntc_no, ntc_title, ntc_comm, ntc_status, ntc_cate, reg_id, reg_date, chg_date, chg_id)
+        values (nextval('notice_seq'), #{ntc_title}, #{ntc_comm}, #{ntc_status}, #{ntc_cate}, #{reg_id}, #{reg_date}, #{chg_date}, #{chg_id})
+    </insert>
+
+    <update id="updateNotice" parameterType="com.app.avengers.DJMT.dto.notice.NoticeDto">
+        update notice
+        set ntc_title=#{ntc_title}, ntc_comm=#{ntc_comm}, ntc_cate=#{ntc_cate}, chg_date=#{chg_date}, chg_id=#{chg_id}
+        where ntc_no = #{ntc_no}
+    </update>
+
+    <delete id="noticeDelete" parameterType="long">
+        delete from notice where ntc_no = #{ntc_no}
+    </delete>
+</mapper>
