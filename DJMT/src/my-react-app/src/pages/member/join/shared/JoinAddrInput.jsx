@@ -30,9 +30,7 @@ const JoinAddrInput = props => {
           id={id}
           name={name}
           ref={address}
-          value={
-            joinData.mem_addr1 !== undefined ? joinData.mem_addr1.value : 'test'
-          }
+          value={joinData.mem_addr1 !== undefined ? joinData.mem_addr1 : ''}
           onChange={event => {
             inputHandler(event, joinData, setJoinData)
           }}
