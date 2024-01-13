@@ -24,6 +24,8 @@ import org.springframework.stereotype.Service;
 import java.nio.ByteBuffer;
 import java.util.UUID;
 
+import static org.apache.commons.codec.binary.Base64.encodeBase64URLSafeString;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -35,11 +37,10 @@ public class CommonService {
         return category.concat(UUID.randomUUID().toString().replaceAll("-",""));
     }
     public String generateUUID(String catId) {
-
+        UUID uuid;
         // RFC 4122 variant 2, version 1 방식으로 생성된 UUID를 반환
-        TimeBasedGenerator uuidV1Generator = Generators.timeBasedGenerator(EthernetAddress.fromInterface());
-        UUID uuid = uuidV1Generator.generate();
-
+//        TimeBasedGenerator uuidV1Generator = Generators.timeBasedGenerator(EthernetAddress.fromInterface());
+//        uuid = uuidV1Generator.generate();
         // 또는 RFC 4122 version 4 방식으로 생성된 UUID를 반환
         uuid = Generators.randomBasedGenerator().generate();
 
@@ -48,7 +49,7 @@ public class CommonService {
         uuidBytes.putLong(uuid.getMostSignificantBits());
         uuidBytes.putLong(uuid.getLeastSignificantBits());
 
-        return catId.concat(org.apache.commons.codec.binary.Base64.encodeBase64URLSafeString(uuidBytes.array()));
+        return catId.concat(encodeBase64URLSafeString(uuidBytes.array()).toLowerCase()).replaceAll("[@$^]","");
     }
     public String passwordEncoded(String password) {
         return passwordEncoder.encode(password);
