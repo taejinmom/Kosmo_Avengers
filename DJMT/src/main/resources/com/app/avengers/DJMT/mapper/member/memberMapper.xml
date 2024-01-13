@@ -33,8 +33,8 @@
     </select>
     <!-- 회원가입 -->
     <insert id="memberSave" parameterType="com.app.avengers.DJMT.dto.member.MemberDto">
-        insert into MEMBER(mem_no,login_id,login_pw,mem_name,role,mem_status,reg_id,reg_date,chg_id,chg_date)
-        values (#{mem_no}, #{login_id}, #{login_pw}, #{mem_name}, #{role}, #{mem_status}, #{reg_id}, #{reg_date}, #{chg_id}, #{chg_date})
+        insert into MEMBER(mem_no,login_id,login_pw,mem_name,mem_gen,mem_addr1,mem_addr2,role,mem_status,reg_id,reg_date,chg_id,chg_date)
+        values (#{mem_no}, #{login_id}, #{login_pw}, #{mem_name},#{mem_gen},#{mem_addr1},#{mem_addr2}, #{role}, #{mem_status}, #{reg_id}, #{reg_date}, #{chg_id}, #{chg_date})
         /* com\app\avengers\DJMT\mapper\member\memberMapper.xml - memberSave */
     </insert>
     <delete id="start">

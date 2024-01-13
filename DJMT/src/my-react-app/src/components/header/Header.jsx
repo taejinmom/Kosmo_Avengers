@@ -5,17 +5,17 @@ import { useEffect, useState } from 'react'
 import {
   logoutHandler,
   validateToken,
-} from '../../pages/member/reactQuery/MemberHandler'
+} from '../../pages/member/handler/MemberHandler'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
-import { isLogin, memberDataAtom } from '../../pages/member/atom/LoginAtom'
+import { isLogin, memberKeyAtom } from '../../pages/member/atom/LoginAtom'
 
 const Header = props => {
   const { cookies, setCookie, removeCookie } = props
-  const memberData = useRecoilValue(memberDataAtom)
   const [isLoginCheck, setIsLoginCheck] = useRecoilState(isLogin)
+  const memberKey = useRecoilValue(memberKeyAtom)
   useEffect(() => {
     if (isLoginCheck) {
-      console.log(isLoginCheck)
+      console.log('mem_no =>> ', memberKey)
     }
   })
 
@@ -41,8 +41,6 @@ const Header = props => {
                     <Link to={'/myPage'}>마이페이지</Link>
                   </li>
                   <li>
-                    <span>{memberData.mem_name}님 환영합니다 </span>
-
                     <a
                       href="/"
                       onClick={e => {

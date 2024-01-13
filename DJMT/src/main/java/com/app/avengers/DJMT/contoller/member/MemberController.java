@@ -49,7 +49,7 @@ public class MemberController {
                 TokenDto tokenDto = jwtTokenProvider.createAccessToken(memberDto.getMem_no(),memberDto.getRole());
                 jwtService.login(tokenDto);
                 map.put("tokenData",tokenDto);
-                map.put("memberData",memberDto);
+                map.put("mem_no",memberDto.getMem_no());
                 log.info("로그인 성공 >>> " + memberDto.getLogin_id() + "/ " + memberDto.getMem_name());
             }
             return new ResponseEntity<>(map,HttpStatus.OK);
