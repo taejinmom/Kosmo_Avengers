@@ -14,5 +14,4 @@ public interface MemberRepository {
     public Optional<String> loginCheckPw(String login_id); // loginCheck -> 패스워드 체크
     public void memberSave(MemberDto memberDto); // 회원가입
     public void start(); // 개발용 member delete
-//    HashMap<String,Object> memberLoginValidateEvent(MemberDto memberDto);
 }

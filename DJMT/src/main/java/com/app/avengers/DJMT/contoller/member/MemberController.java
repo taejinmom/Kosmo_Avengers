@@ -15,19 +15,19 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Member;
 import java.util.HashMap;
 import java.util.Map;
 
 
+
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api")
 public class MemberController {
     private final MemberService memberService;
     private final JwtTokenProvider jwtTokenProvider;
@@ -37,7 +37,7 @@ public class MemberController {
      * description    : 로그인 액션
      * 2023-12-23   by  taejin
      */
-    @PostMapping("/api/login")
+    @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody MemberDto memberDto) {
         log.info("userid = {}", memberDto.getLogin_id());
         try {
@@ -56,13 +56,13 @@ public class MemberController {
         }catch (NullPointerException e){
             log.error("로그인 실패!! ");
         }
-        return new ResponseEntity<>("fail",HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(Constants.RESPONSE_FAIL,HttpStatus.UNAUTHORIZED);
     }
     /**
      * description    : 회원가입 액션
      * 2023-12-23   by  taejin       
      */
-    @PostMapping("/api/join")
+    @PostMapping("/join")
     public ResponseEntity<?> join(@RequestBody MemberDto memberDto){
         String result = "Success";
         try {
@@ -76,13 +76,39 @@ public class MemberController {
         }
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
-    @GetMapping("/api/getTest")
+
+    @PostMapping("/myPage")
+    public ResponseEntity<?> myPage(@RequestBody Map<String,String> map){
+        try {
+            MemberDto memberDto = memberService.getMemberInfoByMemNo(map.get("mem_no"));
+            return new ResponseEntity<>(memberDto,HttpStatus.OK);
+        }catch (NullPointerException e){
+            return new ResponseEntity<>(Constants.RESPONSE_FAIL,HttpStatus.BAD_REQUEST);
+        }
+
+    }
+    /**
+     * description    : 회원정보 수정
+     * 2024-01-13   by  taejin       
+     */
+    @PostMapping("/editMemberInfo")
+    public ResponseEntity<?> editMemberInfo(@RequestBody MemberDto memberDto){
+        try{
+            memberService.editMemberInfo(memberDto);
+            log.info("editMemberInfo >> 회원정보 수정! "+ memberDto.getMem_name()+" - 98");
+            return new ResponseEntity<>(Constants.RESPONSE_SUCCESS,HttpStatus.OK);
+        }catch (Exception e){
+            log.error(e.getMessage());
+            return new ResponseEntity<>(Constants.RESPONSE_SUCCESS,HttpStatus.OK);
+        }
+    }
+    @GetMapping("/getTest")
     public String getTest(){
         return "OK";
     }
-    @PostMapping("/api/postTest")
-    public String postTest(@RequestBody MemberDto member){
-        log.info("postTest >>> " + member);
+    @PostMapping("/postTest")
+    public String postTest(@RequestBody HashMap<String,Object> map){
+        log.info("postTest >>> " + map);
         return "OK";
     }
 

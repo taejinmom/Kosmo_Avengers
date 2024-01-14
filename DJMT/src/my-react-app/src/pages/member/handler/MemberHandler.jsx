@@ -1,6 +1,5 @@
 import { useCookies } from 'react-cookie'
 import request from '../../../api/core'
-import { memberAxiosApi } from '../function/MemberFunction'
 
 // // 로그인 reactquery로 대체함 -> login.jsx
 // export const login = async (loginData, setCookie, navigator, isLoginCheck) => {
@@ -22,35 +21,52 @@ import { memberAxiosApi } from '../function/MemberFunction'
 
 //   return "/";
 // };
-
+export const memberAxiosApi = async (apiUrl, httpMethod, data, etcParam) => {
+  if (httpMethod === 'post') {
+    return await request.post(apiUrl, data)
+  } else if (httpMethod === 'get') {
+    return await request.get(apiUrl)
+  }
+}
 // 토큰 체크
 export const validateToken = async (
   cookie,
   setCookie,
   removeCookie,
-  isLoginCheck
+  isLoginCheck,
+  memberKey
 ) => {
+  // 로그인을 안했을 때, 토큰은 없기때문에 한번 체크
   if (cookie.jwtToken === undefined) {
     isLoginCheck(false)
     return
   }
-  try {
-    const res_1 = await request.get('validateToken')
-    return
-  } catch {
-    try {
-      const res_2 = await request.post('refresh', {
-        refreshToken: cookie.refreshToken,
-      })
-      setCookie('jwtToken', res_2)
-      isLoginCheck(true)
-    } catch (error) {
-      console.log('validate .> ', error)
-      removeCookie('jwtToken')
-      removeCookie('refreshToken')
-      isLoginCheck(false)
-    }
-  }
+  // accessToken 토큰 권한 체크_1
+  await memberAxiosApi('validateToken', 'get')
+    .then(res => console.log('validation >> ', res))
+    .catch(error => {
+      console.log('validation >> ', error)
+      request
+        .post('refresh', {
+          refreshToken: cookie.refreshToken,
+          mem_no: memberKey,
+        })
+        .then(res => {
+          console.log('refresh >> ', res)
+          setCookie('jwtToken', res)
+          isLoginCheck(true)
+        })
+        .catch(error => {
+          removeCookie('jwtToken')
+          removeCookie('refreshToken')
+          isLoginCheck(false)
+        })
+    })
+
+  // accessToken 토큰 권한이 없을 경우
+  //refresh 토큰 권한 체크
+
+  // accessToken 발급성공 하면 jwtToken에 등록
 }
 // 회원가입
 export const join = async (
@@ -73,6 +89,7 @@ export const join = async (
   }
   navigator('/')
 }
+
 export const inputHandler = (e, dataGroup, setData) => {
   setData({ ...dataGroup, [e.target.name]: e.target.value })
 }
@@ -80,6 +97,7 @@ export const inputHandler = (e, dataGroup, setData) => {
 //   console.log('radioButton value =>> ', e.target.value)
 //   setRadioValue(e.target.value)
 // }
+// 회원가입 handler
 export const joinSubmitHandler = (joinData, navigate) => {
   if (joinData.login_pw !== joinData.login_pw_repeat) {
     alert('패스워드가 일치하지 않습니다.')
@@ -93,10 +111,46 @@ export const joinSubmitHandler = (joinData, navigate) => {
     navigate('/')
   })
 }
-
+// 로그아웃 handler
 export const logoutHandler = (removeCookie, isLoginCheck) => {
   console.log('logout!')
   removeCookie('jwtToken')
   removeCookie('refreshToken')
   isLoginCheck(false)
+  window.location.reload()
+}
+// 로그인 handler
+export const loginHandler = async (
+  loginData,
+  setIsLoginCheck,
+  setMemberKey,
+  setCookie,
+  navigate
+) => {
+  await memberAxiosApi('login', 'post', loginData)
+    .then(res => {
+      setIsLoginCheck(true)
+      setCookie('jwtToken', res.tokenData.accessToken)
+      setCookie('refreshToken', res.tokenData.refreshToken)
+      setMemberKey(res.mem_no)
+      navigate('/')
+    })
+    .catch(error => {
+      console.log(error)
+      if (error.response.data === 'FAILURE') {
+        setIsLoginCheck(false)
+        alert('로그인 실패')
+        return
+      }
+    })
+}
+// mypage 데이터 불러오기
+export const myPageHandler = async memberKey => {
+  return memberAxiosApi('myPage', 'post', {
+    mem_no: memberKey,
+  })
+}
+// 수정하기
+export const editMyPageHandler = async data => {
+  return memberAxiosApi('editMemberInfo', 'post', data)
 }

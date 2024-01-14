@@ -1,9 +1,10 @@
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import './Header.css'
 import { useEffect, useState } from 'react'
 
 import {
   logoutHandler,
+  myPageHandler,
   validateToken,
 } from '../../pages/member/handler/MemberHandler'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
@@ -13,6 +14,7 @@ const Header = props => {
   const { cookies, setCookie, removeCookie } = props
   const [isLoginCheck, setIsLoginCheck] = useRecoilState(isLogin)
   const memberKey = useRecoilValue(memberKeyAtom)
+  const navigate = useNavigate()
   useEffect(() => {
     if (isLoginCheck) {
       console.log('mem_no =>> ', memberKey)
@@ -38,7 +40,16 @@ const Header = props => {
               ) : (
                 <>
                   <li>
-                    <Link to={'/myPage'}>마이페이지</Link>
+                    <Link
+                      to={{
+                        pathname: '/myPage',
+                        state: {
+                          value: 1,
+                        },
+                      }}
+                    >
+                      마이페이지
+                    </Link>
                   </li>
                   <li>
                     <a

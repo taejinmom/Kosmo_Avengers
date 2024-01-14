@@ -58,4 +58,11 @@ public class MemberMgr {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
         return sdf.format(timestamp);
     }
+
+    public MemberDto editMemberInfo(MemberDto memberDto) {
+        memberDto.setLogin_pw(commonService.passwordEncoded(memberDto.getLogin_pw()));
+        memberDto.setChg_date(currentDate());
+        memberDto.setChg_id(memberDto.getMem_no());
+        return memberDto;
+    }
 }

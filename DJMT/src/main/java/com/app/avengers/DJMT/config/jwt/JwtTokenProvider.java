@@ -133,11 +133,12 @@ public class JwtTokenProvider {
             Jws<Claims> claims = Jwts.parser().setSigningKey(refreshSecretKey).parseClaimsJws(refreshToken);
             //refresh 토큰의 만료시간이 지나지 않았을 경우, 새로운 access 토큰을 생성합니다.
             if (!claims.getBody().getExpiration().before(new Date())) {
-                log.info("refreshToken validation check 성공");
+                log.info("validateRefreshToken >> refreshToken 유효 >> accessToken 재발급 - 136");
                 return this.recreationAccessToken(claims.getBody().get("sub").toString(), claims.getBody().get("roles"));
             }
         }catch (Exception e) {
             //refresh 토큰이 만료되었을 경우, 로그인이 필요합니다.
+            log.info("validateRefreshToken >> Refresh Token 만료 - 141");
             return "";
 
         }
@@ -163,7 +164,7 @@ public class JwtTokenProvider {
                 .signWith(SignatureAlgorithm.HS256, accessSecretKey)  // 사용할 암호화 알고리즘과
                 // signature 에 들어갈 secret값 세팅
                 .compact();
-        log.info("Access Token 재발급 -> " + accessToken);
+
         return accessToken;
     }
 }

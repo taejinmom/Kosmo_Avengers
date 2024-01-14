@@ -13,5 +13,7 @@ public interface MemberMapper {
     public Optional<String> loginCheckPw(String login_id);// pw 체크를 위해 id로 패스워드 추출
     public void memberSave(MemberDto memberDto); // 회원가입
     public MemberDto getMemberInfoByLoginId(String login_id);
+    public MemberDto getMemberInfoByMemNo(String mem_no);
+    public void editMemberInfo(MemberDto memberDto);
     public void start();
 }

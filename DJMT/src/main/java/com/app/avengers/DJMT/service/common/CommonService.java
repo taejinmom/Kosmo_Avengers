@@ -49,7 +49,7 @@ public class CommonService {
         uuidBytes.putLong(uuid.getMostSignificantBits());
         uuidBytes.putLong(uuid.getLeastSignificantBits());
 
-        return catId.concat(encodeBase64URLSafeString(uuidBytes.array()).toLowerCase()).replaceAll("[@$^]","");
+        return catId.concat(encodeBase64URLSafeString(uuidBytes.array()).toLowerCase().replaceAll("[@$^]",""));
     }
     public String passwordEncoded(String password) {
         return passwordEncoder.encode(password);

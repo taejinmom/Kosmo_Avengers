@@ -1,38 +1,31 @@
 import { Button, FormLabel, Grid, TextField } from '@mui/material'
 import React from 'react'
-import Post from '../../function/Post'
+import Post from '../join/addressApi/Post'
 
 const JoinAddrInput = props => {
-  const {
-    label,
-    xs,
-    type,
-    id,
-    name,
-    address,
-    inputHandler,
-    joinData,
-    setJoinData,
-    handleComplete,
-    popup,
-  } = props
-  console.log('join input >> ', joinData)
-
+  const { address, inputHandler, data, setData, handleComplete, popup } = props
   return (
     <>
       <Grid item xs={12}>
-        <FormLabel>{label}</FormLabel>
+        <FormLabel>Address</FormLabel>
       </Grid>
-      <Grid item xs={xs}>
+      <Grid item xs={9}>
         <TextField
+          inputProps={{ readOnly: true }}
           fullWidth
-          type={type}
-          id={id}
-          name={name}
+          type="text"
+          id="mem_addr1"
+          name="mem_addr1"
           ref={address}
-          value={joinData.mem_addr1 !== undefined ? joinData.mem_addr1 : ''}
+          value={
+            data !== undefined
+              ? data.mem_addr1 !== undefined
+                ? data.mem_addr1
+                : ''
+              : ''
+          }
           onChange={event => {
-            inputHandler(event, joinData, setJoinData)
+            inputHandler(event, data, setData)
           }}
         />
       </Grid>
@@ -53,7 +46,7 @@ const JoinAddrInput = props => {
           주소찾기
         </Button>
 
-        {popup && <Post joinData={joinData} setJoinData={setJoinData}></Post>}
+        {popup && <Post data={data} setData={setData}></Post>}
       </Grid>
     </>
   )

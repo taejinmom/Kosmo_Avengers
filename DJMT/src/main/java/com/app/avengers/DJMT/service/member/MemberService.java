@@ -65,6 +65,17 @@ public class MemberService implements MemberRepository {
     }
 
     /**
+     * description    : myPage 데이터 출력
+     * 2024-01-13   by  taejin       
+     */
+    public MemberDto getMemberInfoByMemNo(String mem_no){
+        return memberMapper.getMemberInfoByMemNo(mem_no);
+    }
+
+    public void editMemberInfo(MemberDto memberDto){
+        memberMapper.editMemberInfo(memberMgr.editMemberInfo(memberDto));
+    }
+    /**
      * description    : 사용자 더미 데이터 삭제(초기 개발시에만 사용)
      * 2023-12-22   by  taejin
      */

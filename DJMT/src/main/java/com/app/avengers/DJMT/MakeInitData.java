@@ -37,9 +37,9 @@ public class MakeInitData {
         admin2.setLogin_id("admin2");
         admin2.setMem_name("관리자2");
         admin2.setLogin_pw("1234");
-        admin1.setMem_gen("M");
-        admin1.setMem_addr1("서울특별시 관악구 봉천동 1677");
-        admin1.setMem_addr2("202호");
+        admin2.setMem_gen("M");
+        admin2.setMem_addr1("서울특별시 관악구 봉천동 1677");
+        admin2.setMem_addr2("202호");
         admin2.setRole(RoleDto.ADMIN);
         memberService.memberSave(admin2);
     }
