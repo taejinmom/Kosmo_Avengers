@@ -6,19 +6,23 @@ import {
   Radio,
   RadioGroup,
 } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
 
 const JoinRadioArea = props => {
-  const { inputHandler, joinData, setJoinData } = props
+  const [radioValue, setRadioValue] = useState('')
+  const { inputHandler, data, setData } = props
 
+  if (data !== undefined) {
+    setRadioValue(data.mem_gen !== undefined ? data.mem_gen : '')
+  }
   return (
     <Grid item xs={12}>
       <FormControl>
         <FormLabel>Gender</FormLabel>
         <RadioGroup
+          value={radioValue}
           onChange={event => {
-            console.log(event.target)
-            inputHandler(event, joinData, setJoinData)
+            inputHandler(event, data, setData)
           }}
         >
           <Grid item xs={6}>

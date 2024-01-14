@@ -17,4 +17,13 @@ public class Constants {
     public static final String COMMON_CONSTANTS_N = "N";
     public static final String COMMON_CONSTANTS_VALIDATION = "VALIDATIN";
 
+    // HTTP RESPONSE 코드
+
+    public static final String RESPONSE_SUCCESS = "SUCCESS"; // 성공
+    public static final String RESPONSE_FAIL = "FAILURE"; // 실패
+
+
+
+
+
 }

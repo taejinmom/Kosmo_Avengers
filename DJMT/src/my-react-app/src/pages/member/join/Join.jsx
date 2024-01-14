@@ -24,62 +24,57 @@ import { useNavigate } from 'react-router-dom'
 import { inputHandler, joinSubmitHandler } from '../handler/MemberHandler'
 import { JoinDataAtom } from '../atom/JoinAtom'
 import { memberData } from '../memberData'
-import { memberAxiosApi } from '../function/MemberFunction'
-import Post from '../function/Post'
-import JoinRadioArea from './shared/JoinRadio'
-import JoinAddrInput from './shared/JoinAddrInput'
+import Post from './addressApi/Post'
+import JoinRadioArea from '../inputForm/JoinRadio'
+import JoinAddrInput from '../inputForm/JoinAddrInput'
 
 const Join = props => {
   const theme = createTheme()
-  // radio button
-  const address = useRef()
-  // 회원가입 객체
-  const [joinData, setJoinData] = useState({})
-  // validation
-  const [popup, setPopup] = useState(false)
+  const address = useRef() // 주소 input 값
+  const [popup, setPopup] = useState(false) // 주소 api 팝업 state
+  const [joinData, setJoinData] = useState({}) // 회원가입 객체
+  const navigate = useNavigate()
+
   // 주소 버튼찾기 클릭
   const handleComplete = e => {
     e.preventDefault()
-
     setPopup(!popup)
   }
-  const navigate = useNavigate()
+
   // form 전송
   const handleSubmit = e => {
-    //joinSubmitHandler(joinData, navigate)
-    console.log('joinData', joinData)
+    joinSubmitHandler(joinData, navigate)
     e.preventDefault()
   }
-
+  // 홈으로
   const handleRedirect = e => {
     e.preventDefault()
     navigate('/')
   }
+
   return (
-    <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="sm">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }} />
-          <Typography component="h1" variant="h5">
-            회원가입
-          </Typography>
-          <Box component="form" noValidate sx={{ mt: 3 }}>
-            <FormControl component="fieldset" variant="standard">
-              <Grid container item xs={12}>
-                {Children.toArray(
-                  memberData.map(e => {
-                    if (e.name === 'mem_addr1') {
-                      return (
-                        <>
-                          {/* 주소 Input */}
+    <div>
+      <div className="inner">
+        <h2 className="title">Register</h2>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Box
+            maxWidth="sm"
+            sx={{
+              marginTop: 2,
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}
+          >
+            <Box component="form" noValidate sx={{ mt: 3 }}>
+              <FormControl component="fieldset" variant="standard">
+                <Grid container item xs={12}>
+                  {Children.toArray(
+                    memberData.map(e => {
+                      if (e.name === 'mem_addr1') {
+                        /* 주소 Input */
+                        return (
                           <JoinAddrInput
                             label={e.label}
                             xs={e.xs}
@@ -93,72 +88,83 @@ const Join = props => {
                             setJoinData={setJoinData}
                             handleComplete={handleComplete}
                           />
-                        </>
-                      )
-                    } else if (e.name === 'mem_gen') {
-                      return (
-                        <>
-                          {/* 성별 */}
+                        )
+                      }
+
+                      if (e.name === 'mem_gen') {
+                        /* 성별 */
+                        return (
                           <JoinRadioArea
                             inputHandler={inputHandler}
                             joinData={joinData}
                             setJoinData={setJoinData}
                           />
+                        )
+                      }
+                      return (
+                        /* 나머지 Input */
+                        <>
+                          <Grid item xs={12}>
+                            <FormLabel>{e.label}</FormLabel>
+                          </Grid>
+                          <Grid item xs={e.xs}>
+                            <TextField
+                              fullWidth
+                              type={e.type}
+                              id={e.id}
+                              name={e.name}
+                              onChange={event => {
+                                inputHandler(event, joinData, setJoinData)
+                              }}
+                            />
+                          </Grid>
                         </>
                       )
-                    }
-                    return (
-                      <>
-                        {/* 나머지 Input */}
-                        <Grid item xs={12}>
-                          <FormLabel>{e.label}</FormLabel>
-                        </Grid>
-                        <Grid item xs={e.xs}>
-                          <TextField
-                            fullWidth
-                            type={e.type}
-                            id={e.id}
-                            name={e.name}
-                            onChange={event => {
-                              inputHandler(event, joinData, setJoinData)
-                            }}
-                          />
-                        </Grid>
-                      </>
-                    )
-                  })
-                )}
-                {/* 버튼 */}
-                <Grid item xs={12}>
-                  <Grid item xs={12}>
-                    <Button
-                      type="submit"
-                      variant="contained"
-                      sx={{ mt: 2, mb: 2, mr: 3 }}
-                      size="large"
-                      onClick={e => {
-                        handleSubmit(e)
-                      }}
-                    >
-                      회원가입
-                    </Button>
-                    <Button
-                      type="submit"
-                      variant="contained"
-                      sx={{ mt: 2, mb: 2 }}
-                      size="large"
-                      onClick={e => handleRedirect(e)}
-                    >
-                      홈으로
-                    </Button>
-                  </Grid>
+                    })
+                  )}
+                  {/* 버튼 */}
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'space-evenly',
+                      p: 1,
+                      m: 1,
+                      bgcolor: 'background.paper',
+                      borderRadius: 1,
+                    }}
+                  >
+                    <Grid item xs={12}>
+                      <Grid item xs={12}>
+                        <Button
+                          type="submit"
+                          variant="contained"
+                          sx={{ mt: 2, mb: 2, mr: 3 }}
+                          size="large"
+                          onClick={e => {
+                            handleSubmit(e)
+                          }}
+                        >
+                          회원가입
+                        </Button>
+                        <Button
+                          type="submit"
+                          variant="contained"
+                          sx={{ mt: 2, mb: 2 }}
+                          size="large"
+                          onClick={e => handleRedirect(e)}
+                        >
+                          홈으로
+                        </Button>
+                      </Grid>
+                    </Grid>
+                  </Box>
                 </Grid>
-              </Grid>
-            </FormControl>
+              </FormControl>
+            </Box>
           </Box>
-        </Box>
-      </Container>
-    </ThemeProvider>
+        </ThemeProvider>
+      </div>
+    </div>
   )
 }
 

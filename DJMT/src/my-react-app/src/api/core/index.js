@@ -27,7 +27,7 @@ request.interceptors.response.use(
   response => {
     //응답에 대한 로직 작성
     const res = response.data
-    console.log('res => ', res) // 디버깅
+    console.log('response.data => ', res) // 디버깅
     return res
   },
   error => {

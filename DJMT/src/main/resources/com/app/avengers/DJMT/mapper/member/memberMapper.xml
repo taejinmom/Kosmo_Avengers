@@ -41,5 +41,19 @@
         delete from MEMBER
         /* com\app\avengers\DJMT\mapper\member\memberMapper.xml - start */
     </delete>
-
+    <select id="getMemberInfoByMemNo" resultType="com.app.avengers.DJMT.dto.member.MemberDto">
+        select * from
+        member
+        where mem_no = #{mem_no}
+    </select>
+    <update id="editMemberInfo" parameterType="com.app.avengers.DJMT.dto.member.MemberDto" >
+        update member set
+        login_id = #{login_id}
+        ,login_pw = #{login_pw}
+        ,mem_name = #{mem_name}
+        ,mem_gen = #{mem_gen}
+        ,mem_addr1 = #{mem_addr1}
+        ,mem_addr2 = #{mem_addr2}
+        where mem_no = #{mem_no}
+    </update>
 </mapper>

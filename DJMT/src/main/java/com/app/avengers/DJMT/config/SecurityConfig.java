@@ -37,7 +37,7 @@ public class SecurityConfig {
                 .authorizeRequests(
                         authorize ->
                                 authorize
-                                .requestMatchers("/api/join","/api/login","/api/test").permitAll()
+                                .requestMatchers("/api/join","/api/login","/api/test","/socket/chat").permitAll()
                                 .requestMatchers("/api/validateToken").authenticated() // 권한 체크 시 실패할경우 실행
                                 //.requestMatchers("/api/refresh").permitAll()
                                 .requestMatchers("/api/admin/**").hasAuthority(RoleDto.ADMIN.name())

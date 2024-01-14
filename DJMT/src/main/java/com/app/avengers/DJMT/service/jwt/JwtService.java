@@ -36,7 +36,7 @@ public class JwtService {
 
     }
 
-    public RefreshTokenDto getRefreshToken(String refreshToken){
+    public RefreshTokenDto getRefreshToken(RefreshTokenDto refreshToken){
         try{
             return refreshTokenMapper.findByRefreshToken(refreshToken);
         }catch (Exception e){
@@ -49,7 +49,7 @@ public class JwtService {
      * description    : refreshToken validate
      * 2023-12-23   by  taejin
      */
-    public Map<String, String> validateRefreshToken(String refreshToken){
+    public Map<String, String> validateRefreshToken(RefreshTokenDto refreshToken){
         try{
             RefreshTokenDto refreshTokenDto = getRefreshToken(refreshToken);
             String createdAccessToken = jwtTokenProvider.validateRefreshToken(refreshTokenDto.getRefreshToken());
