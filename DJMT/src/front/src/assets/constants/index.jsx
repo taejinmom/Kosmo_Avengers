@@ -30,6 +30,10 @@ export const headerNav = [
     title: 'contact',
     url: '#contact',
   },
+  {
+    title: 'notice',
+    url: 'notice',
+  },
 ]
 
 export const introText = {

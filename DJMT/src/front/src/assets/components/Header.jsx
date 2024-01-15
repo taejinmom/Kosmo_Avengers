@@ -61,6 +61,7 @@ const Header = props => {
               {tokenDataCheck && (
                 <li>
                   {tokenData.mem_name}님 안녕하세요
+                  <a href='/mypage'>mypage</a>
                   <a
                     href="/"
                     onClick={e => {
