@@ -1,32 +1,15 @@
 import { useCookies } from 'react-cookie'
 import request from '../../../api/core'
+import { useNavigate } from 'react-router-dom'
 
-// // 로그인 reactquery로 대체함 -> login.jsx
-// export const login = async (loginData, setCookie, navigator, isLoginCheck) => {
-//   try {
-//     const res = await request.post("login", loginData);
-//     setCookie("jwtToken", res.tokenData.accessToken);
-//     setCookie("refreshToken", res.tokenData.refreshToken);
-//     setCookie("memberData", res.memberData);
-//     isLoginCheck(true);
-//     console.log("login >> ", res.memberData);
-//     navigator("/");
-//     window.location.reload();
-//   } catch (error) {
-//     if (error.response.data === "fail") {
-//       alert("ID 또는 Password가 틀렸습니다.");
-//       isLoginCheck(false);
-//     }
-//   }
-
-//   return "/";
-// };
-export const memberAxiosApi = async (apiUrl, httpMethod, data, etcParam) => {
+export const memberAxiosApi = async (apiUrl, httpMethod, data, navigate) => {
+  let res
   if (httpMethod === 'post') {
-    return await request.post(apiUrl, data)
+    res = await request.post(apiUrl, data)
   } else if (httpMethod === 'get') {
-    return await request.get(apiUrl)
+    res = await request.get(apiUrl)
   }
+  return res
 }
 // 토큰 체크
 export const validateToken = async (
@@ -34,7 +17,8 @@ export const validateToken = async (
   setCookie,
   removeCookie,
   isLoginCheck,
-  memberKey
+  memberKey,
+  navigate
 ) => {
   // 로그인을 안했을 때, 토큰은 없기때문에 한번 체크
   if (cookie.jwtToken === undefined) {
@@ -43,30 +27,28 @@ export const validateToken = async (
   }
   // accessToken 토큰 권한 체크_1
   await memberAxiosApi('validateToken', 'get')
-    .then(res => console.log('validation >> ', res))
+    .then(res => console.log('1 validateToken >> ', res))
     .catch(error => {
-      console.log('validation >> ', error)
+      console.log('1 error - > refreshToken 검증')
       request
         .post('refresh', {
           refreshToken: cookie.refreshToken,
           mem_no: memberKey,
         })
         .then(res => {
-          console.log('refresh >> ', res)
           setCookie('jwtToken', res)
+          console.log('jwtToken 재발급!')
           isLoginCheck(true)
         })
         .catch(error => {
+          console.log('refreshToken 만료.. 토큰 삭제!')
           removeCookie('jwtToken')
           removeCookie('refreshToken')
           isLoginCheck(false)
+          alert('서버 연결이 끊어졌습니다.')
+          navigate('/')
         })
     })
-
-  // accessToken 토큰 권한이 없을 경우
-  //refresh 토큰 권한 체크
-
-  // accessToken 발급성공 하면 jwtToken에 등록
 }
 // 회원가입
 export const join = async (
@@ -123,6 +105,7 @@ export const logoutHandler = (removeCookie, isLoginCheck) => {
 export const loginHandler = async (
   loginData,
   setIsLoginCheck,
+  setMemberRole,
   setMemberKey,
   setCookie,
   navigate
@@ -133,6 +116,7 @@ export const loginHandler = async (
       setCookie('jwtToken', res.tokenData.accessToken)
       setCookie('refreshToken', res.tokenData.refreshToken)
       setMemberKey(res.mem_no)
+      setMemberRole(res.role === 'ADMIN' ? true : false)
       navigate('/')
     })
     .catch(error => {
@@ -152,5 +136,6 @@ export const myPageHandler = async memberKey => {
 }
 // 수정하기
 export const editMyPageHandler = async data => {
+  console.log('수정 mem_no 값!! > > ', data)
   return memberAxiosApi('editMemberInfo', 'post', data)
 }

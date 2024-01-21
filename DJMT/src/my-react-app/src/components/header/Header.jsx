@@ -8,18 +8,20 @@ import {
   validateToken,
 } from '../../pages/member/handler/MemberHandler'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
-import { isLogin, memberKeyAtom } from '../../pages/member/atom/LoginAtom'
+import {
+  isLogin,
+  memberKeyAtom,
+  memberRoleAtom,
+} from '../../pages/member/atom/LoginAtom'
 
 const Header = props => {
   const { cookies, setCookie, removeCookie } = props
   const [isLoginCheck, setIsLoginCheck] = useRecoilState(isLogin)
+  const memberRole = useRecoilValue(memberRoleAtom)
   const memberKey = useRecoilValue(memberKeyAtom)
+  const x = '로그인'
   const navigate = useNavigate()
-  useEffect(() => {
-    if (isLoginCheck) {
-      console.log('mem_no =>> ', memberKey)
-    }
-  })
+  useEffect(() => {})
 
   return (
     <>
@@ -31,24 +33,52 @@ const Header = props => {
               {!isLoginCheck ? (
                 <>
                   <li>
-                    <Link to={'/join'}>회원가입</Link>
+                    <Link
+                      to={'/member'}
+                      state={{
+                        title: 'Join',
+                      }}
+                    >
+                      회원가입
+                    </Link>
                   </li>
                   <li>
-                    <Link to={'/login'}>로그인</Link>
+                    <Link
+                      to={'/member'}
+                      state={{
+                        title: 'Login',
+                      }}
+                    >
+                      로그인
+                    </Link>
                   </li>
                 </>
               ) : (
                 <>
+                  {memberRole ? (
+                    <>
+                      <li>
+                        <Link
+                          to={'/member'}
+                          state={{
+                            title: 'AdminPage',
+                          }}
+                        >
+                          관리자
+                        </Link>
+                      </li>
+                    </>
+                  ) : (
+                    ''
+                  )}
                   <li>
                     <Link
-                      to={{
-                        pathname: '/myPage',
-                        state: {
-                          value: 1,
-                        },
+                      to={'/member'}
+                      state={{
+                        title: 'MyPage',
                       }}
                     >
-                      마이페이지
+                      마이 페이지
                     </Link>
                   </li>
                   <li>

@@ -58,11 +58,14 @@ public class MemberMgr {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
         return sdf.format(timestamp);
     }
-
+    /**
+     * description    : 회원 정보 수정
+     * 2024-01-21   by  taejin       
+     */
     public MemberDto editMemberInfo(MemberDto memberDto) {
         memberDto.setLogin_pw(commonService.passwordEncoded(memberDto.getLogin_pw()));
         memberDto.setChg_date(currentDate());
-        memberDto.setChg_id(memberDto.getMem_no());
+        memberDto.setChg_id(memberDto.getChg_id());
         return memberDto;
     }
 }

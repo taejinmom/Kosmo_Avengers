@@ -8,6 +8,8 @@ import com.app.avengers.DJMT.repository.member.MemberRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -74,6 +76,10 @@ public class MemberService implements MemberRepository {
 
     public void editMemberInfo(MemberDto memberDto){
         memberMapper.editMemberInfo(memberMgr.editMemberInfo(memberDto));
+    }
+
+    public List<MemberDto> selectMemberList() {
+        return memberMapper.selectMemberList();
     }
     /**
      * description    : 사용자 더미 데이터 삭제(초기 개발시에만 사용)

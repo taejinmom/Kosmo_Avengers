@@ -1,9 +1,10 @@
 import { Button, FormLabel, Grid, TextField } from '@mui/material'
-import React from 'react'
+import React, { useEffect } from 'react'
 import Post from '../join/addressApi/Post'
 
 const JoinAddrInput = props => {
   const { address, inputHandler, data, setData, handleComplete, popup } = props
+
   return (
     <>
       <Grid item xs={12}>

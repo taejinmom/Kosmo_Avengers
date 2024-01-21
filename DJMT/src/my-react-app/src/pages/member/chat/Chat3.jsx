@@ -1,145 +1,298 @@
-import React, { useCallback, useRef, useState, useEffect } from 'react'
-import { createGlobalStyle } from 'styled-components'
-import reset from 'styled-reset'
-import './chat.scss'
+import React, { useEffect, useState, useRef } from 'react'
+import { over } from 'stompjs'
+import SockJS from 'sockjs-client'
+import './chat.css'
+import axios from 'axios'
 
-const Chat3 = () => {
-  const [msg, setMsg] = useState('')
-  const [name, setName] = useState('')
-  const [chatt, setChatt] = useState([])
-  const [chkLog, setChkLog] = useState(false)
-  const [socketData, setSocketData] = useState()
+var stompClient = null
+const Chat3 = props => {
+  const [privateChats, setPrivateChats] = useState(new Map())
+  const [publicChats, setPublicChats] = useState([])
+  const [tab, setTab] = useState('CHATROOM')
+  const [userData, setUserData] = useState({
+    username: localStorage.username,
+    receivername: '',
+    connected: true,
+    message: '',
+    class_num: '',
+    class_name: '',
+  })
 
-  const ws = useRef(null) //webSocket을 담는 변수,
-  //컴포넌트가 변경될 때 객체가 유지되어야하므로 'ref'로 저장
+  const mesData = useRef([])
 
-  const msgBox = chatt.map((item, idx) => (
-    <div key={idx} className={item.name === name ? 'me' : 'other'}>
-      <span>
-        <b>{item.name}</b>
-      </span>{' '}
-      [ {item.date} ]<br />
-      <span>{item.msg}</span>
-    </div>
-  ))
-  console.log('socketData')
+  const SPRING_URL = 'ws//localhost:8093/api/'
+  let dataUrl = SPRING_URL + 'message/get?class_num=1'
+
+  const getMessage = () => {
+    axios.get(dataUrl, { class_num: 1 }).then(res => {
+      console.log(res.data)
+      mesData.current = res.data
+      console.log(mesData)
+    })
+  }
   useEffect(() => {
-    if (socketData !== undefined) {
-      const tempData = chatt.concat(socketData)
-      console.log(tempData)
-      setChatt(tempData)
-    }
-  }, [socketData])
+    console.log(userData)
+    connect()
+  }, [])
 
-  const GlobalStyle = createGlobalStyle`  //css 초기화가 된 component
-          ${reset}
-  `
-
-  //webSocket
-  //webSocket
-  //webSocket
-  //webSocket
-  //webSocket
-  //webSocket
-  const onText = event => {
-    console.log(event.target.value)
-    setMsg(event.target.value)
+  const resetValues = () => {
+    close()
+  }
+  const connect = () => {
+    let Sock = new SockJS('api/ws')
+    stompClient = over(Sock)
+    console.log('connect start!')
+    stompClient.connect({}, onConnected, onError)
   }
 
-  const webSocketLogin = useCallback(() => {
-    ws.current = new WebSocket('ws://localhost:8093/socket/chatt')
+  const onConnected = () => {
+    setUserData({ ...userData, connected: true })
+    // stompClient.subscribe('/chatroom/public/' + 2, onMessageReceived)
+    // stompClient.subscribe(
+    //   '/user/' + userData.username + '/private',
+    //   onPrivateMessage
+    // )
+    userJoin()
+    getMessage()
+  }
 
-    ws.current.onmessage = message => {
-      const dataSet = JSON.parse(message.data)
-      setSocketData(dataSet)
+  const userJoin = () => {
+    var chatMessage = {
+      senderName: userData.username,
+      status: 'JOIN',
+      class_num: 2,
+      class_name: '',
     }
-  })
+    stompClient.send('/app/message/')
+  }
 
-  const send = useCallback(() => {
-    if (!chkLog) {
-      if (name === '') {
-        alert('이름을 입력하세요.')
-        document.getElementById('name').focus()
-        return
+  const onError = err => {
+    console.log(err)
+  }
+
+  const handleMessage = event => {
+    const { value } = event.target
+    setUserData({ ...userData, message: value })
+  }
+  const sendValue = () => {
+    if (stompClient) {
+      var chatMessage = {
+        senderName: userData.username,
+        message: userData.message,
+        status: 'MESSAGE',
+        class_num: class_num2,
+        class_name: props.data.class_name,
       }
-      webSocketLogin()
-      setChkLog(true)
+      console.log(chatMessage)
+      stompClient.send(
+        '/app/message/' + class_num2,
+        {},
+        JSON.stringify(chatMessage)
+      )
+      setUserData({ ...userData, message: '' })
     }
+  }
 
-    if (msg !== '') {
-      const data = {
-        name,
-        msg,
-        date: new Date().toLocaleString(),
-      } //전송 데이터(JSON)
-
-      const temp = JSON.stringify(data)
-
-      if (ws.current.readyState === 0) {
-        //readyState는 웹 소켓 연결 상태를 나타냄
-        ws.current.onopen = () => {
-          //webSocket이 맺어지고 난 후, 실행
-          console.log(ws.current.readyState)
-          ws.current.send(temp)
-        }
-      } else {
-        ws.current.send(temp)
+  const sendPrivateValue = () => {
+    if (stompClient) {
+      var chatMessage = {
+        senderName: userData.username,
+        receiverName: tab,
+        message: userData.message,
+        status: 'MESSAGE',
+        class_num: class_num2,
       }
-    } else {
-      alert('메세지를 입력하세요.')
-      document.getElementById('msg').focus()
-      return
+
+      if (userData.username !== tab) {
+        privateChats.get(tab).push(chatMessage)
+        setPrivateChats(new Map(privateChats))
+      }
+      stompClient.send('/app/private-message', {}, JSON.stringify(chatMessage))
+      setUserData({ ...userData, message: '' })
     }
-    setMsg('')
-  })
-  //webSocket
-  //webSocket
-  //webSocket
-  //webSocket
-  //webSocket
-  //webSocket
+  }
+
+  const handleUsername = event => {
+    const { value } = event.target
+    setUserData({ ...userData, username: value })
+  }
+
+  const registerUser = () => {
+    connect()
+  }
 
   return (
-    <>
-      <GlobalStyle />
-      <div id="chat-wrap">
-        <div id="chatt">
-          <h1 id="title">WebSocket Chatting</h1>
-          <br />
-          <div id="talk">
-            <div className="talk-shadow"></div>
-            {msgBox}
-          </div>
-          <input
-            disabled={chkLog}
-            placeholder="이름을 입력하세요."
-            type="text"
-            id="name"
-            value={name}
-            onChange={event => setName(event.target.value)}
-          />
-          <div id="sendZone">
-            <textarea
-              id="msg"
-              value={msg}
-              onChange={onText}
-              onKeyDown={ev => {
-                if (ev.keyCode === 13) {
-                  send()
-                }
-              }}
-            ></textarea>
-            <input type="button" value="전송" id="btnSend" onClick={send} />
-            <input
-              type="button"
-              value="연결"
-              id="btnSend"
-              onClick={webSocketLogin()}
-            />
-          </div>
-        </div>
+    <div>
+      <div className={open ? 'openModal modal' : 'modal'}>
+        {open ? (
+          <section>
+            <header>
+              <button className="close" onClick={close}>
+                &times;
+              </button>
+            </header>
+            <main>
+              {userData.connected ? (
+                <div className="chat-box">
+                  <div className="member-list">
+                    <ul>
+                      <li
+                        onClick={() => {
+                          setTab('CHATROOM')
+                        }}
+                        className={`member ${tab === 'CHATROOM' && 'active'}`}
+                      >
+                        Chatroom
+                      </li>
+                      {[...privateChats.keys()].map((name, index) => (
+                        <li
+                          onClick={() => {
+                            setTab(name)
+                          }}
+                          className={`member ${tab === name && 'active'}`}
+                          key={index}
+                        >
+                          {name}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  {tab === 'CHATROOM' && (
+                    <div className="chat-content">
+                      <ul
+                        className="chat-messages"
+                        style={{ overflowY: 'auto' }}
+                      >
+                        {mesData.current &&
+                          mesData.current.map((chat, index) => (
+                            <li
+                              className={`message ${
+                                chat.senderName === userData.username && 'self'
+                              }`}
+                              key={index}
+                            >
+                              {chat.senderName !== userData.username && (
+                                <div className="avatar">{chat.senderName}</div>
+                              )}
+                              <div className="message-data">{chat.message}</div>
+                              {chat.senderName === userData.username && (
+                                <div className="avatar self">
+                                  {chat.senderName}
+                                </div>
+                              )}
+                            </li>
+                          ))}
+                        {publicChats &&
+                          publicChats.map((chat, index) => (
+                            <li
+                              className={`message ${
+                                chat.senderName === userData.username && 'self'
+                              }`}
+                              key={index}
+                            >
+                              {chat.senderName !== userData.username && (
+                                <div className="avatar">{chat.senderName}</div>
+                              )}
+                              <div className="message-data">{chat.message}</div>
+                              {chat.senderName === userData.username && (
+                                <div className="avatar self">
+                                  {chat.senderName}
+                                </div>
+                              )}
+                            </li>
+                          ))}
+                      </ul>
+
+                      <div className="send-message">
+                        <input
+                          type="text"
+                          className="input-message"
+                          placeholder="메세지를 입력해 주세요"
+                          value={userData.message}
+                          onChange={handleMessage}
+                          onKeyUp={e => {
+                            if (e.key === 'Enter' && userData.message !== '') {
+                              sendValue()
+                            }
+                          }}
+                        />
+                        {/* <button
+                          type="button"
+                          className="send-button"
+                          onClick={sendValue}
+                          >
+                            </button> */}
+                        <img
+                          style={{
+                            width: '50px',
+                            height: '50px',
+                            borderRadius: '50px',
+                          }}
+                          onClick={sendValue}
+                        />
+                      </div>
+                    </div>
+                  )}
+                  {tab !== 'CHATROOM' && (
+                    <div className="chat-content">
+                      <ul className="chat-messages">
+                        {[...privateChats.get(tab)].map((chat, index) => (
+                          <li
+                            className={`message ${
+                              chat.senderName === userData.username && 'self'
+                            }`}
+                            key={index}
+                          >
+                            {chat.senderName !== userData.username && (
+                              <div className="avatar">{chat.senderName}</div>
+                            )}
+                            <div className="message-data">{chat.message}</div>
+                            {chat.senderName === userData.username && (
+                              <div className="avatar self">
+                                {chat.senderName}
+                              </div>
+                            )}
+                          </li>
+                        ))}
+                      </ul>
+
+                      <div className="send-message">
+                        <input
+                          type="text"
+                          className="input-message"
+                          placeholder="enter the message"
+                          value={userData.message}
+                          onChange={handleMessage}
+                          onKeyUp={e => {
+                            if (e.key === 'Enter' && userData.message !== '') {
+                              sendPrivateValue()
+                            }
+                          }}
+                        />
+                        <button
+                          type="button"
+                          className="send-button"
+                          onClick={sendPrivateValue}
+                        >
+                          send
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                ''
+              )}
+            </main>
+            <footer>
+              <button className="close" onClick={resetValues}>
+                닫기
+              </button>
+            </footer>
+          </section>
+        ) : null}
       </div>
-    </>
+    </div>
   )
 }
 
