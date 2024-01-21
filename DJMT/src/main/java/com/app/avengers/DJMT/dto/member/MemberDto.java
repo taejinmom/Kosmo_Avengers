@@ -10,6 +10,7 @@ import java.util.Map;
 @Setter
 @NoArgsConstructor
 public class MemberDto {
+    private String rownum;
     private String mem_no;
     private String login_id;
     private String login_pw;

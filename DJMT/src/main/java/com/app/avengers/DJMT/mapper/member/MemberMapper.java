@@ -4,6 +4,7 @@ import com.app.avengers.DJMT.dto.member.MemberDto;
 import com.app.avengers.DJMT.dto.member.MemberResponseDto;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
 import java.util.Optional;
 
 @Mapper
@@ -15,5 +16,6 @@ public interface MemberMapper {
     public MemberDto getMemberInfoByLoginId(String login_id);
     public MemberDto getMemberInfoByMemNo(String mem_no);
     public void editMemberInfo(MemberDto memberDto);
+    public List<MemberDto> selectMemberList();
     public void start();
 }

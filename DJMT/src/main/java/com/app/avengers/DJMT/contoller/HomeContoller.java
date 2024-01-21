@@ -32,7 +32,7 @@ public class HomeContoller {
         Map<String, String> map = jwtService.validateRefreshToken(refreshToken);
 
         if(map.get("status").equals("402")){
-            log.info("RefreshController - Refresh Token이 만료.");
+            log.info("HomeContoller - Refresh Token이 만료.");
             return new ResponseEntity<>(Constants.RESPONSE_FAIL, HttpStatus.PAYMENT_REQUIRED);
         }
 

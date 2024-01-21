@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Member;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -50,6 +51,8 @@ public class MemberController {
                 jwtService.login(tokenDto);
                 map.put("tokenData",tokenDto);
                 map.put("mem_no",memberDto.getMem_no());
+                map.put("role",memberDto.getRole());
+
                 log.info("로그인 성공 >>> " + memberDto.getLogin_id() + "/ " + memberDto.getMem_name());
             }
             return new ResponseEntity<>(map,HttpStatus.OK);
@@ -95,12 +98,24 @@ public class MemberController {
     public ResponseEntity<?> editMemberInfo(@RequestBody MemberDto memberDto){
         try{
             memberService.editMemberInfo(memberDto);
-            log.info("editMemberInfo >> 회원정보 수정! "+ memberDto.getMem_name()+" - 98");
+            log.info("editMemberInfo >> 회원정보 수정! "+ memberDto.getMem_name());
             return new ResponseEntity<>(Constants.RESPONSE_SUCCESS,HttpStatus.OK);
         }catch (Exception e){
             log.error(e.getMessage());
             return new ResponseEntity<>(Constants.RESPONSE_SUCCESS,HttpStatus.OK);
         }
+    }
+
+    @GetMapping("/admin/selectMemberList")
+    public ResponseEntity<?> selectMemberList() {
+        List<MemberDto> memberList = memberService.selectMemberList();
+        return new ResponseEntity<>(memberList,HttpStatus.OK);
+    }
+
+    @PostMapping("/admin/deleteMember")
+    public ResponseEntity<?> deleteMember() {
+        List<MemberDto> memberList = memberService.selectMemberList();
+        return new ResponseEntity<>(memberList,HttpStatus.OK);
     }
     @GetMapping("/getTest")
     public String getTest(){

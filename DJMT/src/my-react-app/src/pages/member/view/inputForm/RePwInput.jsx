@@ -1,21 +1,20 @@
 import { FormLabel, Grid, TextField } from '@mui/material'
 import React from 'react'
-import { inputHandler } from '../handler/MemberHandler'
+import { inputHandler } from '../../handler/MemberHandler'
 
-const PwInput = props => {
+const RePwInput = props => {
   const { data, setData } = props
   return (
     <>
       <Grid item xs={12}>
-        <FormLabel>Password</FormLabel>
+        <FormLabel>Repeat Password</FormLabel>
       </Grid>
       <Grid item xs={12}>
         <TextField
           fullWidth
           type="password"
-          id="login_pw"
-          name="login_pw"
-          value={data.login_pw !== undefined ? data.login_pw : ''}
+          id="login_pw_repeat"
+          name="login_pw_repeat"
           onChange={event => {
             inputHandler(event, data, setData)
           }}
@@ -25,4 +24,4 @@ const PwInput = props => {
   )
 }
 
-export default PwInput
+export default RePwInput

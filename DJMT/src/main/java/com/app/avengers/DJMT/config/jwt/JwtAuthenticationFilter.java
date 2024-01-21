@@ -48,13 +48,14 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
             // 토큰에서 member 객체 추출 후 인증절차 진행
             try {
                 Authentication authentication = jwtTokenProvider.getAuthentication(cookie.getValue());
-                log.info("JwtTokenProvider - validateToken accessToken 검증 성공 - 116");
+                log.info("JwtAuthenticationFilter - validateToken accessToken 검증 성공");
                 // SecurityContext 에 Authentication 객체를 저장
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 chain.doFilter(request, response);
             }catch (Exception e){
                 log.error(e.getMessage());
-                log.info("JwtAuthenticationFilter - doFilter accessToken 검증 실패 - 52");
+                log.info("JwtAuthenticationFilter - doFilter accessToken 검증 실패");
+//                chain.doFilter(request, response);
             }
 
         }else{

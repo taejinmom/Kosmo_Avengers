@@ -22,10 +22,11 @@ dependencies {
 	implementation 'org.springframework.security:spring-security-crypto:5.7.1'
 	implementation 'commons-codec:commons-codec:1.15'
 	implementation 'com.fasterxml.uuid:java-uuid-generator:4.2.0'
+	implementation group: 'org.json', name: 'json', version: '20231013'
 	// 웹소켓
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
-	implementation 'org.springframework.session:spring-session-core'
-	implementation group: 'javax.websocket', name: 'javax.websocket-api', version: '1.1'
+//	implementation 'com.corundumstudio.socketio:netty-socketio:1.7.23'
+
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
 	compileOnly 'org.projectlombok:lombok'

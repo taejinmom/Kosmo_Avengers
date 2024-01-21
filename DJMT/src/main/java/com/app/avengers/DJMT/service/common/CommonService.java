@@ -22,6 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.nio.ByteBuffer;
+import java.text.SimpleDateFormat;
 import java.util.UUID;
 
 import static org.apache.commons.codec.binary.Base64.encodeBase64URLSafeString;
@@ -56,6 +57,12 @@ public class CommonService {
     }
     public boolean passwordDecoded(String newPass,String oldPass){
         return passwordEncoder.matches(newPass,oldPass);
+    }
+
+    public String dateFormat(String formatValue) {
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy년 mm월 dd일 hh24:mi:ss");
+
+        return "";
     }
 
 }

@@ -38,6 +38,8 @@ mybatis:
   type-aliases-package: com.app.avengers.DJMT.dto
 #  configuration:
 #    map-underscore-to-camel-case: true loginId
+socket:
+  port: 3000
 
 logging:
   level:
