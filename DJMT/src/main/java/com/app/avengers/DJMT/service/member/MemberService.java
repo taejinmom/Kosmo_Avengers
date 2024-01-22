@@ -75,7 +75,8 @@ public class MemberService implements MemberRepository {
     }
 
     public void editMemberInfo(MemberDto memberDto){
-        memberMapper.editMemberInfo(memberMgr.editMemberInfo(memberDto));
+        memberDto = memberMgr.editMemberInfo(memberDto);
+        memberMapper.editMemberInfo(memberDto);
     }
 
     public List<MemberDto> selectMemberList() {

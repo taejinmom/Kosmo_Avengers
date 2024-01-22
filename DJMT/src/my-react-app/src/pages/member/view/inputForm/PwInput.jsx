@@ -3,7 +3,7 @@ import React from 'react'
 import { inputHandler } from '../../handler/MemberHandler'
 
 const PwInput = props => {
-  const { data, setData } = props
+  const { data, setData, setPwChangeChk } = props
   return (
     <>
       <Grid item xs={12}>
@@ -18,6 +18,7 @@ const PwInput = props => {
           value={data.login_pw !== undefined ? data.login_pw : ''}
           onChange={event => {
             inputHandler(event, data, setData)
+            setPwChangeChk(true)
           }}
         />
       </Grid>
