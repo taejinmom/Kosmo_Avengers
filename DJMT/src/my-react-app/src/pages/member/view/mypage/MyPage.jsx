@@ -39,7 +39,7 @@ const MyPage = props => {
   const [myPageData, setMyPageData] = useState({})
   const address = useRef() // 주소 input 값
   const location = useLocation()
-
+  const [pwChangeChk, setPwChangeChk] = useState(false)
   useEffect(() => {
     if (!isLoginCheck) {
       navigate('/')
@@ -49,6 +49,7 @@ const MyPage = props => {
         setMyPageData({
           ...res,
           chg_id: memberKey,
+          etc_param1: pwChangeChk,
         })
       })
     } else {
@@ -56,6 +57,7 @@ const MyPage = props => {
         setMyPageData({
           ...res,
           chg_id: memberKey,
+          etc_param1: pwChangeChk,
         })
       )
     }
@@ -128,6 +130,7 @@ const MyPage = props => {
                   data={myPageData}
                   setData={setMyPageData}
                   isLoginCheck={isLoginCheck}
+                  setPwChangeChk={setPwChangeChk}
                 />
                 <NameInput
                   data={myPageData}

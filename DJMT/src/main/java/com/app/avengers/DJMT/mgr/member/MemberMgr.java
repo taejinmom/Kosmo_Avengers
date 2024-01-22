@@ -63,7 +63,9 @@ public class MemberMgr {
      * 2024-01-21   by  taejin       
      */
     public MemberDto editMemberInfo(MemberDto memberDto) {
-        memberDto.setLogin_pw(commonService.passwordEncoded(memberDto.getLogin_pw()));
+//        if(memberDto.getEtc_param1().equals("true")){
+            memberDto.setLogin_pw(commonService.passwordEncoded(memberDto.getLogin_pw()));
+//        }
         memberDto.setChg_date(currentDate());
         memberDto.setChg_id(memberDto.getChg_id());
         return memberDto;

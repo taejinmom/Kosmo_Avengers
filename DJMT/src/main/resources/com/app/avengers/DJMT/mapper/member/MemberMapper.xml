@@ -51,7 +51,9 @@
     <update id="editMemberInfo" parameterType="com.app.avengers.DJMT.dto.member.MemberDto" >
         update member set
         login_id = #{login_id}
-        ,login_pw = #{login_pw}
+        <if test="etc_param1 = 'true'">
+            ,login_pw = #{login_pw}
+        </if>
         ,mem_name = #{mem_name}
         ,mem_gen = #{mem_gen}
         ,mem_addr1 = #{mem_addr1}

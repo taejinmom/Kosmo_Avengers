@@ -27,6 +27,11 @@ public class MemberDto {
     private String reg_date;
     private String chg_id;
     private String chg_date;
+    private String etc_param1;
+    private String etc_param2;
+    private String etc_param3;
+    private String etc_param4;
+    private String etc_param5;
     private String valid = "N";
 
     public void toDto(Map<String ,String> map){
