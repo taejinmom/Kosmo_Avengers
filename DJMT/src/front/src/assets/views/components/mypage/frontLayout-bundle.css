@@ -1,0 +1,740 @@
+/* 메인 */
+
+section.mypage .info_wrap {
+    padding: 70px 0;
+    border-top: 2px solid #282828 !important;
+    border-bottom: 2px solid #282828 !important;
+  }
+  
+  section.mypage .info_wrap .basic:after,
+  section.mypage .info_wrap .extend:after {
+    display: block;
+    clear: both;
+    content: "";
+  }
+  
+  section.mypage .info_wrap .basic .left {
+    display: inline-block;
+    color: #111;
+  }
+  
+  section.mypage .info_wrap .basic .left h2 {
+    font-size: 33px;
+    line-height: 28px;
+  }
+  
+  section.mypage .info_wrap .basic .left span {
+    display: block;
+    margin-top: 26px;
+    font-weight: bold;
+    font-size: 19px;
+    line-height: 14px;
+  }
+  
+  section.mypage .info_wrap .basic .right {
+    float: right;
+    width: 590px;
+    padding-bottom: 50px;
+  }
+  
+  section.mypage .info_wrap .basic .right .grade {
+    display: inline-block;
+    width: 290px;
+  }
+  
+  section.mypage .info_wrap .basic .right .grade span {
+    display: block;
+    color: #444;
+    line-height: 12px;
+  }
+  
+  section.mypage .info_wrap .basic .right .grade h3 {
+    margin-top: 20px;
+    font-size: 49px;
+    color: #111;
+    line-height: 46px;
+  }
+  
+  section.mypage .info_wrap .basic .right .grade h3 a {
+    display: inline-block;
+    padding-right: 25px;
+    background: url("../images/ui/btn_next.svg") no-repeat 100% 50%/auto 29px;
+    font-size: 36px;
+    color: #767676;
+  }
+  
+  section.mypage .info_wrap .basic .right .grade h3 + a {
+    display: inline-block;
+    margin-top: 20px;
+    font-size: 17px;
+    color: #767676;
+    line-height: 14px;
+  }
+  
+  section.mypage .info_wrap .extend .left {
+    display: inline-block;
+    padding-top: 48px;
+  }
+  
+  section.mypage .info_wrap .extend .count > a {
+    display: block;
+    margin-top: 12px;
+    font-size: 31px;
+    font-weight: bold;
+    color: #111;
+    line-height: 30px;
+  }
+  
+  section.mypage .info_wrap .extend .count label {
+    display: inline-block;
+    position: relative;
+    width: 78px;
+    height: 20px;
+    margin-left: 10px;
+    border: 1px solid #d5d5d5;
+    vertical-align: middle;
+  }
+  
+  section.mypage .info_wrap .extend .count label input[type=checkbox] + .slider {
+    position: absolute;
+    top: -1px;
+    left: 39px;
+    z-index: 10;
+    width: 40px;
+    height: 22px;
+    background-color: #959595;
+    transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -webkit-transition: all 0.5s ease;
+  }
+  
+  section.mypage .info_wrap .extend .count label input[type=checkbox]:checked + .slider {
+    top: -1px;
+    left: -1px;
+    background-color: #8e1fff;
+  }
+  
+  section.mypage .info_wrap .extend .count label span + span {
+    position: relative;
+    z-index: 20;
+    float: left;
+    width: 50%;
+    height: 20px;
+    font-weight: bold;
+    font-size: 12px;
+    color: #fff;
+    line-height: 20px;
+    text-align: center;
+  }
+  
+  section.mypage .info_wrap .extend .right {
+    float: right;
+    width: 590px;
+    padding-top: 47px;
+    border-top: 1px solid #e9e9e9;
+  }
+  
+  section.mypage .info_wrap .extend .right ul .count {
+    display: inline-block;
+    margin-left: 32px;
+  }
+  
+  section.mypage .info_wrap .extend .right ul .count > a {
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  
+  section.mypage .info_wrap .extend .right ul .count:first-child > a {
+    max-width: 176px;
+  }
+  
+  section.mypage .info_wrap .extend .right ul .count:nth-child(2) > a {
+    max-width: 156px;
+  }
+  
+  section.mypage .info_wrap .extend .right ul .count:nth-child(3) > a {
+    max-width: 60px;
+  }
+  
+  section.mypage .info_wrap .extend .right ul .count:nth-child(4) > a {
+    max-width: 80px;
+  }
+  
+  section.mypage .info_wrap .extend .right ul .count:first-child {
+    margin-left: 0;
+  }
+  
+  section.mypage .info_wrap + .banners {
+    margin-top: 50px;
+  }
+  
+  section.mypage .order_wrap h4 {
+    padding-top: 95px;
+    font-size: 19px;
+    color: #111;
+    font-weight: bold;
+    line-height: 26px;
+  }
+  
+  section.mypage .membership {
+    margin-bottom: 57px;
+    padding: 50px 0;
+    height: 200px;
+    border-top: 2px solid #282828 !important;
+    border-bottom: 2px solid #282828 !important;
+  }
+  
+  section.mypage .membership h2 {
+    color: #111;
+    line-height: 32px;
+    font-size: 27px;
+  }
+  
+  section.mypage .membership h2 > a {
+    display: inline-block;
+    width: 100%;
+    height: 32px;
+  }
+  
+  section.mypage .membership h2 > a:after {
+    display: inline-block;
+    width: 25px;
+    height: 32px;
+    vertical-align: top;
+    background: url("../images/ui/btn_next.svg") no-repeat right center/14px auto;
+    background-size: 10px;
+    content: '';
+  }
+  
+  section.mypage .membership h2 > a em {
+    display: inline-block;
+    max-width: 50%;
+    height: 32px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: top;
+  }
+  
+  section.mypage .membership h2 > small {
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+    color: #767676;
+    line-height: 18px;
+    height: 20px;
+    font-size: 19px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  section.mypage .membership h3 {
+    line-height: 36px;
+    font-size: 25px;
+    font-weight: normal;
+  }
+  
+  section.mypage .membership h3 > span {
+    font-weight: bold;
+  }
+  
+  section.mypage .membership .mem-class {
+    display: inline-block;
+    width: 460px;
+  }
+  
+  section.mypage .membership .mem-class .coin {
+    vertical-align: top;
+  }
+  
+  section.mypage .membership .mem-profile {
+    position: relative;
+    display: inline-block;
+    width: 290px;
+    margin-left: 30px;
+  }
+  
+  /*//#141828 : 회원가입 재구성*/
+  
+  section.mypage .membership .mem-profile a.btn.gy {
+    color: #fff;
+    background: #444;
+    border: 1px solid #444;
+  }
+  
+  section.mypage .membership .mem-info:hover .update_plz {
+    display: block;
+  }
+  
+  section.mypage .membership .mem-grade {
+    margin-top: 20px;
+    font-size: 17px;
+  }
+  
+  section.mypage .membership .mem-grade .tip {
+    line-height: 20px;
+  }
+  
+  section.mypage .membership .mem-grade .speech {
+    display: none;
+    position: absolute;
+    margin-top: -8px;
+    margin-left: 90px;
+  }
+  
+  section.mypage .membership .mem-grade .tip:hover + .speech,
+  section.mypage .membership .mem-grade .speech:hover {
+    display: block;
+  }
+  
+  section.mypage .membership .mem-grade .speech .bulloon {
+    position: relative;
+    margin-top: 15px;
+    padding: 16px 20px;
+    line-height: 22px;
+    font-size: 14px;
+    background: #f7eeff;
+    border: 1px solid #f0e5fa;
+  }
+  
+  section.mypage .membership .mem-grade .speech .bulloon em {
+    display: block;
+    margin: 10px 0;
+    color: #8e8e8e;
+    font-size: 14px;
+  }
+  
+  section.mypage .membership .mem-grade .speech .bulloon a {
+    font-size: 14px;
+    font-weight: bold;
+  }
+  
+  section.mypage .membership .mem-grade .speech .bulloon:after {
+    display: block;
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: 30px;
+    width: 10px;
+    height: 10px;
+    background: #f7eeff;
+    border-top: 1px solid #f0e5fa;
+    border-left: 1px solid #f0e5fa;
+    transform: rotate(45deg);
+  }
+  
+  section.mypage .membership .mem-grade .badge {
+    margin-left: 6px;
+  }
+  
+  section.mypage .membership .mem-grade > span {
+    display: block;
+    line-height: 24px;
+    font-size: 17px;
+  }
+  
+  section.mypage .membership .mem-grade > span.sum {
+    margin-top: 6px;
+    color: #767676;
+    font-size: 14px;
+    font-weight: normal;
+  }
+  
+  section.mypage .membership .mem-grade > span.sum > em {
+    color: #444;
+    font-weight: bold;
+  }
+  
+  section.mypage .membership .mem-grade + .btn {
+    height: 37px;
+    padding: 0 20px;
+    line-height: 37px;
+    margin-top: 24px;
+  }
+  
+  section.mypage .membership .switch {
+    display: inline-block;
+    position: relative;
+    width: 78px;
+    height: 20px;
+    margin-left: 10px;
+    border: 1px solid #d5d5d5;
+    vertical-align: middle;
+  }
+  
+  section.mypage .membership .switch input[type=checkbox] + .slider {
+    position: absolute;
+    top: -1px;
+    left: 39px;
+    z-index: 10;
+    width: 40px;
+    height: 22px;
+    background-color: #959595;
+    transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -webkit-transition: all 0.5s ease;
+  }
+  
+  section.mypage .membership .switch input[type=checkbox]:checked + .slider {
+    top: -1px;
+    left: -1px;
+    background-color: #8e1fff;
+  }
+  
+  section.mypage .membership .switch span + span {
+    position: relative;
+    z-index: 20;
+    float: left;
+    width: 50%;
+    height: 20px;
+    font-weight: bold;
+    font-size: 12px;
+    color: #fff;
+    line-height: 20px;
+    text-align: center;
+  }
+  
+  section.mypage .membership .mem-wallet {
+    float: right;
+    width: 500px;
+    vertical-align: top;
+  }
+  
+  section.mypage .membership .mem-wallet > ul > li {
+    float: left;
+    width: 33.33%;
+  }
+  
+  section.mypage .membership .mem-wallet > ul > li > span {
+    display: block;
+    color: #444;
+    font-size: 14px;
+  }
+  
+  section.mypage .membership .mem-wallet > ul > li > .value {
+    display: block;
+    margin-top: 5px;
+    font-size: 33px;
+    line-height: 38px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  
+  section.mypage .membership .mem-wallet > ul > li .review_plz {
+    position: absolute;
+    margin: -55px 0 0 -53px;
+    padding: 9px 20px;
+    font-size: 14px;
+    background: #f7eeff;
+    border: 1px solid #f0e5fa;
+  }
+  
+  /*#141816추가*/
+  
+  section.mypage .membership .mem-wallet > ul > li .review_plz:after {
+    display: block;
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 45%;
+    width: 10px;
+    height: 10px;
+    background: #f7eeff;
+    border-bottom: 1px solid #f0e5fa;
+    border-right: 1px solid #f0e5fa;
+    transform: rotate(45deg);
+  }
+  
+  /*#141816추가*/
+  
+  section.mypage .membership .mem-wallet > ul:after {
+    display: block;
+    content: '';
+    clear: both;
+  }
+  
+  section.mypage .membership .mem-wallet > ul + ul {
+    margin-top: 30px;
+    padding-top: 36px;
+    border-top: 1px solid #e9e9e9;
+  }
+  
+  section.mypage .membership + .banners + .order_wrap {
+    margin-top: -30px;
+  }
+  
+  section.mypage .membership.info {
+    height: 174px;
+  }
+  
+  section.mypage .membership.info + .grade .grade_list {
+    padding-top: 22px;
+    border-top: 0;
+  }
+  
+  section.mypage .membership .mem-decide {
+    margin-top: 15px;
+    line-height: 24px;
+    font-size: 14px;
+  }
+  
+  section.mypage .membership .mem-decide label {
+    display: inline-block;
+    width: 85px;
+    color: #8e8e8e;
+  }
+  
+  section.mypage .membership .mem-decide span {
+    color: #111;
+    font-weight: bold;
+  }
+  
+  section.mypage .membership .mem-next {
+    float: right;
+    width: 420px;
+    vertical-align: top;
+  }
+  
+  section.mypage .membership .mem-next .mem-class {
+    font-size: 17px;
+    font-weight: bold;
+  }
+  
+  section.mypage .membership .mem-next .mem-class .badge {
+    margin: 0 10px;
+  }
+  
+  section.mypage .membership .mem-next .mem-class > small {
+    display: block;
+    margin-top: 5px;
+    color: #8e8e8e;
+    font-size: 14px;
+    font-weight: normal;
+  }
+  
+  section.mypage .membership .mem-next .mem-step {
+    position: relative;
+    margin-top: 40px;
+    height: 20px;
+  }
+  
+  section.mypage .membership .mem-next .mem-step > div:before {
+    display: block;
+    content: '';
+    position: absolute;
+    top: 50%;
+    margin-top: -2px;
+    width: 100%;
+    height: 4px;
+    background-color: #e9e9e9;
+    z-index: 0;
+  }
+  
+  section.mypage .membership .mem-next .mem-step > div:after {
+    display: block;
+    content: '';
+    position: absolute;
+    top: 50%;
+    margin-top: -2px;
+    height: 4px;
+    background-color: #8e1fff;
+    z-index: 1;
+  }
+  
+  section.mypage .membership .mem-next .mem-step > div.tobe_lv-03:after {
+    width: 0%;
+  }
+  
+  section.mypage .membership .mem-next .mem-step > div.tobe_lv-04:after {
+    width: 20%;
+  }
+  
+  section.mypage .membership .mem-next .mem-step > div.tobe_lv-05:after {
+    width: 40%;
+  }
+  
+  section.mypage .membership .mem-next .mem-step > div.tobe_lv-06:after {
+    width: 60%;
+  }
+  
+  section.mypage .membership .mem-next .mem-step > div.tobe_lv-07:after {
+    width: 80%;
+  }
+  
+  section.mypage .membership .mem-next .mem-step > div.tobe_lv-08:after {
+    width: 100%;
+  }
+  
+  section.mypage .membership .mem-next .mem-step > div > ul {
+    display: block;
+    position: absolute;
+    width: 100%;
+    font-size: 0;
+    z-index: 2;
+  }
+  
+  section.mypage .membership .mem-next .mem-step > div > ul > li {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    color: #fff;
+    font-size: 13px;
+    font-weight: bold;
+    background-color: #e9e9e9;
+    border-radius: 50%;
+  }
+  
+  section.mypage .membership .mem-next .mem-step > div > ul > li + li {
+    margin-left: 60px;
+  }
+  
+  section.mypage .membership .mem-next .mem-step .tobe_lv-03 > ul > li:nth-last-child(1n+6),
+  section.mypage .membership .mem-next .mem-step .tobe_lv-04 > ul > li:nth-last-child(1n+5),
+  section.mypage .membership .mem-next .mem-step .tobe_lv-05 > ul > li:nth-last-child(1n+4),
+  section.mypage .membership .mem-next .mem-step .tobe_lv-06 > ul > li:nth-last-child(1n+3),
+  section.mypage .membership .mem-next .mem-step .tobe_lv-07 > ul > li:nth-last-child(1n+2),
+  section.mypage .membership .mem-next .mem-step .tobe_lv-08 > ul > li {
+    background-color: #8e1fff;
+  }
+  
+  section.mypage .membership .mem-next .mem-step div > ul > li:after {
+    content: '';
+    position: absolute;
+    margin: -21px 0 0 -9%;
+    width: 16%;
+    color: #767676;
+    text-align: center;
+    font-size: 13px;
+  }
+  
+  section.mypage .membership .mem-next .mem-step div.lv-03 > ul > li:nth-child(1):after {
+    content: 'FAMILY';
+  }
+  
+  section.mypage .membership .mem-next .mem-step div.lv-04 > ul > li:nth-child(2):after {
+    content: 'BRONZE';
+  }
+  
+  section.mypage .membership .mem-next .mem-step div.lv-05 > ul > li:nth-child(3):after {
+    content: 'SILVER';
+  }
+  
+  section.mypage .membership .mem-next .mem-step div.lv-06 > ul > li:nth-child(4):after {
+    content: 'GOLD';
+  }
+  
+  section.mypage .membership .mem-next .mem-step div.lv-07 > ul > li:nth-child(5):after {
+    content: 'PLATINUM';
+  }
+  
+  section.mypage .membership .mem-next .mem-step div.lv-08 > ul > li:nth-child(6):after {
+    content: 'DIAMOND';
+  }
+  
+  section.mypage .membership .mem-next .mem-step div.tobe_lv-03 > ul > li:after {
+    font-weight: bold;
+  }
+  
+  section.mypage .membership .mem-next .mem-step div.tobe_lv-03 > ul > li:nth-child(1):after {
+    content: 'FAMILY';
+    color: #8e1fff !important;
+  }
+  
+  section.mypage .membership .mem-next .mem-step div.tobe_lv-04 > ul > li:nth-child(2):after {
+    content: 'BRONZE';
+    color: #8e1fff !important;
+  }
+  
+  section.mypage .membership .mem-next .mem-step div.tobe_lv-05 > ul > li:nth-child(3):after {
+    content: 'SILVER';
+    color: #8e1fff !important;
+  }
+  
+  section.mypage .membership .mem-next .mem-step div.tobe_lv-06 > ul > li:nth-child(4):after {
+    content: 'GOLD';
+    color: #8e1fff !important;
+  }
+  
+  section.mypage .membership .mem-next .mem-step div.tobe_lv-07 > ul > li:nth-child(5):after {
+    content: 'PLATINUM';
+    color: #8e1fff !important;
+  }
+  
+  section.mypage .membership .mem-next .mem-step div.tobe_lv-08 > ul > li:nth-child(6):after {
+    content: 'DIAMOND';
+    color: #8e1fff !important;
+  }
+  
+  section.mypage .membership .mem-next .mem-step .speech {
+    position: absolute;
+    margin: 17px 0 0 -26px;
+  }
+  
+  section.mypage .membership .mem-next .mem-step .speech .bulloon {
+    display: inline-block;
+    position: relative;
+    margin-top: 15px;
+    padding: 16px 20px;
+    line-height: 22px;
+    white-space: nowrap;
+    font-size: 14px;
+    background: #f7eeff;
+    border: 1px solid #f0e5fa;
+  }
+  
+  section.mypage .membership .mem-next .mem-step .speech .bulloon span {
+    color: #8e1fff;
+  }
+  
+  section.mypage .membership .mem-next .mem-step .speech .bulloon:after {
+    display: block;
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: 30px;
+    width: 10px;
+    height: 10px;
+    background: #f7eeff;
+    border-top: 1px solid #f0e5fa;
+    border-left: 1px solid #f0e5fa;
+    transform: rotate(45deg);
+  }
+  
+  section.mypage .membership .mem-next .mem-step div.tobe_lv-06 .speech .bulloon:after,
+  section.mypage .membership .mem-next .mem-step div.tobe_lv-07 .speech .bulloon:after,
+  section.mypage .membership .mem-next .mem-step div.tobe_lv-08 .speech .bulloon:after {
+    left: auto;
+    right: 30px;
+    text-align: right;
+  }
+  
+  section.mypage .membership .mem-next .mem-step div.tobe_lv-03 .speech {
+    left: 0;
+  }
+  
+  section.mypage .membership .mem-next .mem-step div.tobe_lv-04 .speech {
+    left: 19%;
+  }
+  
+  section.mypage .membership .mem-next .mem-step div.tobe_lv-05 .speech {
+    left: 38%;
+  }
+  
+  section.mypage .membership .mem-next .mem-step div.tobe_lv-06 .speech {
+    right: 32%;
+  }
+  
+  section.mypage .membership .mem-next .mem-step div.tobe_lv-07 .speech {
+    right: 13%;
+  }
+  
+  section.mypage .membership .mem-next .mem-step div.tobe_lv-08 .speech {
+    right: -6%;
+  }
+  
