@@ -17,3 +17,7 @@
   cursor: pointer;
   margin-right: 15px;
 }
+.MuiDataGrid-root .MuiDataGrid-columnHeader:focus,
+.MuiDataGrid-root .MuiDataGrid-cell:focus {
+  outline: none !important;
+}

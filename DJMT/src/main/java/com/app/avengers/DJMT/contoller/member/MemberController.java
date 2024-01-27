@@ -2,6 +2,7 @@ package com.app.avengers.DJMT.contoller.member;
 
 import com.app.avengers.DJMT.config.jwt.JwtTokenProvider;
 import com.app.avengers.DJMT.constants.Constants;
+import com.app.avengers.DJMT.dto.login.LoginHistoryDto;
 import com.app.avengers.DJMT.dto.member.MemberDto;
 import com.app.avengers.DJMT.dto.member.MemberResponseDto;
 import com.app.avengers.DJMT.dto.token.TokenDto;
@@ -46,6 +47,8 @@ public class MemberController {
             // validation start
             memberDto = memberService.loginCheck(memberDto);
             if(memberDto.getValid().equals(Constants.COMMON_CONSTANTS_Y) && memberDto.getMem_status().equals(Constants.MEMBER_STATUS_1)){
+                // login history update
+
                 // 패스워드 체크 성공 , status = 1인 사용자 토큰 및 데이터 클라이언트로 전송
                 TokenDto tokenDto = jwtTokenProvider.createAccessToken(memberDto.getMem_no(),memberDto.getRole());
                 jwtService.login(tokenDto);
@@ -66,10 +69,10 @@ public class MemberController {
      * 2023-12-23   by  taejin       
      */
     @PostMapping("/join")
-    public ResponseEntity<?> join(@RequestBody MemberDto memberDto){
+    public ResponseEntity<?> join(@RequestBody MemberDto memberDto, LoginHistoryDto loginHistoryDto){
         String result = "Success";
         try {
-            memberService.memberSave(memberDto);
+            memberService.memberSave(memberDto, loginHistoryDto);
             log.info(("회원가입 성공 " + memberDto.getLogin_id()));
             return new ResponseEntity<>(result, HttpStatus.OK);
         }catch (DuplicateKeyException e){
@@ -80,7 +83,7 @@ public class MemberController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @PostMapping("/myPage")
+    @PostMapping("/member/myPage")
     public ResponseEntity<?> myPage(@RequestBody Map<String,String> map){
         try {
             MemberDto memberDto = memberService.getMemberInfoByMemNo(map.get("mem_no"));
@@ -98,6 +101,7 @@ public class MemberController {
     public ResponseEntity<?> editMemberInfo(@RequestBody MemberDto memberDto){
         try{
             memberService.editMemberInfo(memberDto);
+            log.info("editMemberInfo >> " + memberDto.getEtc_param1());
             log.info("editMemberInfo >> 회원정보 수정! "+ memberDto.getMem_name());
             return new ResponseEntity<>(Constants.RESPONSE_SUCCESS,HttpStatus.OK);
         }catch (Exception e){
@@ -113,9 +117,9 @@ public class MemberController {
     }
 
     @PostMapping("/admin/deleteMember")
-    public ResponseEntity<?> deleteMember() {
-        List<MemberDto> memberList = memberService.selectMemberList();
-        return new ResponseEntity<>(memberList,HttpStatus.OK);
+    public ResponseEntity<?> deleteMember(@RequestBody HashMap<String, String> map) {
+
+        return new ResponseEntity<>(memberService.adminDeleteMember(map.get("mem_no")),HttpStatus.OK);
     }
     @GetMapping("/getTest")
     public String getTest(){

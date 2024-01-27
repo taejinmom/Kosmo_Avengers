@@ -1,6 +1,7 @@
 package com.app.avengers.DJMT.service.member;
 
 import com.app.avengers.DJMT.constants.Constants;
+import com.app.avengers.DJMT.dto.login.LoginHistoryDto;
 import com.app.avengers.DJMT.dto.member.MemberDto;
 import com.app.avengers.DJMT.mapper.member.MemberMapper;
 import com.app.avengers.DJMT.mgr.member.MemberMgr;
@@ -61,9 +62,11 @@ public class MemberService implements MemberRepository {
      * 2023-12-22   by  taejin
      */
     @Override
-    public void memberSave(MemberDto memberDto) {
+    public void memberSave(MemberDto memberDto , LoginHistoryDto loginHistoryDto) {
         // memberDto 만들기 - uuid, 패스워드 인코딩, 가입날짜.. 등등  추가할 예정
-        memberMapper.memberSave(memberMgr.makeMemberDto(memberDto));
+        // loginHistoryDto 만들기
+        memberMapper.memberSave(memberMgr.makeMemberDto(memberDto, loginHistoryDto));
+        memberMapper.addLoginHistory(loginHistoryDto);
     }
 
     /**
@@ -79,8 +82,20 @@ public class MemberService implements MemberRepository {
         memberMapper.editMemberInfo(memberDto);
     }
 
+    /**
+     * description    : 관리자 페이지 - 사용자 리스트 출력
+     * 2024-01-25   by  taejin
+     */
     public List<MemberDto> selectMemberList() {
         return memberMapper.selectMemberList();
+    }
+
+    /**
+     * description    :  관리자 페이지 - 사용자 삭제(* 단건 *)
+     * 2024-01-25   by  taejin       
+     */
+    public int adminDeleteMember(String mem_no) {
+        return memberMapper.adminDeleteMember(mem_no);
     }
     /**
      * description    : 사용자 더미 데이터 삭제(초기 개발시에만 사용)

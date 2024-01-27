@@ -1,21 +1,14 @@
-import React, { Children, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 import {
   Avatar,
   Button,
   CssBaseline,
-  TextField,
   FormControl,
-  FormControlLabel,
-  Checkbox,
-  FormHelperText,
-  Grid,
   Box,
   Typography,
   Container,
-  Radio,
-  FormLabel,
-  RadioGroup,
+  Grid,
 } from '@mui/material/'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import { useLocation, useNavigate } from 'react-router-dom'
@@ -30,16 +23,23 @@ import IdInput from '../inputForm/IdInput'
 import PwInput from '../inputForm/PwInput'
 import NameInput from '../inputForm/NameInput'
 import RemainingInput from '../inputForm/RemainingInput'
+import { useRecoilValue } from 'recoil'
+import { isLogin, memberKeyAtom } from '../../atom/LoginAtom'
 import { adminEdit } from '../../atom/AdminAtom'
 
 const MyPage = props => {
-  const { memberKey, isLoginCheck } = props
+  const {confirm} = props
+  const location = useLocation()
+  const memberKey = useRecoilValue(memberKeyAtom)
+  const isLoginCheck = useRecoilValue(isLogin)
   const theme = createTheme()
   const navigate = useNavigate()
   const [myPageData, setMyPageData] = useState({})
   const address = useRef() // 주소 input 값
-  const location = useLocation()
-  const [pwChangeChk, setPwChangeChk] = useState(false)
+  const [change, setChange] = useState(true)
+
+  
+
   useEffect(() => {
     if (!isLoginCheck) {
       navigate('/')
@@ -49,7 +49,6 @@ const MyPage = props => {
         setMyPageData({
           ...res,
           chg_id: memberKey,
-          etc_param1: pwChangeChk,
         })
       })
     } else {
@@ -57,7 +56,6 @@ const MyPage = props => {
         setMyPageData({
           ...res,
           chg_id: memberKey,
-          etc_param1: pwChangeChk,
         })
       )
     }
@@ -73,6 +71,7 @@ const MyPage = props => {
   // form 전송 - 수정
   const handleSubmit = e => {
     e.preventDefault()
+
     editMyPageHandler(myPageData)
     if (adminEdit) {
       navigate('/member', {
@@ -83,7 +82,6 @@ const MyPage = props => {
     } else {
       navigate('/')
     }
-    // window.location.reload()
   }
   // 홈으로
   const handleRedirect = e => {
@@ -96,9 +94,7 @@ const MyPage = props => {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Container>
-          <Box
-            maxWidth="sm"
-            sx={{
+          <Box maxWidth="sm" sx={{
               marginTop: 2,
               display: 'flex',
               flexDirection: 'row',
@@ -109,72 +105,26 @@ const MyPage = props => {
             <Typography component="h1" variant="h5"></Typography>
           </Box>
         </Container>
-        <Box
-          maxWidth="sm"
-          sx={{
-            marginTop: 2,
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-          }}
-        >
+        <Box maxWidth="sm" sx={{ marginTop: 2, display: 'flex', flexDirection: 'row', alignItems: 'center', }} >
           <Box component="form" noValidate sx={{ mt: 3 }}>
             <FormControl component="fieldset" variant="standard">
               <Grid container item xs={12}>
-                <IdInput
-                  data={myPageData}
-                  setData={setMyPageData}
-                  isLoginCheck={isLoginCheck}
-                />
-                <PwInput
-                  data={myPageData}
-                  setData={setMyPageData}
-                  isLoginCheck={isLoginCheck}
-                  setPwChangeChk={setPwChangeChk}
-                />
-                <NameInput
-                  data={myPageData}
-                  setData={setMyPageData}
-                  isLoginCheck={isLoginCheck}
-                />
+                <IdInput data={myPageData} setData={setMyPageData} isLoginCheck={isLoginCheck} />
+                <PwInput data={myPageData} setData={setMyPageData} isLoginCheck={isLoginCheck} change={change} setChange={setChange} confirm={confirm}/>
+                <NameInput data={myPageData} setData={setMyPageData} isLoginCheck={isLoginCheck} getData />
 
-                <JoinAddrInput
-                  popup={popup}
-                  address={address}
-                  inputHandler={inputHandler}
-                  data={myPageData}
-                  setData={setMyPageData}
-                  handleComplete={handleComplete}
-                />
+                <JoinAddrInput popup={popup} address={address}  inputHandler={inputHandler} data={myPageData} setData={setMyPageData} handleComplete={handleComplete} /> 
                 <RemainingInput data={myPageData} setData={setMyPageData} />
-                <JoinRadioArea
-                  inputHandler={inputHandler}
-                  data={myPageData}
-                  setData={setMyPageData}
-                />
-
+                <JoinRadioArea inputHandler={inputHandler} data={myPageData} setData={setMyPageData} />
                 {/* 버튼 */}
-
                 <Grid item xs={12}>
                   <Grid item xs={12}>
-                    <Button
-                      type="submit"
-                      variant="contained"
-                      sx={{ mt: 2, mb: 2, mr: 3 }}
-                      size="large"
-                      onClick={e => {
-                        handleSubmit(e)
-                      }}
-                    >
+                    <Button type="submit"  ariant="contained" 
+                    sx={{ mt: 2, mb: 2, mr: 3 }} size="large" onClick={e => { handleSubmit(e) }} >
                       수정
                     </Button>
-                    <Button
-                      type="submit"
-                      variant="contained"
-                      sx={{ mt: 2, mb: 2 }}
-                      size="large"
-                      onClick={e => handleRedirect(e)}
-                    >
+                    <Button type="submit" variant="contained" 
+                      sx={{ mt: 2, mb: 2 }} size="large" onClick={e => handleRedirect(e)} >
                       홈으로
                     </Button>
                   </Grid>

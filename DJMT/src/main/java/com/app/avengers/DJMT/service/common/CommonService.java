@@ -37,7 +37,7 @@ public class CommonService {
     public String makeUUID(String category){
         return category.concat(UUID.randomUUID().toString().replaceAll("-",""));
     }
-    public String generateUUID(String catId) {
+    public String generateUUID(String systemId) {
         UUID uuid;
         // RFC 4122 variant 2, version 1 방식으로 생성된 UUID를 반환
 //        TimeBasedGenerator uuidV1Generator = Generators.timeBasedGenerator(EthernetAddress.fromInterface());
@@ -50,8 +50,9 @@ public class CommonService {
         uuidBytes.putLong(uuid.getMostSignificantBits());
         uuidBytes.putLong(uuid.getLeastSignificantBits());
 
-        return catId.concat(encodeBase64URLSafeString(uuidBytes.array()).toLowerCase().replaceAll("[@$^]",""));
+        return systemId.concat(Generators.timeBasedGenerator().generate().toString().replaceAll("-", "").toUpperCase());
     }
+
     public String passwordEncoded(String password) {
         return passwordEncoder.encode(password);
     }

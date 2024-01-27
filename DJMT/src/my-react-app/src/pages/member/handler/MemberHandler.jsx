@@ -1,6 +1,7 @@
 import { useCookies } from 'react-cookie'
 import request from '../../../api/core'
 import { useNavigate } from 'react-router-dom'
+import { Confirm } from '../../../api/alert/Confirm'
 
 export const memberAxiosApi = async (apiUrl, httpMethod, data, navigate) => {
   let res
@@ -20,6 +21,7 @@ export const validateToken = async (
   memberKey,
   navigate
 ) => {
+  
   // 로그인을 안했을 때, 토큰은 없기때문에 한번 체크
   if (cookie.jwtToken === undefined) {
     isLoginCheck(false)
@@ -45,8 +47,8 @@ export const validateToken = async (
           removeCookie('jwtToken')
           removeCookie('refreshToken')
           isLoginCheck(false)
-          alert('서버 연결이 끊어졌습니다.')
-          navigate('/')
+
+          window.location.reload()
         })
     })
 }
@@ -130,12 +132,12 @@ export const loginHandler = async (
 }
 // mypage 데이터 불러오기
 export const myPageHandler = async memberKey => {
-  return memberAxiosApi('myPage', 'post', {
+  return memberAxiosApi('member/myPage', 'post', {
     mem_no: memberKey,
   })
 }
 // 수정하기
 export const editMyPageHandler = async data => {
   console.log('수정 mem_no 값!! > > ', data)
-  return memberAxiosApi('editMemberInfo', 'post', data)
+  return memberAxiosApi('member/editMemberInfo', 'post', data)
 }

@@ -47,7 +47,11 @@ const Login = props => {
   // 홈으로
   const handleJoin = e => {
     e.preventDefault()
-    navigate('/join')
+    navigate('/member', {
+      state: {
+        title: 'Join',
+      },
+    })
   }
 
   //   const onError = error => {
