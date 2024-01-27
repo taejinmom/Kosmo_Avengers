@@ -29,6 +29,16 @@ const Header = props => {
         <div className="submenu">
           <div className="inner">
             <ul>
+              <li>
+                <Link
+                  to={'/notice'}
+                  state={{
+                    title: 'Notice',
+                  }}
+                >
+                  Notice
+                </Link>
+              </li>
               {/* 태진 S */}
               {!isLoginCheck ? (
                 <>
@@ -81,16 +91,7 @@ const Header = props => {
                       마이 페이지
                     </Link>
                   </li>
-                  <li>
-                      <Link
-                        to={'/notice'}
-                        state={{
-                          title: 'Notice',
-                        }}
-                      >
-                        Notice
-                      </Link>
-                    </li>
+                  
                   <li>
                     <a
                       href="/"
