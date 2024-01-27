@@ -37,7 +37,7 @@ spring :
 mybatis:
   type-aliases-package: com.app.avengers.DJMT.dto
 #  configuration:
-#    map-underscore-to-camel-case: true loginId
+#    map-underscore-to-camel-case: true
 socket:
   port: 3000
 
