@@ -138,6 +138,5 @@ export const myPageHandler = async memberKey => {
 }
 // 수정하기
 export const editMyPageHandler = async data => {
-  console.log('수정 mem_no 값!! > > ', data)
   return memberAxiosApi('member/editMemberInfo', 'post', data)
 }

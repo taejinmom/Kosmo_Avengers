@@ -97,7 +97,7 @@ public class MemberController {
      * description    : 회원정보 수정
      * 2024-01-13   by  taejin       
      */
-    @PostMapping("/editMemberInfo")
+    @PostMapping("/member/editMemberInfo")
     public ResponseEntity<?> editMemberInfo(@RequestBody MemberDto memberDto){
         try{
             memberService.editMemberInfo(memberDto);
