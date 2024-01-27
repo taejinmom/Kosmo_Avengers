@@ -19,6 +19,11 @@ public class ProductService  {
         List<ProductDto> list = mapper.getProduct();
         return list;
     }
+    public ProductDto getProductDetail(int pdct_no) {
+        ProductDto dto = mapper.getProductDetail(pdct_no);
+        log.debug("dto :: ",dto);
+        return dto;
+    }
 
 
 }
