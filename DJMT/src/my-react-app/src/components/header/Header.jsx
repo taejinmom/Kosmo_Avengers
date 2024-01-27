@@ -112,9 +112,7 @@ const Header = props => {
         </div>
         <div className="gnb">
           <div className="inner">
-            <div className="logo">
-              <Link to={'/'}>SHOPPING MALL</Link>
-            </div>
+            <div className="logo"><Link to={'/'}>DJMT(Day of Joy, Miracle Time)</Link></div>
             <ul className="menu">
               <li>
                 <Link to={'/productList'}>여성</Link>
