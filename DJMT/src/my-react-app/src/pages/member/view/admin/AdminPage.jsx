@@ -9,6 +9,7 @@ import { DataGrid } from '@mui/x-data-grid'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { adminEditKeyAtom } from '../../atom/AdminAtom'
 import request from '../../../../api/core'
+import { isLogin, memberRoleAtom } from '../../atom/LoginAtom'
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props
 
@@ -52,7 +53,6 @@ export function BasicTabs(props) {
   const handleChange = (event, newValue) => {
     setValue(newValue)
   }
-  console.log(selectionModel)
   return (
     <>
       <Box sx={{ width: '100%' }}>
@@ -94,10 +94,13 @@ export function BasicTabs(props) {
 }
 
 const AdminPage = props => {
-  const { isLoginCheck, isAdminCheck } = props
+  const {confirm} = props
+  const isLoginCheck = useRecoilValue(isLogin)
+  const isAdminCheck = useRecoilValue(memberRoleAtom)
   const selectionModel = useRecoilValue(adminEditKeyAtom)
   const navigate = useNavigate()
   const [memberList, setMemberList] = useState([])
+  
   const editAdminHandler = e => {
     navigate('/member', {
       state: {
@@ -108,9 +111,9 @@ const AdminPage = props => {
     })
   }
 
-  const deleteAdminHandler = async e => {
-    request.post('/admin/deleteMember', { mem_no: selectionModel[0] })
-    console.log(e)
+  const deleteAdminHandler = () => {
+    request.post('/admin/deleteMember', { mem_no: selectionModel[0] });
+    window.location.reload();
   }
 
   useEffect(() => {
@@ -120,7 +123,11 @@ const AdminPage = props => {
         'get',
         null,
         navigate
-      )
+      ).catch(error => {
+        if(error.response.status ==='403'){
+          navigate('/')
+        }
+      })
       const getData = async () => {
         await promise.then(data => {
           setMemberList(data)
@@ -169,17 +176,20 @@ const AdminPage = props => {
       headerName: 'Action',
       width: 150,
       renderCell: params => {
+        console.log('파람 >>> ',params )
         return (
           <>
             {params.id === selectionModel[0] ? (
               <>
+              
                 <button onClick={editAdminHandler} className="userListEdit">
                   Edit
                 </button>
-                <DeleteOutline
-                  onClick={deleteAdminHandler}
-                  className="userListDelete"
-                />
+                <button
+                  onClick={e=> confirm('사용자를 삭제하시겠습니까?',deleteAdminHandler)}
+                  className="userListEdit"
+                  disabled={params.row.role === 'ADMIN'? true : false}
+                >Del</button>
               </>
             ) : (
               ''

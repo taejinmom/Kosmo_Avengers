@@ -1,5 +1,6 @@
 package com.app.avengers.DJMT.mapper.member;
 
+import com.app.avengers.DJMT.dto.login.LoginHistoryDto;
 import com.app.avengers.DJMT.dto.member.MemberDto;
 import com.app.avengers.DJMT.dto.member.MemberResponseDto;
 import org.apache.ibatis.annotations.Mapper;
@@ -17,5 +18,8 @@ public interface MemberMapper {
     public MemberDto getMemberInfoByMemNo(String mem_no);
     public void editMemberInfo(MemberDto memberDto);
     public List<MemberDto> selectMemberList();
+    public int adminDeleteMember(String mem_no);
+    public int addLoginHistory(LoginHistoryDto loginHistoryDto);
+    public int updateLoginHistory(LoginHistoryDto loginHistoryDto);
     public void start();
 }

@@ -49,18 +49,21 @@
     </select>
 <!--    마이페이지 수정 -->
     <update id="editMemberInfo" parameterType="com.app.avengers.DJMT.dto.member.MemberDto" >
-        update member set
-        login_id = #{login_id}
-        <if test="etc_param1 = 'true'">
-            ,login_pw = #{login_pw}
-        </if>
-        ,mem_name = #{mem_name}
-        ,mem_gen = #{mem_gen}
-        ,mem_addr1 = #{mem_addr1}
-        ,mem_addr2 = #{mem_addr2}
-        ,chg_date = #{chg_date}
-        ,chg_id = #{chg_id}
-        where mem_no = #{mem_no}
+        update member
+        <trim prefix="SET" suffixOverrides=",">
+            login_id = #{login_id},
+            <!-- 패스워드를 수정하지 않았으면 false값임 (암호화 되어있기 때문에 수정하지 않으면 변경 x)          -->
+            <if test="etc_param1 == 'true'">
+                login_pw = #{login_pw},
+            </if>
+            mem_name = #{mem_name},
+            mem_gen = #{mem_gen},
+            mem_addr1 = #{mem_addr1},
+            mem_addr2 = #{mem_addr2},
+            chg_date = #{chg_date},
+            chg_id = #{chg_id}
+            where mem_no = #{mem_no}
+        </trim>
         /* com\app\avengers\DJMT\mapper\member\MemberMapper.xml - editMemberInfo */
     </update>
 <!--    관리자페이지 - 사용자 리스트 -->
@@ -72,4 +75,29 @@
         ) tbl
         /* com\app\avengers\DJMT\mapper\member\MemberMapper.xml - selectMemberList */
     </select>
+<!--    관리자페이지 - 사용자 삭제 -->
+    <delete id="adminDeleteMember" parameterType="String">
+        delete from member
+        where mem_no = #{mem_no}
+        /* com\app\avengers\DJMT\mapper\member\MemberMapper.xml - adminDeleteMember */
+    </delete>
+<!--    사용자 login history-->
+    <insert id="addLoginHistory" parameterType="com.app.avengers.DJMT.dto.login.LoginHistoryDto">
+        insert into mem_hist
+        (mem_hist_no, mem_no, reg_id, login_date, logout_date)
+        values
+        (#{mem_hist_no}, #{mem_no}, #{reg_id}, #{login_date}, #{logout_date})
+        /* com\app\avengers\DJMT\mapper\member\MemberMapper.xml - addLoginHistory */
+    </insert>
+<!--    사용자 login 시 history update-->
+    <update id="updateLoginHistory" parameterType="com.app.avengers.DJMT.dto.login.LoginHistoryDto">
+        update mem_hist
+        <trim prefix="set">
+            <if test="status == '1' ">
+                login_date = #{login_date}
+            </if>
+            logout_date = #{logout_date}
+            where mem_no = #{mem_no}
+        </trim>
+    </update>
 </mapper>

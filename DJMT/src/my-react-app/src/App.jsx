@@ -36,7 +36,7 @@ function App() {
   const memberKey = useRecoilValue(memberKeyAtom)
 
   useEffect(() => {
-    validateToken(cookies, setCookie, removeCookie, setIsLoginCheck, memberKey)
+    validateToken(cookies, setCookie, removeCookie, setIsLoginCheck, memberKey )
   }, [])
   return (
     <>
@@ -49,11 +49,7 @@ function App() {
             <Route
               path="/member"
               element={
-                <InitDiv
-                  isLoginCheck={isLoginCheck}
-                  isAdminCheck={isAdminCheck}
-                  memberKey={memberKey}
-                >
+                <InitDiv>
                   <Login />
                   <Join />
                   <MyPage />
