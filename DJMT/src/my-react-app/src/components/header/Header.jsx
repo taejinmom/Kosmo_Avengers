@@ -82,6 +82,16 @@ const Header = props => {
                     </Link>
                   </li>
                   <li>
+                      <Link
+                        to={'/notice'}
+                        state={{
+                          title: 'Notice',
+                        }}
+                      >
+                        Notice
+                      </Link>
+                    </li>
+                  <li>
                     <a
                       href="/"
                       onClick={e => {
