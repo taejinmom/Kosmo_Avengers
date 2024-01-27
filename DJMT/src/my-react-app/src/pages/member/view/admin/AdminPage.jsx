@@ -176,7 +176,6 @@ const AdminPage = props => {
       headerName: 'Action',
       width: 150,
       renderCell: params => {
-        console.log('파람 >>> ',params )
         return (
           <>
             {params.id === selectionModel[0] ? (

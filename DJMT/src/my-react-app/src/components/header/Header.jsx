@@ -31,11 +31,7 @@ const Header = props => {
             <ul>
               <li>
                 <Link
-                  to={'/notice'}
-                  state={{
-                    title: 'Notice',
-                  }}
-                >
+                  to={'/notice'} state={{ title: 'Notice', }}>
                   Notice
                 </Link>
               </li>
@@ -44,21 +40,13 @@ const Header = props => {
                 <>
                   <li>
                     <Link
-                      to={'/member'}
-                      state={{
-                        title: 'Join',
-                      }}
-                    >
+                      to={'/member'} state={{title: 'Join', }}>
                       회원가입
                     </Link>
                   </li>
                   <li>
                     <Link
-                      to={'/member'}
-                      state={{
-                        title: 'Login',
-                      }}
-                    >
+                      to={'/member'} state={{title: 'Login',}}>
                       로그인
                     </Link>
                   </li>
@@ -68,35 +56,21 @@ const Header = props => {
                   {memberRole ? (
                     <>
                       <li>
-                        <Link
-                          to={'/member'}
-                          state={{
-                            title: 'AdminPage',
-                          }}
-                        >
+                        <Link to={'/member'} state={{title: 'AdminPage', }}>
                           관리자
                         </Link>
                       </li>
                     </>
                   ) : (
-                    ''
-                  )}
-                  <li>
-                    <Link
-                      to={'/member'}
-                      state={{
-                        title: 'MyPage',
-                      }}
-                    >
+                    <li>
+                    <Link to={'/member'} state={{title: 'MyPage',}}>
                       마이 페이지
                     </Link>
                   </li>
-                  
+                  )}
                   <li>
-                    <a
-                      href="/"
-                      onClick={e => {
-                        e.preventDefault()
+                    <a href="/" onClick={e => { 
+                      e.preventDefault()
                         logoutHandler(removeCookie, setIsLoginCheck)
                       }}
                     >
