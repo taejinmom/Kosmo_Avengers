@@ -48,7 +48,7 @@ public class MemberController {
             memberDto = memberService.loginCheck(memberDto);
             if(memberDto.getValid().equals(Constants.COMMON_CONSTANTS_Y) && memberDto.getMem_status().equals(Constants.MEMBER_STATUS_1)){
                 // login history update
-
+                memberService.recordLoginHistory(memberDto.getHistoryDto(),Constants.COMMON_CONSTANTS_Y);
                 // 패스워드 체크 성공 , status = 1인 사용자 토큰 및 데이터 클라이언트로 전송
                 TokenDto tokenDto = jwtTokenProvider.createAccessToken(memberDto.getMem_no(),memberDto.getRole());
                 jwtService.login(tokenDto);
@@ -109,18 +109,36 @@ public class MemberController {
             return new ResponseEntity<>(Constants.RESPONSE_SUCCESS,HttpStatus.OK);
         }
     }
-
+    /**
+     * description    : 관리자페이지 - 사용자 리스트 출력
+     * 2024-01-27   by  taejin
+     */
     @GetMapping("/admin/selectMemberList")
     public ResponseEntity<?> selectMemberList() {
         List<MemberDto> memberList = memberService.selectMemberList();
         return new ResponseEntity<>(memberList,HttpStatus.OK);
     }
 
+    /**
+     * description    : 관리자페이지 - 사용자 삭제(단건)
+     * 2024-01-27   by  taejin
+     */
     @PostMapping("/admin/deleteMember")
     public ResponseEntity<?> deleteMember(@RequestBody HashMap<String, String> map) {
-
         return new ResponseEntity<>(memberService.adminDeleteMember(map.get("mem_no")),HttpStatus.OK);
     }
+
+    /**
+     * description    : update logout history 
+     * 2024-01-27   by  taejin       
+     */
+    @PostMapping("/logout")
+    public ResponseEntity<?> logoutHandler(@RequestBody MemberDto memberDto){
+        memberService.recordLoginHistory(memberDto.getHistoryDto(),Constants.COMMON_CONSTANTS_N);
+        log.info("logout!!!");
+        return new ResponseEntity<>(Constants.RESPONSE_SUCCESS, HttpStatus.OK);
+    }
+
     @GetMapping("/getTest")
     public String getTest(){
         return "OK";

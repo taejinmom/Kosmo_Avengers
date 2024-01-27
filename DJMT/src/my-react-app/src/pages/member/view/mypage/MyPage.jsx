@@ -94,17 +94,12 @@ const MyPage = props => {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Container>
-          <Box maxWidth="sm" sx={{
-              marginTop: 2,
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-            }}
-          >
+          <Box maxWidth="sm" sx={{marginTop: 2, display: 'flex', flexDirection: 'row', alignItems: 'center', }}>
             <Avatar sx={{ mt: 2, bgcolor: 'secondary.main' }} />
             <Typography component="h1" variant="h5"></Typography>
           </Box>
         </Container>
+        
         <Box maxWidth="sm" sx={{ marginTop: 2, display: 'flex', flexDirection: 'row', alignItems: 'center', }} >
           <Box component="form" noValidate sx={{ mt: 3 }}>
             <FormControl component="fieldset" variant="standard">
@@ -116,15 +111,14 @@ const MyPage = props => {
                 <JoinAddrInput popup={popup} address={address}  inputHandler={inputHandler} data={myPageData} setData={setMyPageData} handleComplete={handleComplete} /> 
                 <RemainingInput data={myPageData} setData={setMyPageData} />
                 <JoinRadioArea inputHandler={inputHandler} data={myPageData} setData={setMyPageData} />
+                
                 {/* 버튼 */}
                 <Grid item xs={12}>
                   <Grid item xs={12}>
-                    <Button type="submit"  ariant="contained" 
-                    sx={{ mt: 2, mb: 2, mr: 3 }} size="large" onClick={e => { handleSubmit(e) }} >
+                    <Button type="submit"  ariant="contained" sx={{ mt: 2, mb: 2, mr: 3 }} size="large" onClick={e => { handleSubmit(e) }} >
                       수정
                     </Button>
-                    <Button type="submit" variant="contained" 
-                      sx={{ mt: 2, mb: 2 }} size="large" onClick={e => handleRedirect(e)} >
+                    <Button type="submit" variant="contained" sx={{ mt: 2, mb: 2 }} size="large" onClick={e => handleRedirect(e)} >
                       홈으로
                     </Button>
                   </Grid>

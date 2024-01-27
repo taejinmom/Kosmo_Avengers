@@ -2,6 +2,7 @@ package com.app.avengers.DJMT.dto.member;
 
 
 import com.app.avengers.DJMT.dto.auth.RoleDto;
+import com.app.avengers.DJMT.dto.login.LoginHistoryDto;
 import lombok.*;
 
 import java.util.Map;
@@ -33,11 +34,12 @@ public class MemberDto {
     private String etc_param4;
     private String etc_param5;
     private String valid = "N";
+    private LoginHistoryDto loginHistoryDto;
 
-    public void toDto(Map<String ,String> map){
-        map.forEach((key, value)->{
-            
-        });
+    public LoginHistoryDto getHistoryDto(){
+        this.loginHistoryDto = new LoginHistoryDto();
+        loginHistoryDto.setMem_no(this.getMem_no());
+        loginHistoryDto.setReg_id(this.getMem_no());
+        return loginHistoryDto;
     }
-
 }

@@ -18,10 +18,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class LoginHistoryDto {
-    private String mem_hist_no;
     private String mem_no;
     private String reg_id;
     private String login_date;
     private String logout_date;
+    private String current_date;
+    private String status;
 
 }

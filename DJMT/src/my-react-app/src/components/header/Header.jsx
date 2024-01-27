@@ -71,7 +71,7 @@ const Header = props => {
                   <li>
                     <a href="/" onClick={e => { 
                       e.preventDefault()
-                        logoutHandler(removeCookie, setIsLoginCheck)
+                        logoutHandler(removeCookie, setIsLoginCheck, memberKey)
                       }}
                     >
                       로그아웃

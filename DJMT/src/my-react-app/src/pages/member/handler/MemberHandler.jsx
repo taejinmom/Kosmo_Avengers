@@ -44,10 +44,11 @@ export const validateToken = async (
         })
         .catch(error => {
           console.log('refreshToken 만료.. 토큰 삭제!')
+          memberAxiosApi('logout','post' ,{mem_no : memberKey})
           removeCookie('jwtToken')
           removeCookie('refreshToken')
           isLoginCheck(false)
-
+          
           window.location.reload()
         })
     })
@@ -96,8 +97,9 @@ export const joinSubmitHandler = (joinData, navigate) => {
   })
 }
 // 로그아웃 handler
-export const logoutHandler = (removeCookie, isLoginCheck) => {
+export const logoutHandler = (removeCookie, isLoginCheck, memberKey ) => {
   console.log('logout!')
+  memberAxiosApi('logout','post' ,{mem_no : memberKey})
   removeCookie('jwtToken')
   removeCookie('refreshToken')
   isLoginCheck(false)

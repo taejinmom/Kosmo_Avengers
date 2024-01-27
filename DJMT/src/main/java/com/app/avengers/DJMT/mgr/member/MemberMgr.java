@@ -52,7 +52,6 @@ public class MemberMgr {
         memberDto.setChg_date(currentDate());
 
         loginHistoryDto.setMem_no(memberDto.getMem_no());
-        loginHistoryDto.setMem_hist_no(history_no);
         loginHistoryDto.setReg_id(memberDto.getMem_no());
         loginHistoryDto.setLogin_date("");
         loginHistoryDto.setLogout_date("");

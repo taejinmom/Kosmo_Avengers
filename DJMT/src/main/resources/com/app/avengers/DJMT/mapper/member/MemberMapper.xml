@@ -22,6 +22,7 @@
         and login_id = #{login_id}
         /* com\app\avengers\DJMT\mapper\member\MemberMapper.xml - loginCheckPw */
     </select>
+
     <!-- ID로 memberDto select -->
     <select id="getMemberInfoByLoginId" parameterType="String" resultType="com.app.avengers.DJMT.dto.member.MemberDto">
         select
@@ -31,22 +32,26 @@
         and login_id = #{login_id}
         /* com\app\avengers\DJMT\mapper\member\MemberMapper.xml -  getMemberInfoByLoginId */
     </select>
+
     <!-- 회원가입 -->
     <insert id="memberSave" parameterType="com.app.avengers.DJMT.dto.member.MemberDto">
         insert into MEMBER(mem_no,login_id,login_pw,mem_name,mem_gen,mem_addr1,mem_addr2,role,mem_status,reg_id,reg_date,chg_id,chg_date)
         values (#{mem_no}, #{login_id}, #{login_pw}, #{mem_name},#{mem_gen},#{mem_addr1},#{mem_addr2}, #{role}, #{mem_status}, #{reg_id}, #{reg_date}, #{chg_id}, #{chg_date})
         /* com\app\avengers\DJMT\mapper\member\MemberMapper.xml - memberSave */
     </insert>
+
     <delete id="start">
         delete from MEMBER
         /* com\app\avengers\DJMT\mapper\member\MemberMapper.xml - start */
     </delete>
+
     <select id="getMemberInfoByMemNo" resultType="com.app.avengers.DJMT.dto.member.MemberDto">
         select * from
         member
         where mem_no = #{mem_no}
         /* com\app\avengers\DJMT\mapper\member\MemberMapper.xml - getMemberInfoByMemNo */
     </select>
+
 <!--    마이페이지 수정 -->
     <update id="editMemberInfo" parameterType="com.app.avengers.DJMT.dto.member.MemberDto" >
         update member
@@ -66,38 +71,50 @@
         </trim>
         /* com\app\avengers\DJMT\mapper\member\MemberMapper.xml - editMemberInfo */
     </update>
+
 <!--    관리자페이지 - 사용자 리스트 -->
     <select id="selectMemberList" resultType="com.app.avengers.DJMT.dto.member.MemberDto">
         select row_number() over (order by tbl.reg_date desc) as rownum, tbl.*
         from (
         select mem_no, login_id, mem_name, mem_gen, mem_addr1, mem_addr2, role, reg_date, chg_date
         from member
+        WHERE 1=1
+        AND role != 'ADMIN'
         ) tbl
         /* com\app\avengers\DJMT\mapper\member\MemberMapper.xml - selectMemberList */
     </select>
+
 <!--    관리자페이지 - 사용자 삭제 -->
     <delete id="adminDeleteMember" parameterType="String">
         delete from member
         where mem_no = #{mem_no}
         /* com\app\avengers\DJMT\mapper\member\MemberMapper.xml - adminDeleteMember */
     </delete>
+
 <!--    사용자 login history-->
     <insert id="addLoginHistory" parameterType="com.app.avengers.DJMT.dto.login.LoginHistoryDto">
         insert into mem_hist
-        (mem_hist_no, mem_no, reg_id, login_date, logout_date)
+        (mem_no, reg_id, login_date, logout_date)
         values
-        (#{mem_hist_no}, #{mem_no}, #{reg_id}, #{login_date}, #{logout_date})
+        (#{mem_no}, #{reg_id}, #{login_date}, #{logout_date})
         /* com\app\avengers\DJMT\mapper\member\MemberMapper.xml - addLoginHistory */
     </insert>
+
 <!--    사용자 login 시 history update-->
     <update id="updateLoginHistory" parameterType="com.app.avengers.DJMT.dto.login.LoginHistoryDto">
         update mem_hist
         <trim prefix="set">
-            <if test="status == '1' ">
-                login_date = #{login_date}
-            </if>
-            logout_date = #{logout_date}
+            <choose>
+                <when test='status == "Y"'>
+                    login_date = #{current_date}
+                </when>
+                <otherwise>
+                    logout_date = #{current_date}
+                </otherwise>
+            </choose>
             where mem_no = #{mem_no}
         </trim>
+        /* com\app\avengers\DJMT\mapper\member\MemberMapper.xml - updateLoginHistory */
     </update>
+
 </mapper>

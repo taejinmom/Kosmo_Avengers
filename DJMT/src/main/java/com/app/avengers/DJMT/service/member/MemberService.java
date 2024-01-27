@@ -6,9 +6,11 @@ import com.app.avengers.DJMT.dto.member.MemberDto;
 import com.app.avengers.DJMT.mapper.member.MemberMapper;
 import com.app.avengers.DJMT.mgr.member.MemberMgr;
 import com.app.avengers.DJMT.repository.member.MemberRepository;
+import com.app.avengers.DJMT.service.common.CommonService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -61,6 +63,7 @@ public class MemberService implements MemberRepository {
      * description    : 회원가입
      * 2023-12-22   by  taejin
      */
+    @Transactional
     @Override
     public void memberSave(MemberDto memberDto , LoginHistoryDto loginHistoryDto) {
         // memberDto 만들기 - uuid, 패스워드 인코딩, 가입날짜.. 등등  추가할 예정
@@ -96,6 +99,15 @@ public class MemberService implements MemberRepository {
      */
     public int adminDeleteMember(String mem_no) {
         return memberMapper.adminDeleteMember(mem_no);
+    }
+    /**
+     * description    : update login history - status로 구분(login , logout)
+     * 2024-01-27   by  taejin       
+     */
+    public int recordLoginHistory(LoginHistoryDto loginHistoryDto,String status){
+        loginHistoryDto.setCurrent_date(memberMgr.currentDate());
+        loginHistoryDto.setStatus(status);
+        return memberMapper.updateLoginHistory(loginHistoryDto);
     }
     /**
      * description    : 사용자 더미 데이터 삭제(초기 개발시에만 사용)
