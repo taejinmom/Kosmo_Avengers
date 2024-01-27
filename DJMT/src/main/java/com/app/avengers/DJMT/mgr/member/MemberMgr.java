@@ -7,7 +7,6 @@ import com.app.avengers.DJMT.dto.member.MemberDto;
 import com.app.avengers.DJMT.service.common.CommonService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.el.stream.Optional;
 import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
@@ -31,8 +30,8 @@ public class MemberMgr {
      * 2023-12-22   by  taejin       
      */
     public MemberDto makeMemberDto(MemberDto memberDto){
-        //
-        String uid = commonService.makeUUID(Constants.MEMBER);
+        // 선언
+        String uid = commonService.generateUUID(Constants.MEMBER);
         String currentPassword = memberDto.getLogin_pw();
         String encodingPassword = commonService.passwordEncoded(currentPassword);
 
@@ -43,7 +42,6 @@ public class MemberMgr {
             memberDto.setRole(RoleDto.USER);
         }
         memberDto.setMem_status(Constants.MEMBER_STATUS_1);
-
         memberDto.setReg_id(uid);
         memberDto.setReg_date(currentDate());
         memberDto.setChg_id(uid);
@@ -59,5 +57,17 @@ public class MemberMgr {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
         return sdf.format(timestamp);
+    }
+    /**
+     * description    : 회원 정보 수정
+     * 2024-01-21   by  taejin       
+     */
+    public MemberDto editMemberInfo(MemberDto memberDto) {
+//        if(memberDto.getEtc_param1().equals("true")){
+            memberDto.setLogin_pw(commonService.passwordEncoded(memberDto.getLogin_pw()));
+//        }
+        memberDto.setChg_date(currentDate());
+        memberDto.setChg_id(memberDto.getChg_id());
+        return memberDto;
     }
 }

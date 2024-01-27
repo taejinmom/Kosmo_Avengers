@@ -1,6 +1,5 @@
 package com.app.avengers.DJMT.config.jwt;
 
-import com.app.avengers.DJMT.service.member.MemberService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
@@ -25,18 +24,13 @@ import java.util.Optional;
 public class JwtAuthenticationFilter extends GenericFilterBean {
 
     private final JwtTokenProvider jwtTokenProvider;
-    private final MemberService memberService;
 
-    // http 요청을 여기서 먼저 체크
+    /**
+     * description    : http 요청을 여기서 먼저 체크 (Cookies 에서 토큰 제어)
+     * 2024-01-06   by  taejin
+     */
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        // 헤더에서 JWT 를 받아옴 -> 헤더에서 계속 못받아오는 중.. react에서 넘길 때 값이 안오는 듯.. 우선 cookie로 대체
-        String rToken = jwtTokenProvider.resolveToken((HttpServletRequest) request);
-        String token = jwtTokenProvider.resolveToken((HttpServletRequest) request);
-        log.info("token >>>> " + token);
-
-        // 권한 permitAll 했는데.. 계속 체크해서 우선 추가해둠
-
         if(Optional.ofNullable(((HttpServletRequest) request).getCookies()).toString().equals("Optional.empty") ){
             chain.doFilter(request, response);
             return;
@@ -51,19 +45,21 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
         }
 
         if (jwtTokenProvider.validateToken(cookie.getValue())) {
-            Authentication authentication = jwtTokenProvider.getAuthentication(cookie.getValue());
-            // SecurityContext 에 Authentication 객체를 저장합니다.
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+            // 토큰에서 member 객체 추출 후 인증절차 진행
+            try {
+                Authentication authentication = jwtTokenProvider.getAuthentication(cookie.getValue());
+                log.info("JwtAuthenticationFilter - validateToken accessToken 검증 성공");
+                // SecurityContext 에 Authentication 객체를 저장
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+                chain.doFilter(request, response);
+            }catch (Exception e){
+                log.error(e.getMessage());
+                log.info("JwtAuthenticationFilter - doFilter accessToken 검증 실패");
+//                chain.doFilter(request, response);
+            }
+
+        }else{
             chain.doFilter(request, response);
         }
-        chain.doFilter(request, response);
-        // 발급받은 jwtToken이 유효한 토큰인지 확인
-//        if (cookie != null && jwtTokenProvider.validateToken(cookie.getValue())) {
-//            // 토큰이 유효하면 토큰으로부터 유저 정보를 받아옵니다.
-//            Authentication authentication = jwtTokenProvider.getAuthentication(cookie.getValue());
-//            // SecurityContext 에 Authentication 객체를 저장합니다.
-//            SecurityContextHolder.getContext().setAuthentication(authentication);
-//        }
-//        chain.doFilter(request, response);
     }
 }

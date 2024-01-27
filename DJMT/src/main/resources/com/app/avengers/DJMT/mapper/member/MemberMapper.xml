@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?> <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.app.avengers.DJMT.mapper.member.MemberMapper">
+    <!-- 토큰에서  값가져오기   -->
+    <select id="ValidateTokenByMemNo" parameterType="String" resultType="com.app.avengers.DJMT.dto.member.MemberDto">
+        SELECT
+        *
+        FROM
+        MEMBER
+        WHERE 1=1
+        AND mem_no = #{mem_no}
+        /* com\app\avengers\DJMT\mapper\member\MemberMapper.xml - ValidateTokenByMemNo */
+    </select>
+
+    <!-- 로그인 시 ID로 PW select -->
+    <select id="loginCheckPw" parameterType="String" resultType="String">
+     select
+            login_pw
+        from MEMBER
+        where 1 = 1
+        and login_id = #{login_id}
+        /* com\app\avengers\DJMT\mapper\member\MemberMapper.xml - loginCheckPw */
+    </select>
+    <!-- ID로 memberDto select -->
+    <select id="getMemberInfoByLoginId" parameterType="String" resultType="com.app.avengers.DJMT.dto.member.MemberDto">
+        select
+            *
+        from MEMBER
+        where 1 = 1
+        and login_id = #{login_id}
+        /* com\app\avengers\DJMT\mapper\member\MemberMapper.xml -  getMemberInfoByLoginId */
+    </select>
+    <!-- 회원가입 -->
+    <insert id="memberSave" parameterType="com.app.avengers.DJMT.dto.member.MemberDto">
+        insert into MEMBER(mem_no,login_id,login_pw,mem_name,mem_gen,mem_addr1,mem_addr2,role,mem_status,reg_id,reg_date,chg_id,chg_date)
+        values (#{mem_no}, #{login_id}, #{login_pw}, #{mem_name},#{mem_gen},#{mem_addr1},#{mem_addr2}, #{role}, #{mem_status}, #{reg_id}, #{reg_date}, #{chg_id}, #{chg_date})
+        /* com\app\avengers\DJMT\mapper\member\MemberMapper.xml - memberSave */
+    </insert>
+    <delete id="start">
+        delete from MEMBER
+        /* com\app\avengers\DJMT\mapper\member\MemberMapper.xml - start */
+    </delete>
+    <select id="getMemberInfoByMemNo" resultType="com.app.avengers.DJMT.dto.member.MemberDto">
+        select * from
+        member
+        where mem_no = #{mem_no}
+        /* com\app\avengers\DJMT\mapper\member\MemberMapper.xml - getMemberInfoByMemNo */
+    </select>
+<!--    마이페이지 수정 -->
+    <update id="editMemberInfo" parameterType="com.app.avengers.DJMT.dto.member.MemberDto" >
+        update member set
+        login_id = #{login_id}
+        <if test="etc_param1 = 'true'">
+            ,login_pw = #{login_pw}
+        </if>
+        ,mem_name = #{mem_name}
+        ,mem_gen = #{mem_gen}
+        ,mem_addr1 = #{mem_addr1}
+        ,mem_addr2 = #{mem_addr2}
+        ,chg_date = #{chg_date}
+        ,chg_id = #{chg_id}
+        where mem_no = #{mem_no}
+        /* com\app\avengers\DJMT\mapper\member\MemberMapper.xml - editMemberInfo */
+    </update>
+<!--    관리자페이지 - 사용자 리스트 -->
+    <select id="selectMemberList" resultType="com.app.avengers.DJMT.dto.member.MemberDto">
+        select row_number() over (order by tbl.reg_date desc) as rownum, tbl.*
+        from (
+        select mem_no, login_id, mem_name, mem_gen, mem_addr1, mem_addr2, role, reg_date, chg_date
+        from member
+        ) tbl
+        /* com\app\avengers\DJMT\mapper\member\MemberMapper.xml - selectMemberList */
+    </select>
+</mapper>

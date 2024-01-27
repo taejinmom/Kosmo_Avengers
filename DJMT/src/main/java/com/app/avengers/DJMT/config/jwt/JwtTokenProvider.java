@@ -1,7 +1,6 @@
 package com.app.avengers.DJMT.config.jwt;
 
 import com.app.avengers.DJMT.dto.member.MemberDto;
-import com.app.avengers.DJMT.dto.member.MemberResponseDto;
 import com.app.avengers.DJMT.dto.token.TokenDto;
 import com.app.avengers.DJMT.service.member.MemberService;
 import io.jsonwebtoken.Claims;
@@ -35,7 +34,7 @@ public class JwtTokenProvider {
 
 
     // 토큰 유효시간 30분
-    private long accessTokenValidTime = 1 * 60 * 1000L;
+    private long accessTokenValidTime = 10 * 60 * 1000L;
     private long refreshTokenValidTime = 20 * 60 * 1000L;
     private final MemberService memberService;
 
@@ -52,7 +51,7 @@ public class JwtTokenProvider {
      * description    : JWT 토큰 생성
      * 2023-12-23   by  taejin       
      */
-    public TokenDto createAccessToken(String mem_no, Object roles,String mem_name) {
+    public TokenDto createAccessToken(String mem_no, Object roles) {
 
         Claims claims = Jwts.claims().setSubject(mem_no); // JWT payload 에 저장되는 정보단위
         claims.put("mem_no", mem_no); // 정보는 key / value 쌍으로 저장된다.
@@ -77,7 +76,7 @@ public class JwtTokenProvider {
                 // signature 에 들어갈 secret값 세팅
                 .compact();
 
-        return TokenDto.builder().accessToken(accessToken).refreshToken(refreshToken).key(mem_no).mem_name(mem_name).build();
+        return TokenDto.builder().accessToken(accessToken).refreshToken(refreshToken).key(mem_no).build();
     }
 
     /**
@@ -95,14 +94,6 @@ public class JwtTokenProvider {
      */
     public String getUserPk(String token) {
         return (String)Jwts.parser().setSigningKey(accessSecretKey).parseClaimsJws(token).getBody().get("mem_no");
-    }
-
-    /**
-     * description    : Request의 Header에서 token 값을 가져옵니다. "Authorization" : "TOKEN값'
-     * 2023-12-23   by  taejin
-     */
-    public String resolveToken(HttpServletRequest request) {
-        return request.getHeader("Authorization");
     }
 
     /**
@@ -142,11 +133,12 @@ public class JwtTokenProvider {
             Jws<Claims> claims = Jwts.parser().setSigningKey(refreshSecretKey).parseClaimsJws(refreshToken);
             //refresh 토큰의 만료시간이 지나지 않았을 경우, 새로운 access 토큰을 생성합니다.
             if (!claims.getBody().getExpiration().before(new Date())) {
-                log.info("refreshToken validation check 성공");
+                log.info("validateRefreshToken >> refreshToken 유효 >> accessToken 재발급 - 136");
                 return this.recreationAccessToken(claims.getBody().get("sub").toString(), claims.getBody().get("roles"));
             }
         }catch (Exception e) {
             //refresh 토큰이 만료되었을 경우, 로그인이 필요합니다.
+            log.info("validateRefreshToken >> Refresh Token 만료 - 141");
             return "";
 
         }
@@ -172,7 +164,7 @@ public class JwtTokenProvider {
                 .signWith(SignatureAlgorithm.HS256, accessSecretKey)  // 사용할 암호화 알고리즘과
                 // signature 에 들어갈 secret값 세팅
                 .compact();
-        log.info("Access Token 재발급 -> " + accessToken);
+
         return accessToken;
     }
 }

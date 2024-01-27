@@ -25,7 +25,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final JwtTokenProvider jwtTokenProvider;
-    private final MemberService memberService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -38,14 +37,13 @@ public class SecurityConfig {
                 .authorizeRequests(
                         authorize ->
                                 authorize
-                                .requestMatchers("/api/join","/api/login","/api/test").permitAll()
+                                .requestMatchers("/api/join","/api/login","/api/test","/socket/chat","webSocket").permitAll()
                                 .requestMatchers("/api/validateToken").authenticated() // 권한 체크 시 실패할경우 실행
                                 //.requestMatchers("/api/refresh").permitAll()
                                 .requestMatchers("/api/admin/**").hasAuthority(RoleDto.ADMIN.name())
                                 .anyRequest().permitAll()
                 )
-//                .addFilterBefore(new JwtTokenFilter(userService, secretKey), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider,memberService),UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 
