@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import Header from '../components/Header'
 import Intro from '../components/Intro'
-import Skill from '../components/Skill'
+// import Skill from '../components/Skill'
+import Product from '../components/Product'
 import Site from '../components/Site'
 import Port from '../components/Port'
 import Contact from '../components/Contact'
@@ -11,6 +12,11 @@ import Main from '../components/Main'
 import axios from 'axios'
 import { useCookies } from 'react-cookie'
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+ integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+ crossorigin="anonymous"/>
 const HomeView = props => {
   const [cookies, setCookie, removeCookie] = useCookies([])
   const [tokenDataCheck, setTokenDataCheck] = useState(false)
@@ -59,7 +65,7 @@ const HomeView = props => {
       />
       <Main>
         <Intro />
-        <Skill />
+        <Product />
         <Site />
         <Port />
         <Contact />

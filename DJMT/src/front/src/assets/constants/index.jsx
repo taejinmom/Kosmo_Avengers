@@ -9,14 +9,16 @@ import port08 from '../img/port08.jpg'
 import port09 from '../img/port09.jpg'
 import port10 from '../img/port10.jpg'
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 export const headerNav = [
   {
     title: 'intro',
     url: '#intro',
   },
   {
-    title: 'skill',
-    url: '#skill',
+    title: 'product',
+    url: '/product',
   },
   {
     title: 'site',

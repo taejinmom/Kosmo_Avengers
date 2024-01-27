@@ -67,7 +67,7 @@ const Login = () => {
       alert('Password를 입력해주세요')
     }
     axios
-      .post('api/login', loginData)
+      .post('/api/login', loginData)
       .then(res => {
         console.log(res.data)
         setCookie('jwtToken', res.data.tokenData.accessToken)

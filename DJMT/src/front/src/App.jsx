@@ -1,14 +1,15 @@
-import React, { useEffect } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import React, { useEffect } from 'react'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
-import HomeView from "./assets/views/Main";
-import lenis from "./utills/lenis";
-import link from "./utills/link";
-import Join from "./assets/views/components/join/Join";
-import Login from "./assets/views/components/login/Login";
-import { useCookies } from "react-cookie";
-import { ToastContainer } from "react-toastify";
+import HomeView from './assets/views/Main'
+import lenis from './utills/lenis'
+import link from './utills/link'
+import Join from './assets/views/components/join/Join'
+import Login from './assets/views/components/login/Login'
+import Product from './assets/views/components/Product';
+import { useCookies } from 'react-cookie'
+import { ToastContainer } from 'react-toastify'
 
 const App = () => {
   useEffect(() => {
@@ -24,6 +25,7 @@ const App = () => {
         <Route path="/join" element={<Join />} />
         <Route path="/login" element={<Login />} />
         <Route path="/myPage" element={<myPage />} />
+        <Route path ="/product" component = {Product}></Route>
       </Routes>
       <ReactQueryDevtools initialIsOpen={true} />
     </BrowserRouter>
