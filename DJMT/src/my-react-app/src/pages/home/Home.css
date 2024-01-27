@@ -1,0 +1,88 @@
+/* visual */
+.home .visual {
+  overflow: hidden;
+  margin-bottom: 120px;
+}
+.home .visual .swiper {
+  overflow: unset;
+  width: 1080px;
+}
+.home .visual .swiper-button-prev,
+.home .visual .swiper-button-next {
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  margin: 0;
+  padding: 0 40px;
+  color: #fff;
+}
+.home .visual .swiper-button-prev {
+  left: -109%;
+  justify-content: right;
+}
+.home .visual .swiper-button-next {
+  right: -109%;
+  justify-content: left;
+}
+
+/* best-product */
+.home .best-product h2 {
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 40px;
+  text-align: center;
+  margin-bottom: 50px;
+}
+.home .best-product .item {
+  display: flex;
+  gap: 20px;
+}
+.home .best-product .item li {
+  width: calc(100% / 5);
+}
+.home .best-product .item li a {
+  position: relative;
+}
+.home .best-product .item li a .item-info {
+  margin-top: 15px;
+}
+.home .best-product .item li a .item-info p {
+  font-weight: bold;
+}
+.home .best-product .item li a .item-info p span {
+  font-weight: 400;
+  color: #aaa;
+  text-decoration: line-through;
+  padding: 0 0 0 6px;
+}
+.home .best-product .item li a .item-info p span.percentage {
+  font-weight: bold;
+  color: #e84e4e;
+  text-decoration: none;
+  padding: 0 6px 0 0;
+}
+.home .best-product .item li a .num {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 45px;
+  height: 45px;
+  background: #000;
+  line-height: 45px;
+  font-weight: 500;
+  color: #fff;
+  text-align: center;
+}
+.home .best-product .more {
+  width: 260px;
+  margin: 40px auto 0;
+  border: 1px solid #555;
+  text-align: center;
+}
+.home .best-product .more a {
+  display: block;
+  width: 100%;
+  font-size: 14px;
+  padding: 10px 0;
+}
