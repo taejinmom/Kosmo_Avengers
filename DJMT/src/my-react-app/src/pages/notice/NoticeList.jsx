@@ -5,7 +5,6 @@ import { Button } from "@mui/material";
 
 import Select from "react-select";
 
-import { noticeCate } from '../../../constants/notice/notice'
 
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
