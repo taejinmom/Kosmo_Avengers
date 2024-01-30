@@ -3,20 +3,21 @@ import React, { useEffect } from 'react'
 import Post from '../join/addressApi/Post'
 
 const JoinAddrInput = props => {
-  const { address, inputHandler, data, setData, handleComplete, popup } = props
+  const { address, inputHandler, data, setData, handleComplete, popup, label } =
+    props
 
   return (
     <>
-      <Grid item xs={12}>
-        <FormLabel>Address</FormLabel>
-      </Grid>
-      <Grid item xs={9}>
+      <Grid item xs={8.5}>
         <TextField
           inputProps={{ readOnly: true }}
+          margin="normal"
+          required
           fullWidth
           type="text"
           id="mem_addr1"
           name="mem_addr1"
+          label={label}
           ref={address}
           value={
             data !== undefined
@@ -30,7 +31,7 @@ const JoinAddrInput = props => {
           }}
         />
       </Grid>
-      <Grid item xs={3}>
+      <Grid item xs={3.5}>
         <Button
           type="submit"
           fullWidth
@@ -38,6 +39,7 @@ const JoinAddrInput = props => {
           variant="outlined"
           sx={{
             ml: 2,
+            mt: 2,
             height: 56,
             width: '90%',
           }}

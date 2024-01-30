@@ -10,7 +10,7 @@ import React, { useEffect, useState } from 'react'
 
 const JoinRadioArea = props => {
   const [radioValue, setRadioValue] = useState('')
-  const { inputHandler, data, setData } = props
+  const { inputHandler, data, setData, label } = props
   useEffect(() => {
     if (data !== undefined) {
       setRadioValue(data.mem_gen !== undefined ? data.mem_gen : '')
@@ -22,6 +22,7 @@ const JoinRadioArea = props => {
       <FormControl>
         <FormLabel>Gender</FormLabel>
         <RadioGroup
+          label={label}
           value={radioValue}
           onChange={event => {
             inputHandler(event, data, setData)

@@ -3,14 +3,13 @@ import React, { useEffect, useState } from 'react'
 import { inputHandler } from '../../handler/MemberHandler'
 
 const RemainingInput = props => {
-  const { data, setData, isLoginCheck } = props
+  const { data, setData, isLoginCheck, label } = props
   return (
     <>
       <Grid item xs={12}>
-        <FormLabel>Name</FormLabel>
-      </Grid>
-      <Grid item xs={12}>
         <TextField
+          margin="normal"
+          label={label}
           fullWidth
           type="text"
           id="mem_addr2"

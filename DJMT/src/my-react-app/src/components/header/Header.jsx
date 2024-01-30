@@ -19,8 +19,6 @@ const Header = props => {
   const [isLoginCheck, setIsLoginCheck] = useRecoilState(isLogin)
   const memberRole = useRecoilValue(memberRoleAtom)
   const memberKey = useRecoilValue(memberKeyAtom)
-  const x = '로그인'
-  const navigate = useNavigate()
   useEffect(() => {})
 
   return (

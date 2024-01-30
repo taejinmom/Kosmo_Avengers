@@ -3,14 +3,13 @@ import React from 'react'
 import { inputHandler } from '../../handler/MemberHandler'
 
 const IdInput = props => {
-  const { data, setData } = props
+  const { data, setData, label } = props
   return (
     <>
       <Grid item xs={12}>
-        <FormLabel>ID</FormLabel>
-      </Grid>
-      <Grid item xs={12}>
         <TextField
+          label={label}
+          margin="normal"
           fullWidth
           type="text"
           id="login_id"
