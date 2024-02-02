@@ -1,27 +1,26 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom'
-import './Header.css'
-import { useEffect, useState } from 'react'
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import "./Header.css";
+import { useEffect, useState } from "react";
 
 import {
   logoutHandler,
   myPageHandler,
   validateToken,
-} from '../../pages/member/handler/MemberHandler'
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
+} from "../../pages/member/handler/MemberHandler";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   isLogin,
   memberKeyAtom,
-  memberRoleAtom,
-} from '../../pages/member/atom/LoginAtom'
+  isAdmin,
+} from "../../pages/member/atom/LoginAtom";
+import { logoutSide, submenu } from "../constants";
 
-const Header = props => {
-  const { cookies, setCookie, removeCookie } = props
-  const [isLoginCheck, setIsLoginCheck] = useRecoilState(isLogin)
-  const memberRole = useRecoilValue(memberRoleAtom)
-  const memberKey = useRecoilValue(memberKeyAtom)
-  const x = '로그인'
-  const navigate = useNavigate()
-  useEffect(() => {})
+const Header = (props) => {
+  const { cookies, setCookie, removeCookie } = props;
+  const [isLoginCheck, setIsLoginCheck] = useRecoilState(isLogin);
+  const isAdminCheck = useRecoilValue(isAdmin);
+  const memberKey = useRecoilValue(memberKeyAtom);
+  useEffect(() => {});
 
   return (
     <>
@@ -30,75 +29,92 @@ const Header = props => {
           <div className="inner">
             <ul>
               <li>
-                <Link
-                  to={'/notice'} state={{ title: 'Notice', }}>
+                <Link to={"/notice"} state={{ title: "Notice" }}>
                   Notice
                 </Link>
               </li>
               {/* 태진 S */}
-              {!isLoginCheck ? (
-                <>
-                  <li>
-                    <Link
-                      to={'/member'} state={{title: 'Join', }}>
-                      회원가입
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to={'/member'} state={{title: 'Login',}}>
-                      로그인
-                    </Link>
-                  </li>
-                </>
-              ) : (
-                <>
-                  {memberRole ? (
-                    <>
-                      <li>
-                        <Link to={'/member'} state={{title: 'AdminPage', }}>
-                          관리자
-                        </Link>
-                      </li>
-                    </>
-                  ) : (
+              {React.Children(
+                submenu.map((e, idx) => {
+                  return (
                     <li>
-                    <Link to={'/member'} state={{title: 'MyPage',}}>
+                      <Link
+                        to={"/member"}
+                        state={{
+                          title: e.title,
+                          content: e.content,
+                          component: e.component,
+                        }}
+                      >
+                        Notice
+                      </Link>
+                    </li>
+                  );
+                })
+              )}
+              <>
+                <li>
+                  <Link to={"/member"} state={{ title: "Join" }}>
+                    회원가입
+                  </Link>
+                </li>
+                <li>
+                  <Link to={"/member"} state={{ title: "Login" }}>
+                    로그인
+                  </Link>
+                </li>
+              </>
+              ) : (
+              <>
+                {isAdminCheck ? (
+                  <>
+                    <li>
+                      <Link to={"/member"} state={{ title: "AdminPage" }}>
+                        관리자
+                      </Link>
+                    </li>
+                  </>
+                ) : (
+                  <li>
+                    <Link to={"/member"} state={{ title: "MyPage" }}>
                       마이 페이지
                     </Link>
                   </li>
-                  )}
-                  <li>
-                    <a href="/" onClick={e => { 
-                      e.preventDefault()
-                        logoutHandler(removeCookie, setIsLoginCheck, memberKey)
-                      }}
-                    >
-                      로그아웃
-                    </a>
-                  </li>
-                </>
+                )}
+                <li>
+                  <a
+                    href="/"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      logoutHandler(removeCookie, setIsLoginCheck, memberKey);
+                    }}
+                  >
+                    로그아웃
+                  </a>
+                </li>
+              </>
               )}
-
               {/* 태진 E */}
             </ul>
           </div>
         </div>
         <div className="gnb">
           <div className="inner">
-            <div className="logo"><Link to={'/'}>DJMT(Day of Joy, Miracle Time)</Link></div>
+            <div className="logo">
+              <Link to={"/"}>DJMT(Day of Joy, Miracle Time)</Link>
+            </div>
             <ul className="menu">
               <li>
-                <Link to={'/productList'}>여성</Link>
+                <Link to={"/productList"}>여성</Link>
               </li>
               <li>
-                <Link to={'/productList'}>남성</Link>
+                <Link to={"/productList"}>남성</Link>
               </li>
               <li>
-                <Link to={'/productList'}>신발</Link>
+                <Link to={"/productList"}>신발</Link>
               </li>
               <li>
-                <Link to={'/productList'}>악세서리</Link>
+                <Link to={"/productList"}>악세서리</Link>
               </li>
             </ul>
             <div className="search material-icons">search</div>
@@ -106,7 +122,7 @@ const Header = props => {
         </div>
       </header>
     </>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

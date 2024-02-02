@@ -31,6 +31,8 @@ import NoticeDetail from './pages/notice/NoticeDetail.jsx'
 import NoticeWrite from './pages/notice/NoticeWrite.jsx'
 import NoticeUpdate from './pages/notice/NoticeUpdate.jsx'
 import NotFound from './pages/error/NotFound.jsx'
+import NewLogin from './pages/member/view/login/NewLogin.jsx'
+import NewJoin from './pages/member/view/join/NewJoin.jsx'
 
 // import MyPage from './pages/member/MyPage.jsx'
 
@@ -59,15 +61,16 @@ function App() {
                   isAdminCheck={isAdminCheck}
                   memberKey={memberKey}
                 >
-                  <Login />
-                  <Join />
+                  {/* <Login /> */}
+                  <NewLogin />
+                  {/* <Join /> */}
+                  <NewJoin />
                   <MyPage />
                   <AdminPage />
                 </InitDiv>
               }
             />
           </Route>
-		
 		      <Route path="/notice" element={<NoticeList />} />
           <Route path="/notice/:ntc_no" element={<NoticeDetail />} />
           <Route path="/notice/write" element={<NoticeWrite />} />

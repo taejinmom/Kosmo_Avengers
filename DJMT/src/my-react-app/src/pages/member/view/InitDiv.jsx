@@ -5,14 +5,18 @@ import Join from './join/Join'
 import MyPage from './mypage/MyPage'
 import AdminPage from './admin/AdminPage'
 import { Confirm } from '../../../api/alert/Confirm'
+import NewLogin from './login/NewLogin'
+import NewJoin from './join/NewJoin'
 
 // 참고용으로.. 나중에
 const InitDiv = props => {
   const location = useLocation()
 
   const components = {
-    Login: Login,
-    Join: Join,
+    // Login: Login,
+    Login: NewLogin,
+    // Join: Join,
+    Join: NewJoin,
     MyPage: MyPage,
     AdminPage: AdminPage,
   }
