@@ -17,7 +17,7 @@ import { validateToken } from './pages/member/handler/MemberHandler.jsx'
 import {
   isLogin,
   memberKeyAtom,
-  memberRoleAtom,
+  isAdmin,
 } from './pages/member/atom/LoginAtom.jsx'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { useCookies } from 'react-cookie'
@@ -39,7 +39,7 @@ import NewJoin from './pages/member/view/join/NewJoin.jsx'
 function App() {
   const [cookies, setCookie, removeCookie] = useCookies([])
   const [isLoginCheck, setIsLoginCheck] = useRecoilState(isLogin)
-  const [isAdminCheck, setIsAdminCheck] = useRecoilState(memberRoleAtom)
+  const [isAdminCheck, setIsAdminCheck] = useRecoilState(isAdmin)
   const memberKey = useRecoilValue(memberKeyAtom)
 
   useEffect(() => {

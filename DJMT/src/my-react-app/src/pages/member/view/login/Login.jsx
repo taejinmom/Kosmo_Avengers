@@ -3,7 +3,7 @@ import { useRecoilState, useSetRecoilState } from 'recoil'
 import { useCookies } from 'react-cookie'
 import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { isLogin, memberKeyAtom, memberRoleAtom } from '../../atom/LoginAtom'
+import { isLogin, memberKeyAtom, isAdmin } from '../../atom/LoginAtom'
 import {
   Box,
   Button,
@@ -21,7 +21,7 @@ const Login = props => {
   const [cookies, setCookie, removeCookie] = useCookies([])
   const navigate = useNavigate()
   const [isLoginCheck, setIsLoginCheck] = useRecoilState(isLogin) // 로그인 햇는지 체크
-  const setMemberRole = useSetRecoilState(memberRoleAtom) // 로그인 유저 Role 값
+  const setIsAdminCheck = useSetRecoilState(isAdmin) // 로그인 유저 Role 값
   const [loginData, setLoginData] = useState({ login_id: '', login_pw: '' }) // 로그인 객체
   const setMemberKey = useSetRecoilState(memberKeyAtom) // MEM_NO 전역변수로 저장
 
@@ -31,7 +31,7 @@ const Login = props => {
     loginHandler(
       loginData,
       setIsLoginCheck,
-      setMemberRole,
+      setIsAdminCheck,
       setMemberKey,
       setCookie,
       navigate

@@ -9,7 +9,7 @@ import { DataGrid } from '@mui/x-data-grid'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { adminEditKeyAtom } from '../../atom/AdminAtom'
 import request from '../../../../api/core'
-import { isLogin, memberRoleAtom } from '../../atom/LoginAtom'
+import { isLogin, isAdmin } from '../../atom/LoginAtom'
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props
 
@@ -96,7 +96,7 @@ export function BasicTabs(props) {
 const AdminPage = props => {
   const {confirm} = props
   const isLoginCheck = useRecoilValue(isLogin)
-  const isAdminCheck = useRecoilValue(memberRoleAtom)
+  const isAdminCheck = useRecoilValue(isAdmin)
   const selectionModel = useRecoilValue(adminEditKeyAtom)
   const navigate = useNavigate()
   const [memberList, setMemberList] = useState([])
