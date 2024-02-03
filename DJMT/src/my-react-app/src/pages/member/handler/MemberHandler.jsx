@@ -12,7 +12,7 @@ export const memberAxiosApi = async (apiUrl, httpMethod, data, navigate) => {
   }
   return res
 }
-// 토큰 체크
+// 토큰 체크 핸들러
 export const validateToken = async (
   cookie,
   setCookie,
@@ -28,14 +28,21 @@ export const validateToken = async (
     return
   }
   // accessToken 토큰 권한 체크_1
-  await memberAxiosApi('validateToken', 'get')
+  await memberAxiosApi('validateToken', 'get',{
+    headers: {
+      Authorization: cookie.accessToken
+    }
+  })
     .then(res => console.log('1 validateToken >> ', res))
     .catch(error => {
       console.log('1 error - > refreshToken 검증')
-      request
-        .post('refresh', {
+      request.post('refresh', {
           refreshToken: cookie.refreshToken,
           mem_no: memberKey,
+        },{
+          headers: {
+            Authorization: cookie.refreshToken
+          }
         })
         .then(res => {
           setCookie('jwtToken', res)
@@ -53,58 +60,43 @@ export const validateToken = async (
         })
     })
 }
-// 회원가입
-export const join = async (
-  joinData,
-  navigator,
-  idValidation,
-  passwordValidation
-) => {
-  if (joinData.login_pw !== joinData.login_pw_repeat) {
-    alert('패스워드가 일치하지 않습니다.')
-    passwordValidation.current.focus()
-    return
-  }
-  const res = await request.post('join', joinData)
 
-  if (res === 'DuplicateKeyException') {
-    alert('ID가 중복되었습니다.')
-    idValidation.current.focus()
-    return
-  }
-  navigator('/')
-}
-
+// input 공통
 export const inputHandler = (e, dataGroup, setData) => {
   setData({ ...dataGroup, [e.target.name]: e.target.value })
 }
-// export const handleRadioChange = (e, setRadioValue) => {
-//   console.log('radioButton value =>> ', e.target.value)
-//   setRadioValue(e.target.value)
-// }
-// 회원가입 handler
-export const joinSubmitHandler = (joinData, navigate) => {
+// 회원가입 핸들러
+export const joinSubmitHandler = (joinData, navigate, confirm) => {
   if (joinData.login_pw !== joinData.login_pw_repeat) {
-    alert('패스워드가 일치하지 않습니다.')
+    confirm('패스워드가 일치하지 않습니다.',emptyFunc,'warning')
     return
   }
   memberAxiosApi('join', 'post', joinData).then(res => {
     if (res === 'DuplicateKeyException') {
-      alert('ID가 중복되었습니다.')
+      // alert('ID가 중복되었습니다.')
+      confirm('ID가 중복되었습니다.',emptyFunc,'warning')
       return
     }
     navigate('/')
   })
 }
+
 // 로그아웃 handler
-export const logoutHandler = (removeCookie, isLoginCheck, memberKey ) => {
+export const logoutHandler = async (removeCookie, isLoginCheck, memberKey ) => {
   console.log('logout!')
-  memberAxiosApi('logout','post' ,{mem_no : memberKey})
-  removeCookie('jwtToken')
-  removeCookie('refreshToken')
-  isLoginCheck(false)
-  window.location.reload()
+  // memberAxiosApi('logout','post' ,{mem_no : memberKey})
+  await request.post('logout',{mem_no : memberKey})
+  .then((res) => {
+    removeCookie('jwtToken')
+    removeCookie('refreshToken')
+    isLoginCheck(false)
+    // window.location.reload()
+  })
+  .catch((error)=> {
+    console.log('logout error -> ', error);
+  });
 }
+
 // 로그인 handler
 export const loginHandler = async (
   loginData,
@@ -132,13 +124,19 @@ export const loginHandler = async (
       }
     })
 }
+
 // mypage 데이터 불러오기
 export const myPageHandler = async memberKey => {
   return memberAxiosApi('/myPage', 'post', {
     mem_no: memberKey,
   })
 }
+
 // 수정하기
 export const editMyPageHandler = async data => {
   return memberAxiosApi('member/editMemberInfo', 'post', data)
+}
+
+// empty function
+export const emptyFunc = ()=>{
 }

@@ -43,7 +43,7 @@ const MyPage = props => {
   const [myPageData, setMyPageData] = useState({})
   const address = useRef() // 주소 input 값
   const [change, setChange] = useState(true)
-  console.log('image',Image);
+
   useEffect(() => {
     if (!isLoginCheck) {
       navigate('/')

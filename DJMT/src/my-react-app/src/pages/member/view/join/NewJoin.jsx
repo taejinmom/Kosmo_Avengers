@@ -6,10 +6,6 @@ import {
   Button,
   CssBaseline,
   TextField,
-  FormControl,
-  FormControlLabel,
-  Checkbox,
-  FormHelperText,
   Grid,
   Box,
   Typography,
@@ -19,21 +15,21 @@ import {
   RadioGroup,
 } from '@mui/material/'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
-import { Link, useNavigate } from 'react-router-dom'
-import Paper from '@mui/material/Paper'
+import { useNavigate } from 'react-router-dom'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import { inputHandler, joinSubmitHandler } from '../../handler/MemberHandler'
-import { memberData } from '../../memberData'
 import JoinRadioArea from '../inputForm/JoinRadio'
 import JoinAddrInput from '../inputForm/JoinAddrInput'
-import { Copyright } from '@mui/icons-material'
+
 
 const NewJoin = props => {
   const theme = createTheme()
+  const { confirm } = props
   const address = useRef() // 주소 input 값
   const [popup, setPopup] = useState(false) // 주소 api 팝업 state
   const [joinData, setJoinData] = useState({}) // 회원가입 객체
   const navigate = useNavigate()
+
   // 주소 버튼찾기 클릭
   const handleComplete = e => {
     e.preventDefault()
@@ -42,8 +38,8 @@ const NewJoin = props => {
 
   // form 전송
   const handleSubmit = e => {
-    joinSubmitHandler(joinData, navigate)
     e.preventDefault()
+    joinSubmitHandler(joinData, navigate, confirm)
   }
   // 홈으로
   const handleRedirect = e => {
@@ -51,10 +47,8 @@ const NewJoin = props => {
     navigate('/')
   }
 
-  const defaultTheme = createTheme()
-
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="sm">
         <CssBaseline />
         <Box
@@ -81,9 +75,7 @@ const NewJoin = props => {
               <Grid item xs={12}>
                 <TextField
                   margin="normal"
-                  required
                   fullWidth
-                  id="login_id"
                   label="ID"
                   name="login_id"
                   autoComplete="ID"
@@ -94,12 +86,10 @@ const NewJoin = props => {
               <Grid item xs={12}>
                 <TextField
                   margin="normal"
-                  required
                   fullWidth
                   name="login_pw"
                   label="Password"
                   type="password"
-                  id="login_pw"
                   autoComplete="current-password"
                   onChange={e => inputHandler(e, joinData, setJoinData)}
                 />
@@ -107,12 +97,10 @@ const NewJoin = props => {
               <Grid item xs={12}>
                 <TextField
                   margin="normal"
-                  required
                   fullWidth
                   name="login_pw_repeat"
                   label="Password"
                   type="password"
-                  id="login_pw_repeat"
                   autoComplete="current-password"
                   onChange={e => inputHandler(e, joinData, setJoinData)}
                 />
@@ -120,12 +108,10 @@ const NewJoin = props => {
               <Grid item xs={12}>
                 <TextField
                   margin="normal"
-                  required
                   fullWidth
                   name="mem_name"
                   label="Name"
                   type="text"
-                  id="mem_name"
                   onChange={e => inputHandler(e, joinData, setJoinData)}
                 />
               </Grid>
@@ -133,7 +119,6 @@ const NewJoin = props => {
                 label={'Address'}
                 xs={9}
                 type={'text'}
-                id={'mem_addr1'}
                 name={'mem_addr1'}
                 autoComplete={'current-password'}
                 popup={popup}
@@ -147,12 +132,10 @@ const NewJoin = props => {
               <Grid item xs={12}>
                 <TextField
                   margin="normal"
-                  required
                   fullWidth
                   name="mem_addr2"
                   label="Remaining"
                   type="text"
-                  id="mem_addr2"
                   onChange={e => inputHandler(e, joinData, setJoinData)}
                 />
               </Grid>
@@ -189,7 +172,7 @@ const NewJoin = props => {
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
+        {/* <Copyright sx={{ mt: 8, mb: 4 }} /> */}
       </Container>
     </ThemeProvider>
   )

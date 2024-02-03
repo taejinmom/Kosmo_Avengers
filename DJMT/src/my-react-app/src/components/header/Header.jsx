@@ -3,6 +3,7 @@ import './Header.css'
 import { useEffect, useState } from 'react'
 
 import {
+  emptyFunc,
   logoutHandler,
   myPageHandler,
   validateToken,
@@ -13,6 +14,7 @@ import {
   memberKeyAtom,
   isAdmin,
 } from '../../pages/member/atom/LoginAtom'
+import { Confirm } from '../../api/alert/Confirm'
 
 const Header = props => {
   const { cookies, setCookie, removeCookie } = props
@@ -67,8 +69,9 @@ const Header = props => {
                   </li>
                   )}
                   <li>
-                    <a href="/" onClick={e => { 
-                      e.preventDefault()
+                    <a href="/" onClick={ e =>  { 
+                        e.preventDefault()
+                        Confirm('로그아웃되었습니다.',emptyFunc,'warning')
                         logoutHandler(removeCookie, setIsLoginCheck, memberKey)
                       }}
                     >

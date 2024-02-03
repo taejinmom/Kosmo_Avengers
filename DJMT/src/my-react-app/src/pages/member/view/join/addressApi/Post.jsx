@@ -20,19 +20,16 @@ const Post = props => {
       }
       fullAddress += extraAddress !== '' ? ` (${extraAddress})` : ''
     }
-    // console.log(data)
     console.log('full addr ..>> ', fullAddress)
-    // console.log(data.zonecode)
 
     setData({
       ...data,
-      // mem_addr1: fullAddress + ' (' + data.zonecode + ')', 우편번호까지
       mem_addr1: fullAddress,
     })
   }
 
   return (
-    <div>
+    <div >
       <DaumPostcode className="postmodal" autoClose onComplete={complete} style={{zIndex:30}}/>
     </div>
   )

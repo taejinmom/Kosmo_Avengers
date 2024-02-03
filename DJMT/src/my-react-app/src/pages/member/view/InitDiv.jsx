@@ -8,7 +8,7 @@ import { Confirm } from '../../../api/alert/Confirm'
 import NewLogin from './login/NewLogin'
 import NewJoin from './join/NewJoin'
 import RenewalLogin from './login/RenewalLogin'
-import RenewalJoin from './join/ResewalJoin'
+import RenewalJoin from './join/RenewalJoin'
 
 // 참고용으로.. 나중에
 const InitDiv = props => {

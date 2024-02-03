@@ -7,7 +7,7 @@ const request = axios.create({
 })
 
 // 👇 요청 타임아웃 설정
-request.defaults.timeout = 2500
+request.defaults.timeout = 250000
 
 // 👇 요청 인터셉터 추가
 request.interceptors.request.use(

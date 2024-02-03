@@ -21,11 +21,11 @@ const RenewalLogin = () => {
           .string()
           .required("Password is required"),
     });
-    // 홈으로
-    const handleRedirect = e => {
-    e.preventDefault()
-    navigate('/')
-    }
+    //  홈으로
+    // const handleRedirect = e => {
+    // e.preventDefault()
+    // navigate('/')
+    // }
     // 로그인
     const loginHandler1 = (data) => {
         loginHandler(data, setIsLoginCheck, setIsAdminCheck, setMemberKey, setCookie, navigate )

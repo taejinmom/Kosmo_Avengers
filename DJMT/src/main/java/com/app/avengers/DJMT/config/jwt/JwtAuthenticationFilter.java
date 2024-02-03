@@ -35,7 +35,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
             chain.doFilter(request, response);
             return;
         }
-
+        String header =  ((HttpServletRequest) request).getHeader("Authorization");
         // 권한체크 시 쿠키에서 토큰 가져옴
         Cookie cookie = jwtTokenProvider.resolveCookies((HttpServletRequest) request, "jwtToken");
 

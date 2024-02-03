@@ -12,10 +12,8 @@ const JoinAddrInput = props => {
         <TextField
           inputProps={{ readOnly: true }}
           margin="normal"
-          required
           fullWidth
           type="text"
-          id="mem_addr1"
           name="mem_addr1"
           label={label}
           ref={address}
@@ -34,7 +32,6 @@ const JoinAddrInput = props => {
       <Grid item xs={3.5}>
         <Button
           type="submit"
-          fullWidth
           color="inherit"
           variant="outlined"
           sx={{
@@ -43,7 +40,6 @@ const JoinAddrInput = props => {
             height: 56,
             width: '90%',
           }}
-          size="medium"
           onClick={handleComplete}
         >
           주소찾기

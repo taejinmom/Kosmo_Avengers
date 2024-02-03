@@ -40,7 +40,7 @@ const PwInput = props => {
           disabled={!change}
           onClick={e => {
             console.log('클릭')
-            confirm('비밀번호가 초기화 됩니다!', yesOnClickkHandler)
+            confirm('비밀번호가 초기화 됩니다!', yesOnClickkHandler,'confirm')
             e.preventDefault()
           }}
         >
