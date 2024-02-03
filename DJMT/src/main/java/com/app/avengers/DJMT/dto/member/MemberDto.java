@@ -2,6 +2,7 @@ package com.app.avengers.DJMT.dto.member;
 
 
 import com.app.avengers.DJMT.dto.auth.RoleDto;
+import com.app.avengers.DJMT.dto.login.LoginHistoryDto;
 import lombok.*;
 
 import java.util.Map;
@@ -10,6 +11,7 @@ import java.util.Map;
 @Setter
 @NoArgsConstructor
 public class MemberDto {
+    private String rownum;
     private String mem_no;
     private String login_id;
     private String login_pw;
@@ -26,12 +28,19 @@ public class MemberDto {
     private String reg_date;
     private String chg_id;
     private String chg_date;
+    private String etc_param1;
+    private String etc_param2;
+    private String etc_param3;
+    private String etc_param4;
+    private String etc_param5;
     private String valid = "N";
+    private String mem_profile;
+    private LoginHistoryDto loginHistoryDto;
 
-    public void toDto(Map<String ,String> map){
-        map.forEach((key, value)->{
-            
-        });
+    public LoginHistoryDto getHistoryDto(){
+        this.loginHistoryDto = new LoginHistoryDto();
+        loginHistoryDto.setMem_no(this.getMem_no());
+        loginHistoryDto.setReg_id(this.getMem_no());
+        return loginHistoryDto;
     }
-
 }

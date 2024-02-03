@@ -2,6 +2,9 @@ package com.app.avengers.DJMT.constants;
 
 public class Constants {
     public static final String MEMBER = "MEM";
+    public static final String REFRESHTOKEN = "TK";
+    public static final String MEM_HISTORY = "HIST";
+
     public static final String ROLE_MEMBER = "MEMBER";
     public static final String ROLE_ADMIN = "ADMIN";
 
@@ -14,5 +17,14 @@ public class Constants {
     public static final String COMMON_CONSTANTS_Y = "Y";
     public static final String COMMON_CONSTANTS_N = "N";
     public static final String COMMON_CONSTANTS_VALIDATION = "VALIDATIN";
+
+    // HTTP RESPONSE 코드
+
+    public static final String RESPONSE_SUCCESS = "SUCCESS"; // 성공
+    public static final String RESPONSE_FAIL = "FAILURE"; // 실패
+
+
+
+
 
 }

@@ -17,8 +17,9 @@
         VALUES
         (#{refreshToken_id},#{refreshToken},#{mem_no})
     </insert>
-    <select id="findByRefreshToken" parameterType="String">
+    <select id="findByRefreshToken" parameterType="com.app.avengers.DJMT.dto.token.RefreshTokenDto">
         SELECT * FROM REFRESHTOKEN
         WHERE REFRESHTOKEN = #{refreshToken}
+        AND   MEM_NO       = #{mem_no}
     </select>
 </mapper>

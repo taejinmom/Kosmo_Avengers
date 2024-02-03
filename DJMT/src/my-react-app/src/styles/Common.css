@@ -1,13 +1,13 @@
 .inner {
-  position: relative;
-  max-width: 1400px;
-  padding: 0 20px;
-  margin: 0 auto;
-}
-
-.title {
-  font-size: 40px;
-  font-weight: bold;
-  padding: 50px 0 10px;
-  border-bottom: 2px solid #111;
-}
+    position: relative;
+    max-width: 1400px;
+    padding: 0 20px;
+    margin: 0 auto;
+  }
+  
+  .title {
+    font-size: 40px;
+    font-weight: bold;
+    padding: 50px 0 10px;
+    border-bottom: 2px solid #111;
+  }

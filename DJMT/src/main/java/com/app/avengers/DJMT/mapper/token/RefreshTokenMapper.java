@@ -8,5 +8,5 @@ public interface RefreshTokenMapper {
     public int existsByKeyId(String login_id);
     public void deleteByKeyId(String login_id);
     public void saveToken(RefreshTokenDto refreshTokenDto);
-    public RefreshTokenDto findByRefreshToken(String refreshToken);
+    public RefreshTokenDto findByRefreshToken(RefreshTokenDto refreshToken);
 }

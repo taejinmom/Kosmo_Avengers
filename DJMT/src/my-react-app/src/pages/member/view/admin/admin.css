@@ -1,0 +1,23 @@
+.userListEdit {
+  border: none;
+  border-radius: 10px;
+  padding: 5px 10px;
+  background-color: #6cd1a0;
+  color: white;
+  cursor: pointer;
+  margin-right: 15px;
+}
+
+.userListDelete {
+  border: none;
+  border-radius: 10px;
+  padding: 2px 3px;
+  background-color: #6cd1a0;
+  color: white;
+  cursor: pointer;
+  margin-right: 15px;
+}
+.MuiDataGrid-root .MuiDataGrid-columnHeader:focus,
+.MuiDataGrid-root .MuiDataGrid-cell:focus {
+  outline: none !important;
+}

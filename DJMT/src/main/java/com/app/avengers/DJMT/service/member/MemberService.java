@@ -1,15 +1,18 @@
 package com.app.avengers.DJMT.service.member;
 
 import com.app.avengers.DJMT.constants.Constants;
+import com.app.avengers.DJMT.dto.login.LoginHistoryDto;
 import com.app.avengers.DJMT.dto.member.MemberDto;
 import com.app.avengers.DJMT.mapper.member.MemberMapper;
 import com.app.avengers.DJMT.mgr.member.MemberMgr;
 import com.app.avengers.DJMT.repository.member.MemberRepository;
+import com.app.avengers.DJMT.service.common.CommonService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -20,7 +23,10 @@ public class MemberService implements MemberRepository {
     private final MemberMapper memberMapper;
     private final MemberMgr memberMgr;
 
-
+    /**
+     * description    : 토큰 유효성 체크
+     * 2024-01-07   by  taejin       
+     */
     @Override
     public MemberDto ValidateTokenByMemNo(String mem_no) {
         return memberMapper.ValidateTokenByMemNo(mem_no);
@@ -32,11 +38,13 @@ public class MemberService implements MemberRepository {
      */
     @Override
     public MemberDto loginCheck(MemberDto memberDto) {
+        // 패스워드 체크
         if(memberMgr.loginvalidation(
                 memberDto.getLogin_pw(), loginCheckPw(memberDto.getLogin_id()).orElse(""))
             ){
+            // 패스워드 체크 성공 시 member데이터 추출
             memberDto = memberMapper.getMemberInfoByLoginId(memberDto.getLogin_id());
-            memberDto.setValid(Constants.COMMON_CONSTANTS_Y);
+            memberDto.setValid(Constants.COMMON_CONSTANTS_Y); // default = N
             return memberDto;
         }
         return null;
@@ -55,21 +63,52 @@ public class MemberService implements MemberRepository {
      * description    : 회원가입
      * 2023-12-22   by  taejin
      */
+    @Transactional
     @Override
-    public void memberSave(MemberDto memberDto) {
+    public void memberSave(MemberDto memberDto , LoginHistoryDto loginHistoryDto) {
         // memberDto 만들기 - uuid, 패스워드 인코딩, 가입날짜.. 등등  추가할 예정
-        memberDto = memberMgr.makeMemberDto(memberDto);
-        memberMapper.memberSave(memberDto);
-    }
-    /**
-     * description    : 토큰 유효성 체크를 후
-     * 2023-12-22   by  taejin
-     */
-    @Override
-    public MemberDto getMemberInfoByLoginId(String login_id) {
-        return memberMapper.getMemberInfoByLoginId(login_id);
+        // loginHistoryDto 만들기
+        memberMapper.memberSave(memberMgr.makeMemberDto(memberDto, loginHistoryDto));
+        memberMapper.addLoginHistory(loginHistoryDto);
     }
 
+    /**
+     * description    : myPage 데이터 출력
+     * 2024-01-13   by  taejin       
+     */
+    public MemberDto getMemberInfoByMemNo(String mem_no){
+        return memberMapper.getMemberInfoByMemNo(mem_no);
+    }
+
+    public void editMemberInfo(MemberDto memberDto){
+        memberDto = memberMgr.editMemberInfo(memberDto);
+        memberMapper.editMemberInfo(memberDto);
+    }
+
+    /**
+     * description    : 관리자 페이지 - 사용자 리스트 출력
+     * 2024-01-25   by  taejin
+     */
+    public List<MemberDto> selectMemberList() {
+        return memberMapper.selectMemberList();
+    }
+
+    /**
+     * description    :  관리자 페이지 - 사용자 삭제(* 단건 *)
+     * 2024-01-25   by  taejin       
+     */
+    public int adminDeleteMember(String mem_no) {
+        return memberMapper.adminDeleteMember(mem_no);
+    }
+    /**
+     * description    : update login history - status로 구분(login , logout)
+     * 2024-01-27   by  taejin       
+     */
+    public int recordLoginHistory(LoginHistoryDto loginHistoryDto,String status){
+        loginHistoryDto.setCurrent_date(memberMgr.currentDate());
+        loginHistoryDto.setStatus(status);
+        return memberMapper.updateLoginHistory(loginHistoryDto);
+    }
     /**
      * description    : 사용자 더미 데이터 삭제(초기 개발시에만 사용)
      * 2023-12-22   by  taejin

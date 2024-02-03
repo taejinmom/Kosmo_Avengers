@@ -10,6 +10,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class MemberResponseDto {
+    private String mem_no;
     private String login_id;
     private String login_pw;
     private RoleDto role;
