@@ -65,6 +65,7 @@
             mem_gen = #{mem_gen},
             mem_addr1 = #{mem_addr1},
             mem_addr2 = #{mem_addr2},
+            mem_profile = #{mem_profile},
             chg_date = #{chg_date},
             chg_id = #{chg_id}
             where mem_no = #{mem_no}

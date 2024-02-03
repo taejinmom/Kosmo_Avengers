@@ -33,7 +33,7 @@ const Post = props => {
 
   return (
     <div>
-      <DaumPostcode className="postmodal" autoClose onComplete={complete} />
+      <DaumPostcode className="postmodal" autoClose onComplete={complete} style={{zIndex:30}}/>
     </div>
   )
 }

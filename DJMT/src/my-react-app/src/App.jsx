@@ -33,6 +33,7 @@ import NoticeUpdate from './pages/notice/NoticeUpdate.jsx'
 import NotFound from './pages/error/NotFound.jsx'
 import NewLogin from './pages/member/view/login/NewLogin.jsx'
 import NewJoin from './pages/member/view/join/NewJoin.jsx'
+import Test from './pages/member/view/test/Test.jsx'
 
 // import MyPage from './pages/member/MyPage.jsx'
 
@@ -71,6 +72,7 @@ function App() {
               }
             />
           </Route>
+		      <Route path="/test" element={<Test />} />
 		      <Route path="/notice" element={<NoticeList />} />
           <Route path="/notice/:ntc_no" element={<NoticeDetail />} />
           <Route path="/notice/write" element={<NoticeWrite />} />

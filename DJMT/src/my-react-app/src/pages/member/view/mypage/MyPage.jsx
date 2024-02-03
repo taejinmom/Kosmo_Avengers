@@ -27,13 +27,13 @@ import RemainingInput from '../inputForm/RemainingInput'
 import { useRecoilValue } from 'recoil'
 import { isLogin, memberKeyAtom } from '../../atom/LoginAtom'
 import { adminEdit } from '../../atom/AdminAtom'
+import BasicTextInput from '../inputForm/BasicTextInput'
 
 const MyPage = props => {
   const [Image, setImage] = useState(
     'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
   )
   const fileInput = useRef(null)
-
   const { confirm } = props
   const location = useLocation()
   const memberKey = useRecoilValue(memberKeyAtom)
@@ -43,7 +43,7 @@ const MyPage = props => {
   const [myPageData, setMyPageData] = useState({})
   const address = useRef() // 주소 input 값
   const [change, setChange] = useState(true)
-
+  console.log('image',Image);
   useEffect(() => {
     if (!isLoginCheck) {
       navigate('/')
@@ -94,7 +94,10 @@ const MyPage = props => {
   }
   const onChange = e => {
     if (e.target.files[0]) {
-      setImage(e.target.files[0])
+      // setImage(e.target.files[0])
+      setMyPageData({...myPageData,mem_profile : e.target.files[0]})
+      console.log( e.target.files[0])
+      console.log( myPageData)
     } else {
       //업로드 취소할 시
       setImage(
@@ -126,6 +129,7 @@ const MyPage = props => {
             }}
           >
             <Avatar
+              // src={myPageData.mem_profile === null? Image :myPageData.mem_profile}
               src={Image}
               style={{ margin: '20px', cursor: 'pointer' }}
               sx={{ width: 100, height: 120 }}
@@ -137,20 +141,28 @@ const MyPage = props => {
               type="file"
               style={{ display: 'none' }}
               accept="image/jpg,impge/png,image/jpeg"
-              name="profile_img"
+              name="mem_profile"
               onChange={onChange}
+              
               ref={fileInput}
             />
             <Typography component="h1" variant="h5"></Typography>
             <Box component="form" noValidate sx={{ mt: 3 }}>
               <FormControl component="fieldset" variant="standard">
                 <Grid container item xs={12}>
-                  <IdInput
+                  <BasicTextInput
                     data={myPageData}
                     setData={setMyPageData}
                     isLoginCheck={isLoginCheck}
                     label={'ID'}
+                    name='login_id'
                   />
+                  {/* <IdInput
+                    data={myPageData}
+                    setData={setMyPageData}
+                    isLoginCheck={isLoginCheck}
+                    label={'ID'}
+                  /> */}
                   <PwInput
                     data={myPageData}
                     setData={setMyPageData}
@@ -160,11 +172,12 @@ const MyPage = props => {
                     confirm={confirm}
                     label={'Password'}
                   />
-                  <NameInput
+                  <BasicTextInput
                     data={myPageData}
                     setData={setMyPageData}
                     isLoginCheck={isLoginCheck}
-                    label={'Name'}
+                    label='Name'
+                    name='mem_name'
                   />
                   <JoinAddrInput
                     popup={popup}
@@ -175,10 +188,12 @@ const MyPage = props => {
                     handleComplete={handleComplete}
                     label={'Address'}
                   />
-                  <RemainingInput
+                  <BasicTextInput
                     data={myPageData}
                     setData={setMyPageData}
-                    label={'Remaining'}
+                    isLoginCheck={isLoginCheck}
+                    label='Remaining'
+                    name='mem_addr2'
                   />
                   <JoinRadioArea
                     inputHandler={inputHandler}

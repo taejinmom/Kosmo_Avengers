@@ -7,6 +7,8 @@ import AdminPage from './admin/AdminPage'
 import { Confirm } from '../../../api/alert/Confirm'
 import NewLogin from './login/NewLogin'
 import NewJoin from './join/NewJoin'
+import RenewalLogin from './login/RenewalLogin'
+import RenewalJoin from './join/ResewalJoin'
 
 // 참고용으로.. 나중에
 const InitDiv = props => {
@@ -14,9 +16,11 @@ const InitDiv = props => {
 
   const components = {
     // Login: Login,
-    Login: NewLogin,
+    // Login: NewLogin,
+    Login: RenewalLogin,
     // Join: Join,
     Join: NewJoin,
+    // Join: RenewalJoin,
     MyPage: MyPage,
     AdminPage: AdminPage,
   }

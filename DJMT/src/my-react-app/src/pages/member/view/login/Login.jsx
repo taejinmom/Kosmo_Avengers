@@ -44,7 +44,7 @@ const Login = props => {
     navigate('/')
   }
 
-  // 홈으로
+  // 회원가입폼으로
   const handleJoin = e => {
     e.preventDefault()
     navigate('/member', {

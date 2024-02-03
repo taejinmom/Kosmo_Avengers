@@ -83,7 +83,7 @@ public class MemberController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @PostMapping("/member/myPage")
+    @PostMapping("/myPage")
     public ResponseEntity<?> myPage(@RequestBody Map<String,String> map){
         try {
             MemberDto memberDto = memberService.getMemberInfoByMemNo(map.get("mem_no"));
