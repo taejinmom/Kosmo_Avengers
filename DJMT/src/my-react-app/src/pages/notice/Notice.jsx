@@ -1,9 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+import { useCookies } from 'react-cookie'
+
+import { isAdmin } from '../../pages/member/atom/LoginAtom';
+import { useRecoilValue } from 'recoil';
+
 const Notice = ({ntc_no, ntc_title,ntc_comm, reg_id, ntc_cate, reg_date}) => {
-    
+    const isAdminCheck = useRecoilValue(isAdmin);
+    const [ cookies ] = useCookies([]);
+    const [ NoticeAuthCheck, setNoticeAuthCheck ] = useState(false);
+
     const navigate = useNavigate();
 
     const moveToUpdate = () => {
@@ -23,10 +31,26 @@ const Notice = ({ntc_no, ntc_title,ntc_comm, reg_id, ntc_cate, reg_date}) => {
       }
     };
   
+    const checkMemberKey = async () => {
+      if(isAdminCheck){
+        await axios.get('/api/checkNoticeAuthentication', {params:{token:cookies.jwtToken, reg_id:reg_id}} )
+          .then((res) => {
+            console.log("checkMemberKey:"+res.data);
+            setNoticeAuthCheck(res.data);
+          })
+          .catch((err)=>
+              console.log(err)
+          );
+      }
+  };
+
     const moveToList = () => {
         navigate('/notice');
     };
 
+    useEffect(
+      () => {checkMemberKey();}, []
+  );
     return (
         <div>
             <div>
@@ -39,9 +63,14 @@ const Notice = ({ntc_no, ntc_title,ntc_comm, reg_id, ntc_cate, reg_date}) => {
             </div>
             <br></br>
             <div>
-                <button onClick={moveToUpdate}>수정</button>
-                <button onClick={deleteNotice}>삭제</button>
-                <button onClick={moveToList}>목록</button>
+              
+              {NoticeAuthCheck &&
+              <>
+                  <button onClick={moveToUpdate}>수정</button>
+                  <button onClick={deleteNotice}>삭제</button>
+              </>
+              }
+              <button onClick={moveToList}>목록</button>
             </div>
         </div>
     );

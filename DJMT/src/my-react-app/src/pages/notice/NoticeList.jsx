@@ -15,9 +15,13 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 
+import { isAdmin } from '../../pages/member/atom/LoginAtom';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+
 const columns = [
-    { id: 'ntc_no', label: '숫자', minWidth: 170 },
-    { id: 'ntc_title', label: '제목', minWidth: 100 },
+    { id: 'ntc_no', label: '숫자', minWidth: 50 },
+    { id: 'ntc_title', label: '제목', minWidth: 170 },
+    { id: 'reg_date', label: '등록일', minWidth: 50 },
     // {
     //   id: 'population',
     //   label: 'Population',
@@ -31,9 +35,11 @@ const rows = null;
 
 
 const NoticeList = () => {
+    const isAdminCheck = useRecoilValue(isAdmin);
+
     const navigate = useNavigate();
     const [noticeList, setNoticeList] = useState([]);
-
+    
     const [rows, setRows] = useState([]);
 
     const getNoticeList = async e => {
@@ -163,22 +169,16 @@ const NoticeList = () => {
                 </Paper>
             </div>
 
-            {/* <div>
-                <ul>
-                    {noticeList.map(
-                            (notice)=> (
-                                <li key={notice.ntc_no}>
-                                    <Link key={notice.ntc_no} to={`/notice/${notice.ntc_no}`}>{notice.ntc_title}</Link>
-                                </li>
-                            )
-                        )
-                    }
-
-                </ul>
-            </div> */}
-             <div>
+            {isAdminCheck ? (
+            <>
                 <button onClick={moveToWrite}>글쓰기</button>
-            </div>
+            </>
+            ) : (
+            <>
+                {/* <button onClick={moveToWrite}>글쓰기</button> */}
+            </>
+            )}
+            
         </div>
     )
 };

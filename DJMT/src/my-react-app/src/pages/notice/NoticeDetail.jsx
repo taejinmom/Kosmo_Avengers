@@ -6,7 +6,7 @@ import Notice from "./Notice";
 const NoticeDetail = () => {
 
     const {ntc_no} = useParams(); // Apps.jsx의 /board/:idx와 동일한 변수명으로 데이터를 꺼낼 수 있습니다.
-    const [loading, setLoaing] = useState(true);
+    // const [loading, setLoaing] = useState(true);
     const [notice, setNotice] = useState({});
 
     const getNotice = async () => {
@@ -17,12 +17,9 @@ const NoticeDetail = () => {
             (resp) => {
                 console.log(resp);
                 setNotice(resp.data);
-                setLoaing(false);
+                 (false);
             }
         )
-
-
-
 
         // .catch(error => {
         //     console.log('error >> ')
@@ -30,7 +27,6 @@ const NoticeDetail = () => {
         //     // alert('불러올 데이터가 없습니다.')
         //     // }
         // })
-
 
     };
 
@@ -43,9 +39,9 @@ const NoticeDetail = () => {
             게시판 상세보기 페이지
             <hr />
 
-            {loading ? (
+            {/* {loading ? (
                 <h2>loading...</h2>
-            ) : (
+            ) : ( */}
                 <Notice
                     ntc_no={notice.ntc_no}
                     ntc_title={notice.ntc_title}
@@ -54,7 +50,7 @@ const NoticeDetail = () => {
                     ntc_cate={notice.ntc_cate}
                     reg_date={notice.reg_date}
                 />
-            )}
+            {/* )} */}
         </div>
 
 
