@@ -20,6 +20,11 @@ public class MakeInitData {
      * admin1   1234    / admin2    1234
      * 2023-12-22   by  taejin
      */
+
+    @PostConstruct
+    public void makeVolume() {
+
+    }
 //    @PostConstruct
 //    public void makeAdminAndUser() {
 //        memberService.start();

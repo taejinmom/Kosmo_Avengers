@@ -134,7 +134,12 @@ export const myPageHandler = async memberKey => {
 
 // 수정하기
 export const editMyPageHandler = async data => {
-  return memberAxiosApi('member/editMemberInfo', 'post', data)
+  return memberAxiosApi('/postTest', 'post', data,{
+    // headers: {
+      // "Content-Type": "multipart/form-data", 
+      // "Content-Type": "application/json"
+    // },
+  })
 }
 
 // empty function

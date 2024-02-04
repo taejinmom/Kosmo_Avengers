@@ -33,14 +33,29 @@ spring :
     properties:
       hibernate:
 #        format_sql: true
+  http:
+    multipart:
+      enabled: false
+  servlet:
+    multipart:
+      enabled: true
+      location: D:/project-repository/temp
+      max-request-size: 10MB
+      max-file-size: 10MB
+part4:
+  upload:
+    path: D:/project-repository/
 
 mybatis:
   type-aliases-package: com.app.avengers.DJMT.dto
 #  configuration:
 #    map-underscore-to-camel-case: true
-socket:
-  port: 3000
 
 logging:
   level:
     root: info
+
+file:
+  volume-path:
+  file-path:
+  repository: D:\project-repository

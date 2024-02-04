@@ -47,9 +47,9 @@ public class MemberMgr {
         }
         memberDto.setMem_status(Constants.MEMBER_STATUS_1);
         memberDto.setReg_id(mem_no);
-        memberDto.setReg_date(currentDate());
+        memberDto.setReg_date(commonService.currentDate());
         memberDto.setChg_id(mem_no);
-        memberDto.setChg_date(currentDate());
+        memberDto.setChg_date(commonService.currentDate());
 
         loginHistoryDto.setMem_no(memberDto.getMem_no());
         loginHistoryDto.setReg_id(memberDto.getMem_no());
@@ -61,11 +61,7 @@ public class MemberMgr {
      * description    : 현재 시간 출력
      * 2023-12-23   by  taejin       
      */
-    public String currentDate(){
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-        return sdf.format(timestamp);
-    }
+
     /**
      * description    : 회원 정보 수정
      * 2024-01-21   by  taejin       
@@ -74,7 +70,7 @@ public class MemberMgr {
 //        if(memberDto.getEtc_param1().equals("true")){
             memberDto.setLogin_pw(commonService.passwordEncoded(memberDto.getLogin_pw()));
 //        }
-        memberDto.setChg_date(currentDate());
+        memberDto.setChg_date(commonService.currentDate());
         memberDto.setChg_id(memberDto.getChg_id());
         return memberDto;
     }

@@ -4,7 +4,6 @@ import com.app.avengers.DJMT.config.jwt.JwtTokenProvider;
 import com.app.avengers.DJMT.constants.Constants;
 import com.app.avengers.DJMT.dto.login.LoginHistoryDto;
 import com.app.avengers.DJMT.dto.member.MemberDto;
-import com.app.avengers.DJMT.dto.member.MemberResponseDto;
 import com.app.avengers.DJMT.dto.token.TokenDto;
 import com.app.avengers.DJMT.service.jwt.JwtService;
 import com.app.avengers.DJMT.service.member.MemberService;
@@ -12,13 +11,16 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.lang.reflect.Member;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -97,10 +99,10 @@ public class MemberController {
      * description    : 회원정보 수정
      * 2024-01-13   by  taejin       
      */
-    @PostMapping("/member/editMemberInfo")
-    public ResponseEntity<?> editMemberInfo(@RequestBody MemberDto memberDto){
+    @PostMapping(path = "/editMemberInfo",consumes = {MediaType.MULTIPART_FORM_DATA_VALUE,MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> editMemberInfo(@RequestPart(name = "file", required = false) MultipartFile file, @RequestBody MemberDto memberDto){
         try{
-            memberService.editMemberInfo(memberDto);
+//            memberService.editMemberInfo(memberDto);
             log.info("editMemberInfo >> " + memberDto.getEtc_param1());
             log.info("editMemberInfo >> 회원정보 수정! "+ memberDto.getMem_name());
             return new ResponseEntity<>(Constants.RESPONSE_SUCCESS,HttpStatus.OK);
@@ -143,8 +145,23 @@ public class MemberController {
     public String getTest(){
         return "OK";
     }
-    @PostMapping("/postTest")
-    public String postTest(@RequestBody HashMap<String,Object> map){
+
+    @PostMapping(path = "/postTest",consumes = {MediaType.MULTIPART_FORM_DATA_VALUE,MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_OCTET_STREAM_VALUE})
+//    @PostMapping(path = "/postTest")
+    public String postTest(@RequestPart(name = "file", required = false) MultipartFile multipartFile,
+                           @RequestPart(name = "memberData", required = false) HashMap<String,Object> map){
+        // 파일 경로 지정 및 저장
+        memberService.addProfileImage(Constants.MEM_PROFILE,multipartFile);
+        // 파일 저장        
+//        try {
+//            multipartFile.transferTo(Paths.get("D:\\project-repository\\test.jpeg"));
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+        // 사용자
+        
+        Path serverPath = Paths.get("D:\\project-repository" + File.separator + StringUtils.cleanPath(multipartFile.getOriginalFilename()));
+        log.info("postTest >>> " + multipartFile);
         log.info("postTest >>> " + map);
         return "OK";
     }

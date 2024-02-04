@@ -61,7 +61,7 @@ const Join = props => {
             alignItems: 'center',
           }}
         >
-          <Box component="form" noValidate sx={{ mt: 3 }}>
+          <Box component="form" noValidate sx={{ mt: 3 }} >
             <FormControl component="fieldset" variant="standard">
               <Grid container item xs={12}>
                 {Children.toArray(

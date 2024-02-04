@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?> <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.app.avengers.DJMT.mapper.file.FileMapper">
+    <!-- file insert -->
+    <insert id="fileSave" parameterType="com.app.avengers.DJMT.dto.file.FileDto">
+        insert into MEMBER(file_id,file_name,file_path,vol_type,reg_id,reg_date,chg_id,chg_date)
+        values (#{file_id},#{file_name},#{file_path},#{vol_type}, #{reg_id}, #{reg_date}, #{chg_id}, #{chg_date})
+        /* com\app\avengers\DJMT\mapper\file\FileMapper.xml - fileSave */
+    </insert>
+
+
+
+</mapper>

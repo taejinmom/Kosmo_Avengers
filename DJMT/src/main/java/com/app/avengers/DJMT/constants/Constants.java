@@ -7,6 +7,8 @@ public class Constants {
 
     public static final String ROLE_MEMBER = "MEMBER";
     public static final String ROLE_ADMIN = "ADMIN";
+    public static final String FILE = "FILE";
+    public static final String MEM_PROFILE = "profile";
 
     // member status
     public static final String MEMBER_STATUS_1 = "1"; // 사용중

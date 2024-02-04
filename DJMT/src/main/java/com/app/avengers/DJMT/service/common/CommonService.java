@@ -12,20 +12,16 @@ package com.app.avengers.DJMT.service.common;
  */
 
 
-import com.fasterxml.uuid.EthernetAddress;
 import com.fasterxml.uuid.Generators;
-import com.fasterxml.uuid.impl.TimeBasedGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.nio.ByteBuffer;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.UUID;
-
-import static org.apache.commons.codec.binary.Base64.encodeBase64URLSafeString;
 
 @Slf4j
 @Service
@@ -33,6 +29,8 @@ import static org.apache.commons.codec.binary.Base64.encodeBase64URLSafeString;
 
 public class CommonService {
     private final PasswordEncoder passwordEncoder;
+
+
 
     public String makeUUID(String category){
         return category.concat(UUID.randomUUID().toString().replaceAll("-",""));
@@ -60,10 +58,14 @@ public class CommonService {
         return passwordEncoder.matches(newPass,oldPass);
     }
 
-    public String dateFormat(String formatValue) {
-        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy년 mm월 dd일 hh24:mi:ss");
-
-        return "";
+    /**
+     * description    : 현재 시간 출력
+     * 2024-02-04   by  taejin       
+     */
+    public String currentDate(){
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        return sdf.format(timestamp);
     }
 
 }

@@ -22,8 +22,6 @@ import JoinAddrInput from '../inputForm/JoinAddrInput'
 import JoinRadioArea from '../inputForm/JoinRadio'
 import IdInput from '../inputForm/IdInput'
 import PwInput from '../inputForm/PwInput'
-import NameInput from '../inputForm/NameInput'
-import RemainingInput from '../inputForm/RemainingInput'
 import { useRecoilValue } from 'recoil'
 import { isLogin, memberKeyAtom } from '../../atom/LoginAtom'
 import { adminEdit } from '../../atom/AdminAtom'
@@ -38,24 +36,26 @@ const MyPage = props => {
   const location = useLocation()
   const memberKey = useRecoilValue(memberKeyAtom)
   const isLoginCheck = useRecoilValue(isLogin)
-  const theme = createTheme()
   const navigate = useNavigate()
   const [myPageData, setMyPageData] = useState({})
   const address = useRef() // 주소 input 값
   const [change, setChange] = useState(true)
+  const [imageUrl ,setImageUrl] = useState('')
+  const imageRef = useRef()
 
   useEffect(() => {
+    // 로그인 풀리면 홈으로
     if (!isLoginCheck) {
       navigate('/')
     }
-    if (location.state.adminEdit) {
+    if (location.state.adminEdit) { //관리자 마이페이지
       myPageHandler(location.state.mem_no, isLoginCheck).then(res => {
         setMyPageData({
           ...res,
           chg_id: memberKey,
         })
       })
-    } else {
+    } else { // 사용자 마이페이지
       myPageHandler(memberKey, isLoginCheck).then(res =>
         setMyPageData({
           ...res,
@@ -75,17 +75,24 @@ const MyPage = props => {
   // form 전송 - 수정
   const handleSubmit = e => {
     e.preventDefault()
+    const file = new FormData()
+    file.append('file', imageUrl)
+    // file.append('memberData', new Blob([JSON.stringify(myPageData)])
+    file.append('memberData', new Blob([JSON.stringify(myPageData)], {type: "application/json"}))
+    // file.append('memberData', myPageData)
+    
+    
 
-    editMyPageHandler(myPageData)
-    if (adminEdit) {
-      navigate('/member', {
-        state: {
-          title: 'AdminPage',
-        },
-      })
-    } else {
-      navigate('/')
-    }
+    editMyPageHandler(file)
+    // if (adminEdit) {
+    //   navigate('/member', {
+    //     state: {
+    //       title: 'AdminPage',
+    //     },
+    //   })
+    // } else {
+    //   navigate('/')
+    // }
   }
   // 홈으로
   const handleRedirect = e => {
@@ -106,14 +113,47 @@ const MyPage = props => {
       return
     }
     //화면에 프로필 사진 표시
-    const reader = new FileReader()
-    reader.onload = () => {
-      if (reader.readyState === 2) {
-        setImage(reader.result)
-      }
-    }
-    reader.readAsDataURL(e.target.files[0])
+  //   const reader = new FileReader()
+  //   reader.onload = () => {
+  //     if (reader.readyState === 2) {
+  //       setImageUrl(reader.result)
+  //     }
+  //   }
+  //   reader.readAsDataURL(e.target.files[0])
   }
+
+  const handleImage = async(e)=>{
+    console.log(e.target.files[0]);
+    const file = e.target.files[0]
+    const err = checkImage(file)
+    
+    if(err) return window.alert(err)
+    if(file){
+        setImage(URL.createObjectURL(file))
+    }
+    setImageUrl(file)
+}
+
+  const checkImage = (file) =>{
+      let err=""
+
+      if(!file) return err="File does not exist."
+      if(file.size>1024*1024){
+          err = "The largest image size is 1mb."
+      }
+      if(file.type !== 'image/jpeg' && file.type !== 'image/png'){
+          err = "Image format is incorrect."
+      }
+
+      return err
+  }
+
+  const handleImageDelete= () =>{
+      setImageUrl('')
+      var preview = document.getElementById('preview')
+      preview.src = ''
+  }
+
   const defaultTheme = createTheme()
   return (
     <>
@@ -128,11 +168,22 @@ const MyPage = props => {
               alignItems: 'center',
             }}
           >
+            {/* <input
+              type='image'
+              // src={myPageData.mem_profile === null? Image :myPageData.mem_profile}
+              src={''}
+              style={{ margin: '20px', cursor: 'pointer', width: 100, height: 120 }}
+              ref={imageRef}
+              onClick={() => {
+                
+              }}
+            /> */}
             <Avatar
               // src={myPageData.mem_profile === null? Image :myPageData.mem_profile}
               src={Image}
               style={{ margin: '20px', cursor: 'pointer' }}
               sx={{ width: 100, height: 120 }}
+              ref={imageRef}
               onClick={() => {
                 fileInput.current.click()
               }}
@@ -141,9 +192,8 @@ const MyPage = props => {
               type="file"
               style={{ display: 'none' }}
               accept="image/jpg,impge/png,image/jpeg"
-              name="mem_profile"
-              onChange={onChange}
-              
+              name="file"
+              onChange={handleImage}
               ref={fileInput}
             />
             <Typography component="h1" variant="h5"></Typography>

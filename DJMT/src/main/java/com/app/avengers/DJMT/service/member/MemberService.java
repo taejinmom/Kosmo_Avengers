@@ -1,27 +1,34 @@
 package com.app.avengers.DJMT.service.member;
 
 import com.app.avengers.DJMT.constants.Constants;
+import com.app.avengers.DJMT.dto.file.FileDto;
 import com.app.avengers.DJMT.dto.login.LoginHistoryDto;
 import com.app.avengers.DJMT.dto.member.MemberDto;
 import com.app.avengers.DJMT.mapper.member.MemberMapper;
 import com.app.avengers.DJMT.mgr.member.MemberMgr;
 import com.app.avengers.DJMT.repository.member.MemberRepository;
 import com.app.avengers.DJMT.service.common.CommonService;
+import com.app.avengers.DJMT.service.file.FileService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
 
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Service
 public class MemberService implements MemberRepository {
 
     private final MemberMapper memberMapper;
     private final MemberMgr memberMgr;
+    private final CommonService commonService;
+    private final FileService fileService;
+
 
     /**
      * description    : 토큰 유효성 체크
@@ -80,11 +87,19 @@ public class MemberService implements MemberRepository {
         return memberMapper.getMemberInfoByMemNo(mem_no);
     }
 
-    public void editMemberInfo(MemberDto memberDto){
-        memberDto = memberMgr.editMemberInfo(memberDto);
-        memberMapper.editMemberInfo(memberDto);
-    }
+//    public void editMemberInfo(MemberDto memberDto){
+//        memberDto = memberMgr.editMemberInfo(memberDto);
+//        memberMapper.editMemberInfo(memberDto);
+//    }
+    public FileDto addProfileImage(String category, MultipartFile multipartFile){
 
+
+//        String volumePath = fileService.addVolume(category);
+        fileService.getFilePath(multipartFile,category);
+
+//        fileService.
+        return null;
+    }
     /**
      * description    : 관리자 페이지 - 사용자 리스트 출력
      * 2024-01-25   by  taejin
@@ -105,10 +120,11 @@ public class MemberService implements MemberRepository {
      * 2024-01-27   by  taejin       
      */
     public int recordLoginHistory(LoginHistoryDto loginHistoryDto,String status){
-        loginHistoryDto.setCurrent_date(memberMgr.currentDate());
+        loginHistoryDto.setCurrent_date(commonService.currentDate());
         loginHistoryDto.setStatus(status);
         return memberMapper.updateLoginHistory(loginHistoryDto);
     }
+
     /**
      * description    : 사용자 더미 데이터 삭제(초기 개발시에만 사용)
      * 2023-12-22   by  taejin

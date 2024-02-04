@@ -24,7 +24,9 @@ dependencies {
 	implementation 'com.fasterxml.uuid:java-uuid-generator:4.2.0'
 	implementation group: 'org.json', name: 'json', version: '20231013'
 	// 웹소켓
-	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+//	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    implementation 'net.seesharpsoft.spring:sharping-multipart-boot:0.8.0'
+    implementation 'commons-fileupload:commons-fileupload:1.5'
 //	implementation 'com.corundumstudio.socketio:netty-socketio:1.7.23'
 
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'

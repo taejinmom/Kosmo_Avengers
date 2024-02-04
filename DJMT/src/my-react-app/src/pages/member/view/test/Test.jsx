@@ -1,75 +1,84 @@
-import React, { useRef } from 'react';
-import Form from '../../common/Form';
-import * as yup from 'yup';
-import { loginHandler } from '../../handler/MemberHandler';
-import { useCookies } from 'react-cookie'
-import { useRecoilState, useSetRecoilState } from 'recoil'
-import { useNavigate } from 'react-router-dom'
-import { useEffect, useState } from 'react'
-import { isLogin, memberKeyAtom, isAdmin } from '../../atom/LoginAtom'
-import { Avatar, Box } from '@mui/material';
+import axios from "axios"
+import { useRef, useState } from "react"
+import request from "../../../../api/core"
 
 const Test = () => {
-    const [Image, setImage] = useState(
-        'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
-      )
-    const fileInput = useRef(null)
-    const [myPageData, setMyPageData] = useState({})
-
-    const onChange = e => {
-    if (e.target.files[0]) {
-        setImage(e.target.files[0])
-        // setMyPageData({...myPageData,mem_profile : e.target.files[0]})
-        console.log( 'data > ', e.target.files[0])
-        console.log( myPageData)
-    } else {
-        //업로드 취소할 시
-        setImage(
-        'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
-        )
-        return
-    }
-    //화면에 프로필 사진 표시
-    const reader = new FileReader()
-    reader.onload = () => {
-        console.log('reander', reader)
-        if (reader.readyState === 2) {
-        setImage(reader.result)
-        console.log('result > ',reader.result)
-        // console.log('result > ',reader.result)
+    const [imageUrl ,setImageUrl] = useState('')
+    const [text ,setText] = useState('')
+    const imageRef = useRef()
+    
+    const handleImage = async(e)=>{
+        const file = e.target.files[0]
+        const err = checkImage(file)
+        
+        if(err) return window.alert(err)
+        if(file){
+            imageRef.current.src = URL.createObjectURL(file)
         }
+        setImageUrl(file)
     }
-    reader.readAsDataURL(e.target.files[0])
+
+    const checkImage = (file) =>{
+        let err=""
+
+        if(!file) return err="File does not exist."
+        if(file.size>1024*1024){
+            err = "The largest image size is 1mb."
+        }
+        if(file.type !== 'image/jpeg' && file.type !== 'image/png'){
+            err = "Image format is incorrect."
+        }
+
+        return err
+    }
+
+    const handleImageDelete= () =>{
+        setImageUrl('')
+        var preview = document.getElementById('preview')
+        preview.src = ''
+    }
+
+    const handleSubmit= (e) =>{
+        var imageURL = ''
+        if(imageUrl){
+            const file = new FormData()
+            file.append('file', imageUrl)
+            console.log('imageURL >> ' ,imageUrl)
+            for (let key of file.keys()) {
+                console.log(key);
+              }
+            for (let value of file.values()) {
+            console.log(value);
+            }
+            const result =  axios.post('api/postTest', file)
+            
+            imageURL = result.data
+        }
+        e.preventDefault()
 
     }
-    return (
-        <Box
-            sx={{
-              marginTop: 8,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-            }}
-          >
-            <Avatar
-              src={Image}
-              style={{ margin: '20px', cursor: 'pointer' }}
-              sx={{ width: 100, height: 120 }}
-              onClick={() => {
-                fileInput.current.click()
-              }}
-            />
-            <input
-              type="file"
-              style={{ display: 'none' }}
-              accept="image/jpg,impge/png,image/jpeg"
-              name="mem_profile"
-              onChange={onChange}
-              
-              ref={fileInput}
-            />
-            </Box>
-    );
-};
 
+return (
+        <>
+            <div className="show_media" style={{display: imageUrl ? 'grid':'none'}}>
+                <div id="file_media">
+                    <img id="preview" src={''} alt="imageURL" ref={imageRef} style={{width:'200px',height:'300px'}}/>
+                    <span onClick={(e) => {handleImageDelete(e)}}>&times;</span>
+                    </div>
+            </div>
+            <form className="message-input" onSubmit={(e) => {handleSubmit(e)}} >
+                {/* <input type="text" placeholder="Enter your Message" value={text} onChange={(e)=>setText(e.target.value)} /> */}
+
+                <div className="file_upload">
+                    <i className="fas fa-image text-danger"></i>
+                    <input type="file" name="file" id="file" accept="image/*" onChange={(e) => {handleImage(e)}} />
+                </div>
+
+                <button type="submit" className="material-icons" disabled={text || imageUrl? false : true}> 
+                    near_me
+                </button>
+            </form>
+        </>
+)
+}
 export default Test;

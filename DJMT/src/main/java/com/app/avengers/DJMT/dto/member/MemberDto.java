@@ -4,6 +4,7 @@ package com.app.avengers.DJMT.dto.member;
 import com.app.avengers.DJMT.dto.auth.RoleDto;
 import com.app.avengers.DJMT.dto.login.LoginHistoryDto;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Map;
 
@@ -34,7 +35,7 @@ public class MemberDto {
     private String etc_param4;
     private String etc_param5;
     private String valid = "N";
-    private String mem_profile;
+    private String mem_profile_id;
     private LoginHistoryDto loginHistoryDto;
 
     public LoginHistoryDto getHistoryDto(){
