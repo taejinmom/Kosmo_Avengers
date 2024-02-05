@@ -4,7 +4,7 @@
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
 <!--            <pattern>%boldYellow(%d{MM-dd HH:mm:ss}) %green([%thread]) %logger{5} %highlight(%-5level) %boldWhite([%C{2}.%M:%yellow(%L)]) - %msg %n</pattern>-->
-            <pattern>%boldYellow(%d{MM-dd HH:mm:ss}) %highlight(%-5level) %green([%thread{10}]) %X{REQSEQ:--} %boldWhite([%logger[%method:%line]]) - %msg %ex %n"</pattern>
+            <pattern>%boldYellow(%d{MM-dd HH:mm:ss}) %highlight(%-5level) %green([%thread{10}]) %X{REQSEQ:--} %boldWhite([%logger[%method:%line]]) - %msg %ex" %n</pattern>
         </encoder>
     </appender>
 

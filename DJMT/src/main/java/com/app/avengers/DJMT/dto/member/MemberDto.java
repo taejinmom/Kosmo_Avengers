@@ -35,7 +35,7 @@ public class MemberDto {
     private String etc_param4;
     private String etc_param5;
     private String valid = "N";
-    private String mem_profile_id;
+    private String mem_profile;
     private LoginHistoryDto loginHistoryDto;
 
     public LoginHistoryDto getHistoryDto(){

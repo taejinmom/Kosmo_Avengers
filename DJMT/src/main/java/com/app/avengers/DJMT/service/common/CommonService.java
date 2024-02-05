@@ -21,7 +21,10 @@ import org.springframework.stereotype.Service;
 import java.nio.ByteBuffer;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -67,5 +70,20 @@ public class CommonService {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
         return sdf.format(timestamp);
     }
-
+    public Map<String,String> maintenanceMapToString(HashMap<String,Object> map){
+        HashMap<String,String> newMap = map.entrySet().stream()
+                .collect((Collectors.toMap(Map.Entry::getKey, e-> (String)e.getValue())));
+        return newMap;
+    }
+    Map<String, String> checkAndTransform(Map<String, Object> inputMap) {
+        Map<String, String> result = new HashMap<>();
+        for (Map.Entry<String, Object> entry : inputMap.entrySet()) {
+            try {
+                result.put(entry.getKey(), (String) entry.getValue());
+            } catch (ClassCastException e) {
+                throw e; // or a required error handling
+            }
+        }
+        return result;
+    }
 }

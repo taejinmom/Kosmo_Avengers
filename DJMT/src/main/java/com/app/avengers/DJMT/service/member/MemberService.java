@@ -9,6 +9,7 @@ import com.app.avengers.DJMT.mgr.member.MemberMgr;
 import com.app.avengers.DJMT.repository.member.MemberRepository;
 import com.app.avengers.DJMT.service.common.CommonService;
 import com.app.avengers.DJMT.service.file.FileService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -91,13 +93,16 @@ public class MemberService implements MemberRepository {
 //        memberDto = memberMgr.editMemberInfo(memberDto);
 //        memberMapper.editMemberInfo(memberDto);
 //    }
-    public FileDto addProfileImage(String category, MultipartFile multipartFile){
+    @Transactional
+    public FileDto addProfileImage(String category, MultipartFile multipartFile, HashMap<String,Object> map){
 
+        FileDto fileDto = fileService.fileInsertProcess(multipartFile,category, (String)map.get("mem_no"));
 
-//        String volumePath = fileService.addVolume(category);
-        fileService.getFilePath(multipartFile,category);
+        ObjectMapper mapper = new ObjectMapper();
+        MemberDto memberDto = mapper.convertValue(commonService.maintenanceMapToString(map),MemberDto.class);
+        memberDto.setMem_profile(fileDto.getFile_id());
+        memberMapper.editMemberInfo(memberDto);
 
-//        fileService.
         return null;
     }
     /**

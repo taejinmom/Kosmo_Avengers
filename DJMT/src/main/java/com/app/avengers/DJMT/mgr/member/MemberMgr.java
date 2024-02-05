@@ -57,10 +57,6 @@ public class MemberMgr {
         loginHistoryDto.setLogout_date("");
         return memberDto;
     }
-    /**
-     * description    : 현재 시간 출력
-     * 2023-12-23   by  taejin       
-     */
 
     /**
      * description    : 회원 정보 수정

@@ -9,6 +9,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.nio.file.Paths;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+
 /**
  * packageName    : com.app.avengers.DJMT.mgr.file
  * fileName       : FileMgr
@@ -27,17 +31,30 @@ public class FileMgr {
 
     private final CommonService commonService;
 
-    public FileDto makeFileDto(MultipartFile multipartFile, FileDto fileDto) {
+    public FileDto makeFileDto(MultipartFile multipartFile, FileDto fileDto, String mem_no) {
         String file_id = commonService.generateUUID(Constants.FILE);
         String file_name = commonService.generateUUID(Constants.FILE);
         fileDto.setFile_id(file_id);
         fileDto.setFile_name(file_name);
         fileDto.setFile_orgName(multipartFile.getOriginalFilename());
+        fileDto.setFile_path(getFilePath());
+        fileDto.setReg_id(mem_no);
+        fileDto.setReg_date(commonService.currentDate());
+        fileDto.setChg_id(mem_no);
+        fileDto.setChg_date(commonService.currentDate());
 //        fileDto.set
         return fileDto;
     }
-    public VolumeDto makeVolumeDto() {
-
+    public String getFilePath () {
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd/HH");
+        String[] arr = sdf.format(timestamp).split("/");
+        return Paths.get("",arr[0],arr[1],arr[2],arr[3]).toString();
     }
-
+    public VolumeDto makeVolumeDto(VolumeDto volumeDto,String repository, String type){
+        volumeDto.setVol_path(repository);
+        volumeDto.setVol_type(type);
+        volumeDto.setVol_id(commonService.generateUUID(Constants.VOLUME));
+        return volumeDto;
+    }
 }

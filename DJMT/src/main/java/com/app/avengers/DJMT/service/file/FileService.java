@@ -1,7 +1,10 @@
 package com.app.avengers.DJMT.service.file;
 
 import com.app.avengers.DJMT.dto.file.FileDto;
+import com.app.avengers.DJMT.dto.file.VolumeDto;
+import com.app.avengers.DJMT.mapper.file.FileMapper;
 import com.app.avengers.DJMT.mgr.file.FileMgr;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +37,7 @@ import java.text.SimpleDateFormat;
 @RequiredArgsConstructor
 @Service
 public class FileService {
+    private final FileMapper fileMapper;
     private final FileMgr fileMgr;
     @Value("${file.repository}")
     private String repository;
@@ -58,19 +62,29 @@ public class FileService {
         }
         return volumePath;
     }
-    public void getFilePath (MultipartFile multipartFile, String category) {
+
+    @Transactional
+    public FileDto fileInsertProcess(MultipartFile multipartFile, String category, String mem_no) {
 //        StringBuilder builder = new StringBuilder();
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd/HH");
         FileDto fileDto = new FileDto();
-
+        VolumeDto volumeDto = new VolumeDto();
         String[] arr = sdf.format(timestamp).split("/");
-        String filePath = Paths.get(repository,category,arr[0],arr[1],arr[2],arr[3]).toString();
 
-        fileDto.setFile_path(filePath.substring(filePath.indexOf(category)+1));
-        fileMgr.makeFileDto(multipartFile, fileDto);
+//        String filePath = Paths.get(repository,category,arr[0],arr[1],arr[2],arr[3]).toString();
+        // 파일 경로
+        String filePath = fileMgr.getFilePath();
+        // full 경로
+        String fileFullPath = Paths.get(repository,category,filePath).toString();
 
-        File folder = new File(filePath);
+        // filePath
+        fileDto.setFile_path(filePath);
+        fileMgr.makeFileDto(multipartFile, fileDto, mem_no);
+//        fileMgr.makeVolumeDto(volumeDto,repository,category);
+
+        // 폴더 생성
+        File folder = new File(fileFullPath);
         if (!folder.exists()) {
             try {
                 folder.mkdirs(); //폴더 생성합니다.
@@ -81,7 +95,15 @@ public class FileService {
         } else {
             log.info("이미 폴더가 생성되어 있습니다." + filePath);
         }
-
-
+        // 파일 생성
+        Path savePath = Paths.get(repository,category,filePath,fileDto.getFile_name());
+        try {
+            multipartFile.transferTo(savePath);
+            fileMapper.fileSave(fileDto);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return fileDto;
     }
+
 }

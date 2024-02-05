@@ -7,6 +7,7 @@ import com.app.avengers.DJMT.dto.member.MemberDto;
 import com.app.avengers.DJMT.dto.token.TokenDto;
 import com.app.avengers.DJMT.service.jwt.JwtService;
 import com.app.avengers.DJMT.service.member.MemberService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DuplicateKeyException;
@@ -19,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Member;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -100,7 +102,7 @@ public class MemberController {
      * 2024-01-13   by  taejin       
      */
     @PostMapping(path = "/editMemberInfo",consumes = {MediaType.MULTIPART_FORM_DATA_VALUE,MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> editMemberInfo(@RequestPart(name = "file", required = false) MultipartFile file, @RequestBody MemberDto memberDto){
+    public ResponseEntity<?> editMemberInfo( @RequestBody MemberDto memberDto){
         try{
 //            memberService.editMemberInfo(memberDto);
             log.info("editMemberInfo >> " + memberDto.getEtc_param1());
@@ -150,8 +152,9 @@ public class MemberController {
 //    @PostMapping(path = "/postTest")
     public String postTest(@RequestPart(name = "file", required = false) MultipartFile multipartFile,
                            @RequestPart(name = "memberData", required = false) HashMap<String,Object> map){
+        String mem_no = (String)map.get("mem_no");
         // 파일 경로 지정 및 저장
-        memberService.addProfileImage(Constants.MEM_PROFILE,multipartFile);
+        memberService.addProfileImage(Constants.MEM_PROFILE, multipartFile, map);
         // 파일 저장        
 //        try {
 //            multipartFile.transferTo(Paths.get("D:\\project-repository\\test.jpeg"));
