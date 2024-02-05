@@ -70,13 +70,13 @@ public class CommonService {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
         return sdf.format(timestamp);
     }
-    public Map<String,String> maintenanceMapToString(HashMap<String,Object> map){
-        HashMap<String,String> newMap = map.entrySet().stream()
-                .collect((Collectors.toMap(Map.Entry::getKey, e-> (String)e.getValue())));
-        return newMap;
-    }
-    Map<String, String> checkAndTransform(Map<String, Object> inputMap) {
-        Map<String, String> result = new HashMap<>();
+//    public Map<String,String> maintenanceMapToString(HashMap<String,Object> map){
+//        HashMap<String,String> newMap = map.entrySet().stream()
+//                .collect((Collectors.toMap(Map.Entry::getKey, e-> (String)e.getValue())));
+//        return newMap;
+//    }
+    public HashMap<String, String> checkAndTransform(Map<String, Object> inputMap) {
+        HashMap<String, String> result = new HashMap<>();
         for (Map.Entry<String, Object> entry : inputMap.entrySet()) {
             try {
                 result.put(entry.getKey(), (String) entry.getValue());

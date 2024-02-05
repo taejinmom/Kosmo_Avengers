@@ -13,12 +13,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.type.TypeReference;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.lang.reflect.Member;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
@@ -94,12 +97,12 @@ public class MemberService implements MemberRepository {
 //        memberMapper.editMemberInfo(memberDto);
 //    }
     @Transactional
-    public FileDto addProfileImage(String category, MultipartFile multipartFile, HashMap<String,Object> map){
+    public FileDto addProfileImage(String category, MultipartFile multipartFile, Map<String,Object> map){
 
         FileDto fileDto = fileService.fileInsertProcess(multipartFile,category, (String)map.get("mem_no"));
 
         ObjectMapper mapper = new ObjectMapper();
-        MemberDto memberDto = mapper.convertValue(commonService.maintenanceMapToString(map),MemberDto.class);
+        MemberDto memberDto = mapper.convertValue(commonService.checkAndTransform(map),MemberDto.class);
         memberDto.setMem_profile(fileDto.getFile_id());
         memberMapper.editMemberInfo(memberDto);
 
@@ -124,7 +127,9 @@ public class MemberService implements MemberRepository {
      * description    : update login history - status로 구분(login , logout)
      * 2024-01-27   by  taejin       
      */
-    public int recordLoginHistory(LoginHistoryDto loginHistoryDto,String status){
+    public int recordLoginHistory(LoginHistoryDto loginHistoryDto, String mem_no, String status){
+        loginHistoryDto.setMem_no(mem_no);
+        loginHistoryDto.setReg_id(mem_no);
         loginHistoryDto.setCurrent_date(commonService.currentDate());
         loginHistoryDto.setStatus(status);
         return memberMapper.updateLoginHistory(loginHistoryDto);

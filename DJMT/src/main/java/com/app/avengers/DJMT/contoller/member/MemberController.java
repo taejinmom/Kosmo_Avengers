@@ -52,7 +52,8 @@ public class MemberController {
             memberDto = memberService.loginCheck(memberDto);
             if(memberDto.getValid().equals(Constants.COMMON_CONSTANTS_Y) && memberDto.getMem_status().equals(Constants.MEMBER_STATUS_1)){
                 // login history update
-                memberService.recordLoginHistory(memberDto.getHistoryDto(),Constants.COMMON_CONSTANTS_Y);
+                LoginHistoryDto loginHistoryDto = new LoginHistoryDto();
+                memberService.recordLoginHistory(loginHistoryDto, memberDto.getMem_no(),Constants.COMMON_CONSTANTS_Y);
                 // 패스워드 체크 성공 , status = 1인 사용자 토큰 및 데이터 클라이언트로 전송
                 TokenDto tokenDto = jwtTokenProvider.createAccessToken(memberDto.getMem_no(),memberDto.getRole());
                 jwtService.login(tokenDto);
@@ -137,8 +138,8 @@ public class MemberController {
      * 2024-01-27   by  taejin       
      */
     @PostMapping("/logout")
-    public ResponseEntity<?> logoutHandler(@RequestBody MemberDto memberDto){
-        memberService.recordLoginHistory(memberDto.getHistoryDto(),Constants.COMMON_CONSTANTS_N);
+    public ResponseEntity<?> logoutHandler(@RequestBody LoginHistoryDto loginHistoryDto){
+        memberService.recordLoginHistory(loginHistoryDto, loginHistoryDto.getMem_no() ,Constants.COMMON_CONSTANTS_N);
         log.info("logout!!!");
         return new ResponseEntity<>(Constants.RESPONSE_SUCCESS, HttpStatus.OK);
     }
@@ -151,7 +152,7 @@ public class MemberController {
     @PostMapping(path = "/postTest",consumes = {MediaType.MULTIPART_FORM_DATA_VALUE,MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_OCTET_STREAM_VALUE})
 //    @PostMapping(path = "/postTest")
     public String postTest(@RequestPart(name = "file", required = false) MultipartFile multipartFile,
-                           @RequestPart(name = "memberData", required = false) HashMap<String,Object> map){
+                           @RequestPart(name = "memberData", required = false) Map<String,Object> map){
         String mem_no = (String)map.get("mem_no");
         // 파일 경로 지정 및 저장
         memberService.addProfileImage(Constants.MEM_PROFILE, multipartFile, map);
