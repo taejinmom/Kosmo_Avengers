@@ -14,6 +14,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -64,7 +65,7 @@ public class FileService {
     }
 
     @Transactional
-    public FileDto fileInsertProcess(MultipartFile multipartFile, String category, String mem_no) {
+    public FileDto fileInsertProcess(MultipartFile multipartFile, String type, String mem_no) {
 //        StringBuilder builder = new StringBuilder();
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd/HH");
@@ -76,10 +77,11 @@ public class FileService {
         // 파일 경로
         String filePath = fileMgr.getFilePath();
         // full 경로
-        String fileFullPath = Paths.get(repository,category,filePath).toString();
+        String fileFullPath = Paths.get(repository,type,filePath).toString();
 
         // filePath
         fileDto.setFile_path(filePath);
+        fileDto.setVol_type(type);
         fileMgr.makeFileDto(multipartFile, fileDto, mem_no);
 //        fileMgr.makeVolumeDto(volumeDto,repository,category);
 
@@ -96,7 +98,7 @@ public class FileService {
             log.info("이미 폴더가 생성되어 있습니다." + filePath);
         }
         // 파일 생성
-        Path savePath = Paths.get(repository,category,filePath,fileDto.getFile_name());
+        Path savePath = Paths.get(repository,type,filePath,fileDto.getFile_name());
         try {
             multipartFile.transferTo(savePath);
             fileMapper.fileSave(fileDto);
@@ -105,5 +107,22 @@ public class FileService {
         }
         return fileDto;
     }
+    public FileDto findFullPathByFileId(String file_id) {
+        try {
+            return fileMapper.findFullPathByFileId(file_id);
+        }catch (Exception e){
+            e.getStackTrace();
+        }
+            return null;
 
+    }
+    public byte[] getImageFile(Path path) {
+
+        try {
+            byte[] imageBytes = Files.readAllBytes(path);
+            return imageBytes;
+        } catch (IOException e) {
+                throw new RuntimeException(e);
+        }
+    }
 }

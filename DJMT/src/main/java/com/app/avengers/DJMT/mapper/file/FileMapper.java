@@ -8,5 +8,5 @@ public interface FileMapper {
     
 
     public void fileSave(FileDto fileDto); // 회원가입
-
+    public FileDto findFullPathByFileId(String file_id);// 파일 full path 찾기
 }

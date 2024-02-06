@@ -65,7 +65,7 @@
             mem_gen = #{mem_gen},
             mem_addr1 = #{mem_addr1},
             mem_addr2 = #{mem_addr2},
-            <if test="mem_profile == 'true'">
+            <if test="mem_profile != null ">
                 mem_profile = #{mem_profile},
             </if>
             chg_date = #{chg_date},

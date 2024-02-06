@@ -91,8 +91,8 @@ public class MemberController {
     @PostMapping("/myPage")
     public ResponseEntity<?> myPage(@RequestBody Map<String,String> map){
         try {
-            MemberDto memberDto = memberService.getMemberInfoByMemNo(map.get("mem_no"));
-            return new ResponseEntity<>(memberDto,HttpStatus.OK);
+            HashMap<String, Object> resultMap = memberService.getMemberInfoByMemNo(map.get("mem_no"));
+            return new ResponseEntity<>(resultMap ,HttpStatus.OK);
         }catch (NullPointerException e){
             return new ResponseEntity<>(Constants.RESPONSE_FAIL,HttpStatus.BAD_REQUEST);
         }
@@ -153,18 +153,10 @@ public class MemberController {
 //    @PostMapping(path = "/postTest")
     public String postTest(@RequestPart(name = "file", required = false) MultipartFile multipartFile,
                            @RequestPart(name = "memberData", required = false) Map<String,Object> map){
-        String mem_no = (String)map.get("mem_no");
-        // 파일 경로 지정 및 저장
-        memberService.addProfileImage(Constants.MEM_PROFILE, multipartFile, map);
+
+        memberService.editMemberInfo(Constants.MEM_PROFILE, multipartFile, map);
         // 파일 저장        
-//        try {
-//            multipartFile.transferTo(Paths.get("D:\\project-repository\\test.jpeg"));
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-        // 사용자
-        
-        Path serverPath = Paths.get("D:\\project-repository" + File.separator + StringUtils.cleanPath(multipartFile.getOriginalFilename()));
+
         log.info("postTest >>> " + multipartFile);
         log.info("postTest >>> " + map);
         return "OK";

@@ -133,9 +133,20 @@ export const loginHandler = async (
 
 // mypage 데이터 불러오기
 export const myPageHandler = async (memberKey) => {
-  return memberAxiosApi("/myPage", "post", {
+  // return memberAxiosApi("/myPage", "post", {
+  //   mem_no: memberKey,
+  // });
+  const res = await request.post("/myPage", {
     mem_no: memberKey,
   });
+  // .then((res) => {
+  //   console.log("res >> ", res);
+  // })
+  // .catch((error) => {
+  //   console.log("error >> ", error);
+  // });
+
+  return res;
 };
 
 // 수정하기

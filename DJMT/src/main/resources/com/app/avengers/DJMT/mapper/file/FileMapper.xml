@@ -8,7 +8,14 @@
         values (#{file_id},#{file_name},#{file_path},#{vol_type}, #{reg_id}, #{reg_date}, #{chg_id}, #{chg_date})
         /* com\app\avengers\DJMT\mapper\file\FileMapper.xml - fileSave */
     </insert>
-
+    <!-- find by file_id -->
+    <select id="findFullPathByFileId" parameterType="String" resultType="com.app.avengers.DJMT.dto.file.FileDto">
+        SELECT v.vol_path || '\' || v.vol_type ||'\' || file_path || f.file_name AS file_full_path
+        FROM file_meta f, file_volume v
+        WHERE 1=1
+        AND f.vol_type = v.vol_type
+        AND f.file_id = #{file_id}
+    </select>
 
 
 </mapper>

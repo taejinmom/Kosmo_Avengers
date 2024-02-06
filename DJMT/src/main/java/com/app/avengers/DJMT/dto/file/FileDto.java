@@ -22,6 +22,7 @@ public class FileDto {
     private String file_name;
     private String file_orgName;
     private String file_type;
+    private String file_full_path;
     private String vol_type;
     private String reg_id;
     private String reg_date;

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from "react";
 
 import {
   Avatar,
@@ -9,81 +9,84 @@ import {
   Typography,
   Container,
   Grid,
-} from '@mui/material/'
-import { createTheme, ThemeProvider } from '@mui/material/styles'
-import { useLocation, useNavigate } from 'react-router-dom'
+} from "@mui/material/";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   editMyPageHandler,
   inputHandler,
   myPageHandler,
-} from '../../handler/MemberHandler'
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
-import JoinAddrInput from '../inputForm/JoinAddrInput'
-import JoinRadioArea from '../inputForm/JoinRadio'
-import IdInput from '../inputForm/IdInput'
-import PwInput from '../inputForm/PwInput'
-import { useRecoilValue } from 'recoil'
-import { isLogin, memberKeyAtom } from '../../atom/LoginAtom'
-import { adminEdit } from '../../atom/AdminAtom'
-import BasicTextInput from '../inputForm/BasicTextInput'
+} from "../../handler/MemberHandler";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import JoinAddrInput from "../inputForm/JoinAddrInput";
+import JoinRadioArea from "../inputForm/JoinRadio";
+import IdInput from "../inputForm/IdInput";
+import PwInput from "../inputForm/PwInput";
+import { useRecoilValue } from "recoil";
+import { isLogin, memberKeyAtom } from "../../atom/LoginAtom";
+import { adminEdit } from "../../atom/AdminAtom";
+import BasicTextInput from "../inputForm/BasicTextInput";
 
-const MyPage = props => {
+const MyPage = (props) => {
   const [Image, setImage] = useState(
-    'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
-  )
-  const fileInput = useRef(null)
-  const { confirm } = props
-  const location = useLocation()
-  const memberKey = useRecoilValue(memberKeyAtom)
-  const isLoginCheck = useRecoilValue(isLogin)
-  const navigate = useNavigate()
-  const [myPageData, setMyPageData] = useState({})
-  const address = useRef() // 주소 input 값
-  const [change, setChange] = useState(true)
-  const [imageUrl ,setImageUrl] = useState('')
-  const imageRef = useRef()
+    "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+  );
+  const fileInput = useRef(null);
+  const { confirm } = props;
+  const location = useLocation();
+  const memberKey = useRecoilValue(memberKeyAtom);
+  const isLoginCheck = useRecoilValue(isLogin);
+  const navigate = useNavigate();
+  const [myPageData, setMyPageData] = useState({});
+  const address = useRef(); // 주소 input 값
+  const [change, setChange] = useState(true);
+  const [imageUrl, setImageUrl] = useState("");
+  const imageRef = useRef();
 
   useEffect(() => {
     // 로그인 풀리면 홈으로
     if (!isLoginCheck) {
-      navigate('/')
+      navigate("/");
     }
-    if (location.state.adminEdit) { //관리자 마이페이지
-      myPageHandler(location.state.mem_no, isLoginCheck).then(res => {
-        setMyPageData({
-          ...res,
-          chg_id: memberKey,
-        })
-      })
-    } else { // 사용자 마이페이지
-      myPageHandler(memberKey, isLoginCheck).then(res =>
-        setMyPageData({
-          ...res,
-          chg_id: memberKey,
-        })
-      )
-    }
-  }, [])
+    if (location.state.adminEdit) {
+      //관리자 마이페이지
+      const res = myPageHandler(location.state.mem_no, isLoginCheck);
+      setMyPageData({
+        ...res,
+        chg_id: memberKey,
+      });
+    } else {
+      // 사용자 마이페이지
+      const res = myPageHandler(memberKey, isLoginCheck);
 
-  const [popup, setPopup] = useState(false)
+      console.log({ res });
+      setMyPageData({
+        ...res,
+        chg_id: memberKey,
+      });
+    }
+  }, []);
+
+  const [popup, setPopup] = useState(false);
   // 주소 버튼찾기 클릭
-  const handleComplete = e => {
-    e.preventDefault()
-    setPopup(!popup)
-  }
+  const handleComplete = (e) => {
+    e.preventDefault();
+    setPopup(!popup);
+  };
 
   // form 전송 - 수정
-  const handleSubmit = e => {
-    e.preventDefault()
-    const file = new FormData()
-    file.append('file', imageUrl)
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const file = new FormData();
+    file.append("file", imageUrl);
     // file.append('memberData', new Blob([JSON.stringify(myPageData)])
-    file.append('memberData', new Blob([JSON.stringify(myPageData)], {type: "application/json"}))
+    file.append(
+      "memberData",
+      new Blob([JSON.stringify(myPageData)], { type: "application/json" })
+    );
     // file.append('memberData', myPageData)
-    
-    
 
-    editMyPageHandler(file)
+    editMyPageHandler(file);
     // if (adminEdit) {
     //   navigate('/member', {
     //     state: {
@@ -93,68 +96,68 @@ const MyPage = props => {
     // } else {
     //   navigate('/')
     // }
-  }
+  };
   // 홈으로
-  const handleRedirect = e => {
-    e.preventDefault()
-    navigate('/')
-  }
-  const onChange = e => {
+  const handleRedirect = (e) => {
+    e.preventDefault();
+    navigate("/");
+  };
+  const onChange = (e) => {
     if (e.target.files[0]) {
       // setImage(e.target.files[0])
-      setMyPageData({...myPageData,mem_profile : e.target.files[0]})
-      console.log( e.target.files[0])
-      console.log( myPageData)
+      setMyPageData({ ...myPageData, mem_profile: e.target.files[0] });
+      console.log(e.target.files[0]);
+      console.log(myPageData);
     } else {
       //업로드 취소할 시
       setImage(
-        'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
-      )
-      return
+        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+      );
+      return;
     }
     //화면에 프로필 사진 표시
-  //   const reader = new FileReader()
-  //   reader.onload = () => {
-  //     if (reader.readyState === 2) {
-  //       setImageUrl(reader.result)
-  //     }
-  //   }
-  //   reader.readAsDataURL(e.target.files[0])
-  }
+    //   const reader = new FileReader()
+    //   reader.onload = () => {
+    //     if (reader.readyState === 2) {
+    //       setImageUrl(reader.result)
+    //     }
+    //   }
+    //   reader.readAsDataURL(e.target.files[0])
+  };
 
-  const handleImage = async(e)=>{
+  const handleImage = async (e) => {
     console.log(e.target.files[0]);
-    const file = e.target.files[0]
-    const err = checkImage(file)
-    
-    if(err) return window.alert(err)
-    if(file){
-        setImage(URL.createObjectURL(file))
+    const file = e.target.files[0];
+    const err = checkImage(file);
+
+    if (err) return window.alert(err);
+    if (file) {
+      setImage(URL.createObjectURL(file));
     }
-    setImageUrl(file)
-}
+    setImageUrl(file);
+  };
 
-  const checkImage = (file) =>{
-      let err=""
+  const checkImage = (file) => {
+    let err = "";
 
-      if(!file) return err="File does not exist."
-      if(file.size>1024*1024){
-          err = "The largest image size is 1mb."
-      }
-      if(file.type !== 'image/jpeg' && file.type !== 'image/png'){
-          err = "Image format is incorrect."
-      }
+    if (!file) return (err = "File does not exist.");
+    if (file.size > 1024 * 1024) {
+      err = "The largest image size is 1mb.";
+    }
+    if (file.type !== "image/jpeg" && file.type !== "image/png") {
+      err = "Image format is incorrect.";
+    }
 
-      return err
-  }
+    return err;
+  };
 
-  const handleImageDelete= () =>{
-      setImageUrl('')
-      var preview = document.getElementById('preview')
-      preview.src = ''
-  }
+  const handleImageDelete = () => {
+    setImageUrl("");
+    var preview = document.getElementById("preview");
+    preview.src = "";
+  };
 
-  const defaultTheme = createTheme()
+  const defaultTheme = createTheme();
   return (
     <>
       <ThemeProvider theme={defaultTheme}>
@@ -163,9 +166,9 @@ const MyPage = props => {
           <Box
             sx={{
               marginTop: 8,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
             }}
           >
             {/* <input
@@ -181,16 +184,16 @@ const MyPage = props => {
             <Avatar
               // src={myPageData.mem_profile === null? Image :myPageData.mem_profile}
               src={Image}
-              style={{ margin: '20px', cursor: 'pointer' }}
+              style={{ margin: "20px", cursor: "pointer" }}
               sx={{ width: 100, height: 120 }}
               ref={imageRef}
               onClick={() => {
-                fileInput.current.click()
+                fileInput.current.click();
               }}
             />
             <input
               type="file"
-              style={{ display: 'none' }}
+              style={{ display: "none" }}
               accept="image/jpg,impge/png,image/jpeg"
               name="file"
               onChange={handleImage}
@@ -204,8 +207,8 @@ const MyPage = props => {
                     data={myPageData}
                     setData={setMyPageData}
                     isLoginCheck={isLoginCheck}
-                    label={'ID'}
-                    name='login_id'
+                    label={"ID"}
+                    name="login_id"
                   />
                   {/* <IdInput
                     data={myPageData}
@@ -220,14 +223,14 @@ const MyPage = props => {
                     change={change}
                     setChange={setChange}
                     confirm={confirm}
-                    label={'Password'}
+                    label={"Password"}
                   />
                   <BasicTextInput
                     data={myPageData}
                     setData={setMyPageData}
                     isLoginCheck={isLoginCheck}
-                    label='Name'
-                    name='mem_name'
+                    label="Name"
+                    name="mem_name"
                   />
                   <JoinAddrInput
                     popup={popup}
@@ -236,30 +239,30 @@ const MyPage = props => {
                     data={myPageData}
                     setData={setMyPageData}
                     handleComplete={handleComplete}
-                    label={'Address'}
+                    label={"Address"}
                   />
                   <BasicTextInput
                     data={myPageData}
                     setData={setMyPageData}
                     isLoginCheck={isLoginCheck}
-                    label='Remaining'
-                    name='mem_addr2'
+                    label="Remaining"
+                    name="mem_addr2"
                   />
                   <JoinRadioArea
                     inputHandler={inputHandler}
                     data={myPageData}
                     setData={setMyPageData}
-                    label={'Gender'}
+                    label={"Gender"}
                   />
 
                   {/* 버튼 */}
-                  <Grid container textAlign={'right'}>
+                  <Grid container textAlign={"right"}>
                     <Button
                       type="submit"
                       variant="contained"
                       sx={{ mt: 2, mb: 2, mr: 3 }}
                       size="large"
-                      onClick={e => handleSubmit(e)}
+                      onClick={(e) => handleSubmit(e)}
                     >
                       수정
                     </Button>
@@ -268,7 +271,7 @@ const MyPage = props => {
                       variant="contained"
                       sx={{ mt: 2, mb: 2 }}
                       size="large"
-                      onClick={e => handleRedirect(e)}
+                      onClick={(e) => handleRedirect(e)}
                     >
                       홈으로
                     </Button>
@@ -280,7 +283,7 @@ const MyPage = props => {
         </Container>
       </ThemeProvider>
     </>
-  )
-}
+  );
+};
 
-export default MyPage
+export default MyPage;

@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.lang.reflect.Member;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -88,22 +89,36 @@ public class MemberService implements MemberRepository {
      * description    : myPage 데이터 출력
      * 2024-01-13   by  taejin       
      */
-    public MemberDto getMemberInfoByMemNo(String mem_no){
-        return memberMapper.getMemberInfoByMemNo(mem_no);
+    public HashMap<String,Object> getMemberInfoByMemNo(String mem_no){
+        HashMap<String,Object> map = new HashMap<>();
+        // 회원
+        MemberDto memberDto = memberMapper.getMemberInfoByMemNo(mem_no);
+        map.put("memberDto",memberDto);
+        //
+        try{
+            FileDto fileDto = fileService.findFullPathByFileId(memberDto.getMem_profile());
+            byte[] imageBytes = fileService.getImageFile(Paths.get(fileDto.getFile_full_path()));
+
+            map.put("imageBytes",imageBytes);
+        }catch (Exception e) {
+            e.getStackTrace();
+        }
+        return map;
     }
 
-//    public void editMemberInfo(MemberDto memberDto){
-//        memberDto = memberMgr.editMemberInfo(memberDto);
-//        memberMapper.editMemberInfo(memberDto);
-//    }
+    /**
+    * description    : 사용자 정보 변경
+    *    by  taejin
+    */
     @Transactional
-    public FileDto addProfileImage(String category, MultipartFile multipartFile, Map<String,Object> map){
-
+    public FileDto editMemberInfo(String category, MultipartFile multipartFile, Map<String,Object> map){
+        // 파일 저장
         FileDto fileDto = fileService.fileInsertProcess(multipartFile,category, (String)map.get("mem_no"));
 
         ObjectMapper mapper = new ObjectMapper();
         MemberDto memberDto = mapper.convertValue(commonService.checkAndTransform(map),MemberDto.class);
         memberDto.setMem_profile(fileDto.getFile_id());
+        // 사용자 정보 변경
         memberMapper.editMemberInfo(memberDto);
 
         return null;

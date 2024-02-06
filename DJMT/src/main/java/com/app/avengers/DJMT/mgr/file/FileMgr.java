@@ -38,6 +38,8 @@ public class FileMgr {
         fileDto.setFile_name(file_name);
         fileDto.setFile_orgName(multipartFile.getOriginalFilename());
         fileDto.setFile_path(getFilePath());
+        if(mem_no.isEmpty()) mem_no = "";
+
         fileDto.setReg_id(mem_no);
         fileDto.setReg_date(commonService.currentDate());
         fileDto.setChg_id(mem_no);
