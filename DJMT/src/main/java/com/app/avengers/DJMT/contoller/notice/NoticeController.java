@@ -8,8 +8,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -64,9 +62,12 @@ public class NoticeController {
     @GetMapping("/api/checkNoticeAuthentication")
     public ResponseEntity<?> checkNoticeAuthentication(@RequestParam String token, String reg_id){
         boolean noticeAuth = false;
-
+        System.out.println("[checkNoticeAuthentication] >>>>>token:"+token);
+        System.out.println("[checkNoticeAuthentication] >>>>>reg_id:"+reg_id);
         String userPK = jwtTokenProvider.getUserPk(token);
+        System.out.println("[checkNoticeAuthentication] >>>>>userPK:"+userPK);
         String login_id = memberService.getMemberInfoByMemNo(userPK).getLogin_id();
+        System.out.println("[checkNoticeAuthentication] >>>>>login_id:"+login_id);
         if (reg_id.equals(login_id)){// reg_id랑 userPK의 mem_id랑 같을때,
             noticeAuth = true;
         }
