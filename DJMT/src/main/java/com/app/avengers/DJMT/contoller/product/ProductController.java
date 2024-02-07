@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -16,7 +18,13 @@ public class ProductController {
 
     @GetMapping("/api/product")
     public ResponseEntity<?> getProduct(){
+        log.debug("CONTROLLER getProduct");
         return ResponseEntity.ok(service.getProduct());
+    }
+    @GetMapping("/api/productDetail")
+    public ResponseEntity<?> getProductDetail(@RequestParam String pdct_no){
+        log.debug("pdct_no :: ",pdct_no);
+        return ResponseEntity.ok(service.getProductDetail(pdct_no));
     }
 
 

@@ -11,21 +11,21 @@ import java.util.Map;
 @Setter
 @NoArgsConstructor
 public class ProductDto {
-    private String pdctNo;
-    private String pdctCateNo;
-    private String pdctNm;
-    private String pdctPrice;
-    private String pdctComm;
-    private String pdctAmt;
-    private String pdctStatus;
-    private String regId;
-    private String regDate;
-    private String chgDate;
-    private String chgId;
+    private String pdct_no;
+    private String pdct_cate_no;
+    private String pdct_nm;
+    private String pdct_price;
+    private String pdct_comm;
+    private String pdct_amt;
+    private String pdct_status;
+    private String reg_id;
+    private String reg_date;
+    private String chg_date;
+    private String chg_id;
 
     public void toDto(Map<String ,String> map){
         map.forEach((key, value)->{
-            
+
         });
     }
 

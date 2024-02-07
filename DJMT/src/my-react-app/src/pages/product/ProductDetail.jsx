@@ -1,20 +1,55 @@
 import { useParams } from "react-router-dom";
 import "./Product.css";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import axios from "axios";
+import { insertItem } from "../cart/CartSlice";
 
 function ProductDetail() {
-  const pdct_no = useParams().id;
+  let dispatch = useDispatch();
+  // const [products, setProducts] = useState([]);
+  const [count, setCount] = useState(1);
+  const [modal, setModal] = useState(false);
+  const pdct_no = useParams().pdct_no;
+  console.log("pdct_no ::", pdct_no);
   const [pdct, setPdct] = useState([]);
+  const price = pdct.pdct_price;
   let tmp = {};
   useEffect(() => {
-    axios.get(`/api/product/${pdct_no}`).then((res) => {
-      console.log("res ::", res);
-      setPdct(res.data);
-    });
+    axios
+      .get("/api/productDetail", { params: { pdct_no: pdct_no } })
+      .then((res) => {
+        setPdct(res.data);
+      });
   }, []);
 
-  console.log("tmp :: ", tmp);
+  const handleClick = (itemId) => {
+    if (
+      //!cartItems.find((el)=>el.itemId === itemId)
+      cartItems.filter((el) => {
+        return el.itemId === itemId;
+      }).length !== 0
+    ) {
+      setCartItems(
+        cartItems.map((el) => {
+          if (el.itemId === itemId) {
+            el.quantity += 1;
+          }
+          return el;
+        })
+      );
+    } else {
+      setCartItems([...cartItems, { itemId: itemId, quantity: 1 }]);
+    }
+  };
+
+  const formatPrice = (target) => {
+    if (target) {
+      let result = target.toLocaleString("ko-KR");
+      return result;
+    }
+  };
+  console.log("price ::", price);
 
   return (
     <>
@@ -60,6 +95,36 @@ function ProductDetail() {
               </div>
             </div>
           </div>
+          <div>
+            <div>
+              <p>구매 수량</p>
+              {/* 카운트 버튼 */}
+              <div>
+                <button
+                  onClick={() => {
+                    if (count === 1) {
+                      return 1;
+                    }
+                    setCount(count - 1);
+                  }}
+                >
+                  -
+                </button>
+                <p>{count}</p>
+                <button
+                  onClick={() => {
+                    setCount(count + 1);
+                  }}
+                >
+                  +
+                </button>
+              </div>
+            </div>
+            <div>
+              <p>총 상품 금액</p>
+              <p>₩ {formatPrice(price * count)}원</p>
+            </div>
+          </div>
           <hr class="my-4"></hr>
 
           <div class="text-right mgt-50">
@@ -73,11 +138,38 @@ function ProductDetail() {
             <button
               type="button"
               class="btn btn-light border btn-outline-dark btn-lg"
-              onclick="addCart()"
+              onClick={() => {
+                dispatch(
+                  insertItem({
+                    pdct_no: pdct.pdct_no,
+                    // isSoldOut: false,
+                    pdct_price: pdct.pdct_price,
+                    // thumbnail: products.thumbnail,
+                    pdct_nm: pdct.pdct_nm,
+                    pdct_amt: count,
+                    // checked: true,
+                  })
+                );
+                setModal(true);
+              }}
             >
               장바구니 담기
             </button>
-            <button type="button" class="btn btn-dark btn-lg" onclick="order()">
+            <button
+              type="button"
+              class="btn btn-dark btn-lg"
+              onClick={() => {
+                navigate("/payment", {
+                  state: {
+                    title: pdct.pdct_nm,
+                    id: pdct.pdct_no,
+                    count: count,
+                    price: pdct.pdct_price,
+                    totalPrice: price * count,
+                  },
+                });
+              }}
+            >
               주문하기
             </button>
           </div>
