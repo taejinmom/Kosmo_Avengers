@@ -1,7 +1,10 @@
 package com.app.avengers.DJMT;
 
+import com.app.avengers.DJMT.constants.Constants;
 import com.app.avengers.DJMT.dto.auth.RoleDto;
+import com.app.avengers.DJMT.dto.file.VolumeDto;
 import com.app.avengers.DJMT.dto.member.MemberDto;
+import com.app.avengers.DJMT.service.file.FileService;
 import com.app.avengers.DJMT.service.member.MemberService;
 import com.app.avengers.DJMT.service.common.CommonService;
 import jakarta.annotation.PostConstruct;
@@ -14,6 +17,7 @@ import org.springframework.stereotype.Component;
 public class MakeInitData {
     private final MemberService memberService;
     private final CommonService commonService;
+    private final FileService fileService;
 
     /**
      * description    : 사용자 더미데이터 (초기 개발에만 사용)
@@ -23,6 +27,8 @@ public class MakeInitData {
 
     @PostConstruct
     public void makeVolume() {
+        VolumeDto volumeDto = new VolumeDto();
+        fileService.addVolume(Constants.MEM_PROFILE);
 
     }
 //    @PostConstruct

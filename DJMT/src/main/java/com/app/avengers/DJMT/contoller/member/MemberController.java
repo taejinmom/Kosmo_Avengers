@@ -53,7 +53,7 @@ public class MemberController {
             if(memberDto.getValid().equals(Constants.COMMON_CONSTANTS_Y) && memberDto.getMem_status().equals(Constants.MEMBER_STATUS_1)){
                 // login history update
                 LoginHistoryDto loginHistoryDto = new LoginHistoryDto();
-                memberService.recordLoginHistory(loginHistoryDto, memberDto.getMem_no(),Constants.COMMON_CONSTANTS_Y);
+                memberService.addLoginHistory(loginHistoryDto, memberDto.getMem_no(),Constants.COMMON_CONSTANTS_Y);
                 // 패스워드 체크 성공 , status = 1인 사용자 토큰 및 데이터 클라이언트로 전송
                 TokenDto tokenDto = jwtTokenProvider.createAccessToken(memberDto.getMem_no(),memberDto.getRole());
                 jwtService.login(tokenDto);
@@ -139,7 +139,7 @@ public class MemberController {
      */
     @PostMapping("/logout")
     public ResponseEntity<?> logoutHandler(@RequestBody LoginHistoryDto loginHistoryDto){
-        memberService.recordLoginHistory(loginHistoryDto, loginHistoryDto.getMem_no() ,Constants.COMMON_CONSTANTS_N);
+        memberService.addLoginHistory(loginHistoryDto, loginHistoryDto.getMem_no() ,Constants.COMMON_CONSTANTS_N);
         log.info("logout!!!");
         return new ResponseEntity<>(Constants.RESPONSE_SUCCESS, HttpStatus.OK);
     }

@@ -40,7 +40,7 @@ import java.text.SimpleDateFormat;
 public class FileService {
     private final FileMapper fileMapper;
     private final FileMgr fileMgr;
-    @Value("${file.repository}")
+    @Value("${file.repository}") // 레파지토리 경로
     private String repository;
     /**
      * description    : 파일 저장하기 위해 volume폴더 생성
@@ -49,6 +49,8 @@ public class FileService {
     public String addVolume(String category) {
         StringBuilder builder = new StringBuilder();
 //
+        VolumeDto volumeDto = new VolumeDto();
+        fileMgr.makeVolumeDto(volumeDto, repository, category);
         String volumePath = Paths.get(repository,category).toString();
         File folder = new File(volumePath);
         if (!folder.exists()) {
@@ -63,27 +65,24 @@ public class FileService {
         }
         return volumePath;
     }
-
+    
+    /**
+    * description    : 로컬에 이미지파일 다운로드 프로세스
+    *    by  taejin
+    */
     @Transactional
     public FileDto fileInsertProcess(MultipartFile multipartFile, String type, String mem_no) {
-//        StringBuilder builder = new StringBuilder();
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd/HH");
         FileDto fileDto = new FileDto();
-        VolumeDto volumeDto = new VolumeDto();
-        String[] arr = sdf.format(timestamp).split("/");
 
-//        String filePath = Paths.get(repository,category,arr[0],arr[1],arr[2],arr[3]).toString();
         // 파일 경로
         String filePath = fileMgr.getFilePath();
         // full 경로
         String fileFullPath = Paths.get(repository,type,filePath).toString();
 
-        // filePath
+        // fileDto 세팅
         fileDto.setFile_path(filePath);
         fileDto.setVol_type(type);
         fileMgr.makeFileDto(multipartFile, fileDto, mem_no);
-//        fileMgr.makeVolumeDto(volumeDto,repository,category);
 
         // 폴더 생성
         File folder = new File(fileFullPath);
@@ -100,13 +99,18 @@ public class FileService {
         // 파일 생성
         Path savePath = Paths.get(repository,type,filePath,fileDto.getFile_name());
         try {
-            multipartFile.transferTo(savePath);
-            fileMapper.fileSave(fileDto);
+            fileMapper.editFileInfo(mem_no); // 사용자 정보 업데이트 이전 파일 delYn -> Y
+            fileMapper.fileSave(fileDto); // 새로 추가 된 파일 insert
+            multipartFile.transferTo(savePath); // 템프경로에서 파일 복사 -> repository
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         return fileDto;
     }
+    /**
+    * description    : fileid로 해당 파일 경로 fullpath찾기
+    *    by  taejin
+    */
     public FileDto findFullPathByFileId(String file_id) {
         try {
             return fileMapper.findFullPathByFileId(file_id);
@@ -114,8 +118,12 @@ public class FileService {
             e.getStackTrace();
         }
             return null;
-
     }
+    
+    /**
+    * description    : 이미지 파일 byte array로 읽어오기
+    *    by  taejin
+    */
     public byte[] getImageFile(Path path) {
 
         try {

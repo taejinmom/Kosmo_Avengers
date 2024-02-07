@@ -20,7 +20,8 @@ public class FileDto {
     private String file_id;
     private String file_path;
     private String file_name;
-    private String file_orgName;
+    private String file_orgname;
+    private String del_yn = "N";
     private String file_type;
     private String file_full_path;
     private String vol_type;

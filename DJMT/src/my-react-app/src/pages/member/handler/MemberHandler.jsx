@@ -18,20 +18,21 @@ export const validateToken = async (
   setCookie,
   removeCookie,
   isLoginCheck,
-  memberKey,
-  navigate
+  memberKey
 ) => {
   // 로그인을 안했을 때, 토큰은 없기때문에 한번 체크
   if (cookie.jwtToken === undefined) {
+    console.log("validate 실행");
     isLoginCheck(false);
     return;
   }
   // accessToken 토큰 권한 체크_1
-  await memberAxiosApi("validateToken", "get", {
-    headers: {
-      Authorization: cookie.accessToken,
-    },
-  })
+  await request
+    .get("validateToken", {
+      headers: {
+        Authorization: cookie.accessToken,
+      },
+    })
     .then((res) => console.log("1 validateToken >> ", res))
     .catch((error) => {
       console.log("1 error - > refreshToken 검증");
@@ -55,10 +56,16 @@ export const validateToken = async (
         })
         .catch((error) => {
           console.log("refreshToken 만료.. 토큰 삭제!");
-          memberAxiosApi("logout", "post", { mem_no: memberKey });
-          removeCookie("jwtToken");
-          removeCookie("refreshToken");
-          isLoginCheck(false);
+          request
+            .post("logout", { mem_no: memberKey })
+            .then((e) => {
+              removeCookie("jwtToken");
+              removeCookie("refreshToken");
+              isLoginCheck(false);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
 
           window.location.reload();
         });
@@ -75,8 +82,7 @@ export const joinSubmitHandler = (joinData, navigate, confirm) => {
     confirm("패스워드가 일치하지 않습니다.", emptyFunc, "warning");
     return;
   }
-  memberAxiosApi("join", "post", joinData).then((res) => {
-    debugger;
+  request.post("join", joinData).then((res) => {
     if (res === "DuplicateKeyException") {
       // alert('ID가 중복되었습니다.')
       confirm("ID가 중복되었습니다.", emptyFunc, "warning");
@@ -139,25 +145,47 @@ export const myPageHandler = async (memberKey) => {
   const res = await request.post("/myPage", {
     mem_no: memberKey,
   });
-  // .then((res) => {
-  //   console.log("res >> ", res);
-  // })
-  // .catch((error) => {
-  //   console.log("error >> ", error);
-  // });
-
+  if (res) {
+    console.log("res >> ", res);
+  } else {
+    console.log("error >> ", error);
+  }
   return res;
 };
 
 // 수정하기
 export const editMyPageHandler = async (data) => {
-  return memberAxiosApi("/postTest", "post", data, {
-    // headers: {
-    // "Content-Type": "multipart/form-data",
-    // "Content-Type": "application/json"
-    // },
-  });
+  return request
+    .post("/postTest", data)
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 };
 
+// 프로필 사진 image size 체크
+export const checkImage = (file) => {
+  let err = "";
+  if (!file) return (err = "File does not exist.");
+  if (file.size > 1024 * 1024) {
+    err = "The largest image size is 1mb.";
+  }
+  if (file.type !== "image/jpeg" && file.type !== "image/png") {
+    err = "Image format is incorrect.";
+  }
+  return err;
+};
 // empty function
 export const emptyFunc = () => {};
+// promise 값 뽑기
+export const getData = (res, setData, param) => {
+  res.then((data) => {
+    if (param) {
+      setData(data[param]);
+    } else {
+      setData(data);
+    }
+  });
+};

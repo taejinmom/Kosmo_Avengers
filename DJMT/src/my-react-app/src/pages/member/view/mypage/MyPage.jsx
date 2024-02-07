@@ -13,6 +13,7 @@ import {
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
+  checkImage,
   editMyPageHandler,
   inputHandler,
   myPageHandler,
@@ -44,20 +45,21 @@ const MyPage = (props) => {
   const imageRef = useRef();
 
   useEffect(() => {
+    let res;
     // 로그인 풀리면 홈으로
     if (!isLoginCheck) {
       navigate("/");
     }
     if (location.state.adminEdit) {
       //관리자 마이페이지
-      const res = myPageHandler(location.state.mem_no, isLoginCheck);
+      res = myPageHandler(location.state.mem_no, isLoginCheck);
       setMyPageData({
         ...res,
         chg_id: memberKey,
       });
     } else {
       // 사용자 마이페이지
-      const res = myPageHandler(memberKey, isLoginCheck);
+      res = myPageHandler(memberKey, isLoginCheck);
 
       console.log({ res });
       setMyPageData({
@@ -65,6 +67,14 @@ const MyPage = (props) => {
         chg_id: memberKey,
       });
     }
+    // return -> promise여서 데이터 꺼내는 용도
+    const getData = () => {
+      res.then((data) => {
+        setMyPageData(data.memberDto);
+        setImage("data:image/jpeg;base64," + data.imageBytes);
+      });
+    };
+    getData();
   }, []);
 
   const [popup, setPopup] = useState(false);
@@ -79,23 +89,21 @@ const MyPage = (props) => {
     e.preventDefault();
     const file = new FormData();
     file.append("file", imageUrl);
-    // file.append('memberData', new Blob([JSON.stringify(myPageData)])
     file.append(
       "memberData",
       new Blob([JSON.stringify(myPageData)], { type: "application/json" })
     );
-    // file.append('memberData', myPageData)
 
     editMyPageHandler(file);
-    // if (adminEdit) {
-    //   navigate('/member', {
-    //     state: {
-    //       title: 'AdminPage',
-    //     },
-    //   })
-    // } else {
-    //   navigate('/')
-    // }
+    if (adminEdit) {
+      navigate("/member", {
+        state: {
+          title: "AdminPage",
+        },
+      });
+    } else {
+      navigate("/");
+    }
   };
   // 홈으로
   const handleRedirect = (e) => {
@@ -104,10 +112,7 @@ const MyPage = (props) => {
   };
   const onChange = (e) => {
     if (e.target.files[0]) {
-      // setImage(e.target.files[0])
       setMyPageData({ ...myPageData, mem_profile: e.target.files[0] });
-      console.log(e.target.files[0]);
-      console.log(myPageData);
     } else {
       //업로드 취소할 시
       setImage(
@@ -115,16 +120,8 @@ const MyPage = (props) => {
       );
       return;
     }
-    //화면에 프로필 사진 표시
-    //   const reader = new FileReader()
-    //   reader.onload = () => {
-    //     if (reader.readyState === 2) {
-    //       setImageUrl(reader.result)
-    //     }
-    //   }
-    //   reader.readAsDataURL(e.target.files[0])
   };
-
+  // 이미지 선택
   const handleImage = async (e) => {
     console.log(e.target.files[0]);
     const file = e.target.files[0];
@@ -135,20 +132,6 @@ const MyPage = (props) => {
       setImage(URL.createObjectURL(file));
     }
     setImageUrl(file);
-  };
-
-  const checkImage = (file) => {
-    let err = "";
-
-    if (!file) return (err = "File does not exist.");
-    if (file.size > 1024 * 1024) {
-      err = "The largest image size is 1mb.";
-    }
-    if (file.type !== "image/jpeg" && file.type !== "image/png") {
-      err = "Image format is incorrect.";
-    }
-
-    return err;
   };
 
   const handleImageDelete = () => {
@@ -194,7 +177,8 @@ const MyPage = (props) => {
             <input
               type="file"
               style={{ display: "none" }}
-              accept="image/jpg,impge/png,image/jpeg"
+              // accept="image/jpg,impge/png,image/jpeg"
+              accept="image/*"
               name="file"
               onChange={handleImage}
               ref={fileInput}

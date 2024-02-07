@@ -18,7 +18,6 @@ import lombok.Setter;
 @Setter
 public class VolumeDto {
     private String vol_id;
-    private String ref_id;
     private String vol_type;
     private String vol_path;
 }

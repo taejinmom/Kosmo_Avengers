@@ -142,7 +142,7 @@ public class MemberService implements MemberRepository {
      * description    : update login history - status로 구분(login , logout)
      * 2024-01-27   by  taejin       
      */
-    public int recordLoginHistory(LoginHistoryDto loginHistoryDto, String mem_no, String status){
+    public int addLoginHistory(LoginHistoryDto loginHistoryDto, String mem_no, String status){
         loginHistoryDto.setMem_no(mem_no);
         loginHistoryDto.setReg_id(mem_no);
         loginHistoryDto.setCurrent_date(commonService.currentDate());

@@ -4,18 +4,52 @@
 <mapper namespace="com.app.avengers.DJMT.mapper.file.FileMapper">
     <!-- file insert -->
     <insert id="fileSave" parameterType="com.app.avengers.DJMT.dto.file.FileDto">
-        insert into FILE_META(file_id,file_name,file_path,vol_type,reg_id,reg_date,chg_id,chg_date)
-        values (#{file_id},#{file_name},#{file_path},#{vol_type}, #{reg_id}, #{reg_date}, #{chg_id}, #{chg_date})
+        insert into FILE_META(file_id,file_name,file_orgname,del_yn,file_path,vol_type,reg_id,reg_date,chg_id,chg_date)
+        values (#{file_id},#{file_name},#{file_orgname},#{del_yn},#{file_path},#{vol_type}, #{reg_id}, #{reg_date}, #{chg_id}, #{chg_date})
         /* com\app\avengers\DJMT\mapper\file\FileMapper.xml - fileSave */
     </insert>
     <!-- find by file_id -->
     <select id="findFullPathByFileId" parameterType="String" resultType="com.app.avengers.DJMT.dto.file.FileDto">
-        SELECT v.vol_path || '\' || v.vol_type ||'\' || file_path || f.file_name AS file_full_path
+        SELECT v.vol_path || '\' || v.vol_type ||'\' || file_path ||'\' || f.file_name AS file_full_path
         FROM file_meta f, file_volume v
         WHERE 1=1
         AND f.vol_type = v.vol_type
+        AND f.del_yn = 'N'
         AND f.file_id = #{file_id}
     </select>
+    <!-- 프로필 업데이트 시 기존파일 삭제 대상 추가 -->
+    <update id="editFileInfo" parameterType="String">
+        UPDATE file_meta SET
+        del_yn = 'Y',
+        chg_id = #{MEM_NO},
+        chg_date = to_char(NOW(),'yyyy-mm-dd HH:mi:ss')
+        WHERE 1=1
+        AND file_id = (SELECT mem_profile FROM MEMBER WHERE mem_no = #{MEM_NO})
+    </update>
+    <!-- 사용하지 않는 파일 삭제 -->
+    <delete id="deleteUnUsedFile" parameterType="String">
+        DELETE FROM file_meta
+        WHERE 1=1
+        AND file_id = #{file_id}
+        AND del_yn = 'Y'
+    </delete>
+    <!-- 사용자히 않는 물리파일 삭제-->
+    <select id="deleteUnUsedActualFile" resultType="String">
+        SELECT v.vol_path || '\' || v.vol_type ||'\' || file_path ||'\' || f.file_name AS file_full_path
+        FROM file_meta f, file_volume v
+        WHERE 1=1
+        AND f.vol_type = v.vol_type
+        AND f.del_yn = 'Y'
+    </select>
 
-
+    <!-- 시작할 때 volume 다 지우고 시작 -->
+    <delete id="doStart" parameterType="com.app.avengers.DJMT.dto.file.VolumeDto">
+        delete from file_volume
+    </delete>
+    <!-- 시작할 때 volume 추가하고 시작 -->
+    <insert id="addVolume" parameterType="com.app.avengers.DJMT.dto.file.VolumeDto" >
+        insert into file_volume
+        (vol_id, vol_path, vol_type ) values
+        (#{vol_id}, #{vol_path}, #{vol_type})
+    </insert>
 </mapper>
