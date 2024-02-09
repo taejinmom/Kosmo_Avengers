@@ -12,6 +12,7 @@ import Home from "./pages/home/Home.jsx";
 // import Login from './pages/member/Login.jsx'
 import ProductList from "./pages/product/ProductList.jsx";
 import ProductDetail from "./pages/product/ProductDetail.jsx";
+import MyCart from "./pages/cart/MyCart.jsx";
 import { useEffect } from "react";
 import { validateToken } from "./pages/member/handler/MemberHandler.jsx";
 import {
@@ -54,6 +55,18 @@ function App() {
             <Route index element={<Home />} />
             <Route path="/productList" element={<ProductList />} />
             <Route path="/productDetail/:pdct_no" element={<ProductDetail />} />
+            <Route
+              path="/myCart"
+              element={
+                // <InitDiv
+                //   isLoginCheck={isLoginCheck}
+                //   isAdminCheck={isAdminCheck}
+                //   memberKey={memberKey}
+                // >
+                <MyCart />
+                // </InitDiv>
+              }
+            />
             <Route
               path="/member"
               element={

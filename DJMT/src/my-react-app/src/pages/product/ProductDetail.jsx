@@ -3,7 +3,9 @@ import "./Product.css";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import axios from "axios";
-import { insertItem } from "../cart/CartSlice";
+import { useRecoilValue } from "recoil";
+import { memberKeyAtom } from "../member/atom/LoginAtom.jsx";
+// import { insertItem } from "../cart/CartSlice";
 
 function ProductDetail() {
   let dispatch = useDispatch();
@@ -11,7 +13,7 @@ function ProductDetail() {
   const [count, setCount] = useState(1);
   const [modal, setModal] = useState(false);
   const pdct_no = useParams().pdct_no;
-  console.log("pdct_no ::", pdct_no);
+  const memberKey = useRecoilValue(memberKeyAtom);
   const [pdct, setPdct] = useState([]);
   const price = pdct.pdct_price;
   let tmp = {};
@@ -49,13 +51,38 @@ function ProductDetail() {
       return result;
     }
   };
-  console.log("price ::", price);
+
+  const handleInsItem = (e) => {
+    e.preventDefault();
+    insertItem(pdct.pdct_no, pdct.pdct_price, count);
+  };
+  const insertItem = (pdct_no, pdct_price, count) => {
+    let cartData = {
+      mem_no: memberKey,
+      pdct_no: pdct_no,
+      pdct_price: pdct_price,
+      cart_amt: count,
+    };
+    console.log("cartData ::", cartData);
+    axios.post("/api/cart/insert", cartData).then((res) => {
+      if (res.status == 200) {
+        console.log("res :: ", res);
+        if (confirm("상품을 장바구니에 담았습니다.")) {
+          location.href = "http://localhost:5173/myCart/" + memberKey;
+        } else {
+          location.href = "http://localhost:5173";
+        }
+      } else {
+        alert("장바구니 담기에 실패했습니다.");
+      }
+    });
+  };
 
   return (
     <>
       {/* <div className="product-detail">
         <div className="inner"></div>
-        <div className="pdct-no">
+        <div classclassName=Name="pdct-no">
           <input type="hidden" value={pdct.pdct_no} />
         </div>
         <div className="pdct-content"> */}
@@ -66,31 +93,35 @@ function ProductDetail() {
       {/* </div>
       </div> */}
 
-      <div class="d-flex">
-        <div class="repImgDiv">
-          <img src="" class="rounded repImg" alt={pdct.pdct_nm} />
+      <div className="d-flex">
+        <div className="repImgDiv">
+          <img src="" className="rounded repImg" alt={pdct.pdct_nm} />
         </div>
-        <div class="ms-3 w-50">
+        <div className="ms-3 w-50">
           <span>판매중</span>
 
-          <div class="h4" text={pdct.pdct_price}></div>
-          <hr class="my-4"></hr>
+          <div className="h4" text={pdct.pdct_price}></div>
+          <hr className="my-4"></hr>
 
-          <div class="text-right">
-            <div class="h4 text-danger text-left">
+          <div className="text-right">
+            <div className="h4 text-danger text-left">
               <input
                 type="text"
-                value={pdct.pdct_price}
+                defaultValue={pdct.pdct_price || ""}
                 id="price"
                 name="price"
               />
               <span text="${pdct.pdct_price}"></span>원
             </div>
-            <div class="input-group w-50">
-              <div class="input-group-prepend">
-                <span class="input-group-text">
+            <div className="input-group w-50">
+              <div className="input-group-prepend">
+                <span className="input-group-text">
                   수량
-                  <input type="text" value={pdct.pdct_amt} readOnly />
+                  <input
+                    type="text"
+                    defaultValue={pdct.pdct_amt || ""}
+                    readOnly
+                  />
                 </span>
               </div>
             </div>
@@ -125,31 +156,32 @@ function ProductDetail() {
               <p>₩ {formatPrice(price * count)}원</p>
             </div>
           </div>
-          <hr class="my-4"></hr>
+          <hr className="my-4"></hr>
 
-          <div class="text-right mgt-50">
+          <div className="text-right mgt-50">
             <h5>결제 금액</h5>
-            <h3 name="totalPrice" id="totalPrice" class="font-weight-bold"></h3>
+            <h3
+              name="totalPrice"
+              id="totalPrice"
+              className="font-weight-bold"
+            ></h3>
           </div>
           <div
             // if="${item.itemSellStatus.toString().equals('SELL')}"
-            class="text-right"
+            className="text-right"
           >
             <button
               type="button"
-              class="btn btn-light border btn-outline-dark btn-lg"
-              onClick={() => {
-                dispatch(
-                  insertItem({
-                    pdct_no: pdct.pdct_no,
-                    // isSoldOut: false,
-                    pdct_price: pdct.pdct_price,
-                    // thumbnail: products.thumbnail,
-                    pdct_nm: pdct.pdct_nm,
-                    pdct_amt: count,
-                    // checked: true,
-                  })
-                );
+              className="btn btn-light border btn-outline-dark btn-lg"
+              onClick={(e) => {
+                handleInsItem(e);
+                // dispatch(
+                // insertItem({
+                //   pdct_no: pdct.pdct_no,
+                //   pdct_price: pdct.pdct_price,
+                //   pdct_amt: count,
+                // });
+                // );
                 setModal(true);
               }}
             >
@@ -157,7 +189,10 @@ function ProductDetail() {
             </button>
             <button
               type="button"
-              class="btn btn-dark btn-lg"
+              className="btn btn-dark btn-lg"
+              onMouseDown={(e) => {
+                e.preventDefault();
+              }}
               onClick={() => {
                 navigate("/payment", {
                   state: {
@@ -175,20 +210,20 @@ function ProductDetail() {
           </div>
           <div
             // unless="${item.itemSellStatus.toString().equals('SELL')}"
-            class="text-right"
+            className="text-right"
           >
-            <button type="button" class="btn btn-danger btn-lg">
+            <button type="button" className="btn btn-danger btn-lg">
               품절
             </button>
           </div>
         </div>
       </div>
 
-      <div class="mgt-30">
-        <div class="container">
-          <h4 class="display-6">상품 상세 설명</h4>
-          <hr class="my-4"></hr>
-          <p class="lead" text="${pdct.pdct_comm}"></p>
+      <div className="mgt-30">
+        <div className="container">
+          <h4 className="display-6">상품 상세 설명</h4>
+          <hr className="my-4"></hr>
+          <p className="lead" text="${pdct.pdct_comm}"></p>
         </div>
       </div>
     </>

@@ -20,15 +20,20 @@ let cart = createSlice({
       console.log(num);
       state[num].count -= 1;
     },
-    insertItem(state, action) {
-      let num = state.findIndex((obj) => {
-        return obj.id === action.payload.id;
-      });
-      if (num === -1) {
-        state.push(action.payload);
-      } else {
-        state[num].count += action.payload.count;
-      }
+    // insertItem(state, action) {
+    //   console.log("state, action ::", state, action);
+    //   let num = state.findIndex((obj) => {
+    //     return obj.id === action.payload.id;
+    //   });
+    //   if (num === -1) {
+    //     state.push(action.payload);
+    //   } else {
+    //     state[num].count += action.payload.count;
+    //   }
+    // },
+
+    insertItem(pdct_no, pdct_price, count) {
+      console.log("pdct_no, pdct_price, count ::", pdct_no, pdct_price, count);
     },
     deleteItem(state, action) {
       let num = state.findIndex((obj) => {
