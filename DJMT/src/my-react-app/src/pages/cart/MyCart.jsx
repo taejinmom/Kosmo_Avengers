@@ -3,8 +3,10 @@ import { memberKeyAtom } from "../member/atom/LoginAtom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import "./cart.css";
 
 export default function Cart() {
+  const [count, setCount] = useState(1);
   const [list, setList] = useState([]);
   const memberKey = useRecoilValue(memberKeyAtom);
   useEffect(() => {
@@ -42,61 +44,80 @@ export default function Cart() {
 						mx-auto mt-6"
       >
         <ul className="item">
-          {list.map((item) => {
-            return (
-              <div class="content_totalCount_section">
-                <table class="subject_table">
-                  <tbody>
+          <div className="content_totalCount_section">
+            <table className="subject_table">
+              <thead>
+                <tr>
+                  <th className="td_width_1"></th>
+                  <th className="td_width_2"></th>
+                  <th className="td_width_3">상품명</th>
+                  <th className="td_width_4">가격</th>
+                  <th className="td_width_4">수량</th>
+                  <th className="td_width_4">합계</th>
+                  <th className="td_width_4"></th>
+                </tr>
+              </thead>
+              {list.map((item) => {
+                return (
+                  <tbody className="cart_table" key={item.pdct_no}>
                     <tr>
-                      <th class="td_width_1"></th>
-                      <th class="td_width_2"></th>
-                      <th class="td_width_3">상품명</th>
-                      <th class="td_width_4">가격</th>
-                      <th class="td_width_4">수량</th>
-                      <th class="td_width_4">합계</th>
-                      <th class="td_width_4">삭제</th>
-                    </tr>
-                  </tbody>
-                </table>
-                <table class="cart_table">
-                  <tbody>
-                    <tr>
-                      <td class="td_width_1"></td>
-                      <td class="td_width_2"></td>
-                      <td class="td_width_3">{item.pdct_nm}</td>
-                      <td class="td_width_4 price_td">
+                      <td className="td_width_1"></td>
+                      <td className="td_width_2"></td>
+                      <td className="td_width_3">{item.pdct_nm}</td>
+                      <td className="td_width_4 price_td">
                         판매가 : {item.pdct_price} 원
                       </td>
-                      <td class="td_width_4 table_text_align_center">
-                        <div class="table_text_align_center quantity_div">
+                      <td className="td_width_4 table_text_align_center">
+                        <div className="table_text_align_center quantity_div">
                           <input
+                            id="cartAmt"
                             type="text"
                             value={item.cart_amt}
-                            class="quantity_input"
+                            className="quantity_input"
                           />
-                          <button class="quantity_btn plus_btn">+</button>
-                          <button class="quantity_btn minus_btn">-</button>
+                          <div>
+                            <button
+                              className="quantity_btn minus_btn"
+                              onClick={() => {
+                                if (item.cart_amt === 1) {
+                                  return 1;
+                                }
+                                setCount(item.cart_amt - 1);
+                                console.log("minus_btn");
+                              }}
+                            >
+                              -
+                            </button>
+                            <button
+                              className="quantity_btn plus_btn"
+                              onClick={() => {
+                                setCount(item.cart_amt + 1);
+                                console.log("plus_btn");
+                              }}
+                            >
+                              +
+                            </button>
+                          </div>
                         </div>
-                        <a class="quantity_modify_btn">변경</a>
+                        <a className="quantity_modify_btn">변경</a>
                       </td>
-                      <td class="td_width_4 table_text_align_center">
+                      <td className="td_width_4 table_text_align_center">
                         총액 :{item.pdct_price * item.cart_amt}
                       </td>
-                      <td class="td_width_4 table_text_align_center delete_btn">
-                        <button>삭제</button>
+                      <td className="td_width_4 table_text_align_center delete_btn">
+                        <button>X</button>
                       </td>
                     </tr>
                   </tbody>
-                </table>
-                <table class="list_table"></table>
-              </div>
-            );
-          })}
+                );
+              })}
+            </table>
+          </div>
         </ul>
 
         <hr></hr>
-        <div class="content_total_section">
-          <div class="total_wrap">
+        <div className="content_total_section">
+          <div className="total_wrap">
             <table>
               <tr>
                 <td>
@@ -104,20 +125,20 @@ export default function Cart() {
                     <tr>
                       <td>총 상품 가격</td>
                       <td>
-                        <span class="totalPrice_span">70000</span> 원
+                        <span className="totalPrice_span">70000</span> 원
                       </td>
                     </tr>
                     <tr>
                       <td>배송비</td>
                       <td>
-                        <span class="delivery_price">3000</span>원
+                        <span className="delivery_price">3000</span>원
                       </td>
                     </tr>
                     <tr>
                       <td>총 주문 상품수</td>
                       <td>
-                        <span class="totalKind_span"></span>종{" "}
-                        <span class="totalCount_span"></span>권
+                        <span className="totalKind_span"></span>종{" "}
+                        <span className="totalCount_span"></span>권
                       </td>
                     </tr>
                   </table>
@@ -132,7 +153,7 @@ export default function Cart() {
                 </td>
               </tr>
             </table>
-            <div class="boundary_div">구분선</div>
+            <div className="boundary_div">구분선</div>
             <table>
               <tr>
                 <td>
@@ -143,7 +164,7 @@ export default function Cart() {
                           <strong>총 결제 예상 금액</strong>
                         </td>
                         <td>
-                          <span class="finalTotalPrice_span">70000</span> 원
+                          <span className="finalTotalPrice_span">70000</span> 원
                         </td>
                       </tr>
                     </tbody>
@@ -154,7 +175,7 @@ export default function Cart() {
             </table>
           </div>
         </div>
-        <div class="content_btn_section">
+        <div className="content_btn_section">
           <button type="button">주문하기</button>
         </div>
       </div>
