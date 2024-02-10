@@ -18,6 +18,11 @@ public class CartService {
     private final CartMapper cartMapper;
     private final ProductMapper productMapper;
 
+    public List<CartDto> getMyCart(String mem_no) {
+        List<CartDto> list = cartMapper.getMyCart(mem_no);
+        return list;
+    }
+
     public int insertCart(CartDto cartDto) {
         CartDto cart = cartMapper.findByMemNoAndPdctNo(cartDto);
         int result = 0;

@@ -67,10 +67,10 @@ function ProductDetail() {
     axios.post("/api/cart/insert", cartData).then((res) => {
       if (res.status == 200) {
         console.log("res :: ", res);
-        if (confirm("상품을 장바구니에 담았습니다.")) {
-          location.href = "http://localhost:5173/myCart/" + memberKey;
-        } else {
-          location.href = "http://localhost:5173";
+        if (
+          confirm("상품을 장바구니에 담았습니다. 장바구니를 확인하시겠습니까?")
+        ) {
+          location.href = "http://localhost:5173/#/myCart";
         }
       } else {
         alert("장바구니 담기에 실패했습니다.");

@@ -9,6 +9,7 @@ import java.util.List;
 @Mapper
 public interface CartMapper {
 
+    public List<CartDto> getMyCart(String mem_no);
     public void insertCart(CartDto cartDto);
     public CartDto findByMemNoAndPdctNo(CartDto cartDto);
     public void updateCart(CartDto cartDto);

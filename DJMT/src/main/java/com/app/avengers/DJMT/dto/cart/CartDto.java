@@ -18,6 +18,13 @@ public class CartDto {
     private String reg_date;
     private String chg_date;
 
+    private String pdct_cate_no;
+    private String pdct_nm;
+    private String pdct_price;
+    private String pdct_comm;
+    private String pdct_amt;
+    private String pdct_status;
+
     public void toDto(Map<String ,String> map){
         map.forEach((key, value)->{
 

@@ -2,6 +2,18 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.app.avengers.DJMT.mapper.cart.CartMapper">
+
+    <select id="getMyCart" parameterType="String" resultType="com.app.avengers.DJMT.dto.cart.CartDto">
+        SELECT
+        c.*, p.*
+        FROM
+        CART c
+        join product p
+        on c.pdct_no = p.pdct_no
+        WHERE 1=1
+          AND MEM_NO = #{mem_no}
+    </select>
+
     <insert id="insertCart"  parameterType="com.app.avengers.DJMT.dto.cart.CartDto">
         INSERT INTO public.cart(
             cart_amt
