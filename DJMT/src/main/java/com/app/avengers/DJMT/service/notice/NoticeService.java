@@ -27,8 +27,8 @@ public class NoticeService implements NoticeRepository {
     }
 
     @Override
-    public List<NoticeDto> getNoticeList() {
-        return noticeMapper.getNoticeList();
+    public List<NoticeDto> getNoticeList(String ntc_cate) {
+        return noticeMapper.getNoticeList(ntc_cate);
     }
 
     @Override

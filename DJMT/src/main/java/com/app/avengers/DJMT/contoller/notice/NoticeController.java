@@ -4,15 +4,12 @@ import com.app.avengers.DJMT.config.jwt.JwtTokenProvider;
 import com.app.avengers.DJMT.dto.notice.NoticeDto;
 import com.app.avengers.DJMT.service.member.MemberService;
 import com.app.avengers.DJMT.service.notice.NoticeService;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 @Slf4j
@@ -25,8 +22,8 @@ public class NoticeController {
     private final JwtTokenProvider jwtTokenProvider;
 
     @GetMapping("/api/noticeList")
-    public ResponseEntity<?> noticeList(){
-        List<NoticeDto> noticeDtoList = noticeService.getNoticeList();
+    public ResponseEntity<?> noticeList(@RequestParam("ntc_cate") String ntc_cate){
+        List<NoticeDto> noticeDtoList = noticeService.getNoticeList(ntc_cate);
         return new ResponseEntity<>(noticeDtoList, HttpStatus.OK);
     }
 
