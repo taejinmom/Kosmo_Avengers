@@ -35,6 +35,7 @@ import NotFound from "./pages/error/NotFound.jsx";
 import NewLogin from "./pages/member/view/login/NewLogin.jsx";
 import NewJoin from "./pages/member/view/join/NewJoin.jsx";
 import Test from "./pages/member/view/test/Test.jsx";
+import OrderForm from "./pages/order/OrderForm.jsx";
 
 // import MyPage from './pages/member/MyPage.jsx'
 
@@ -55,18 +56,8 @@ function App() {
             <Route index element={<Home />} />
             <Route path="/productList" element={<ProductList />} />
             <Route path="/productDetail/:pdct_no" element={<ProductDetail />} />
-            <Route
-              path="/myCart"
-              element={
-                // <InitDiv
-                //   isLoginCheck={isLoginCheck}
-                //   isAdminCheck={isAdminCheck}
-                //   memberKey={memberKey}
-                // >
-                <MyCart />
-                // </InitDiv>
-              }
-            />
+            <Route path="/myCart" element={<MyCart />} />
+            <Route path="/order" element={<OrderForm />} />
             <Route
               path="/member"
               element={

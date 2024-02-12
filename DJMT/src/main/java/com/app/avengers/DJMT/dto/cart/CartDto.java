@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Getter
@@ -25,6 +27,8 @@ public class CartDto {
     private int pdct_amt;
     private String pdct_status;
     private String cate;    // 장바구니 수량 변경 : puls/minus
+    private ArrayList<String> chkList;  // 선택삭제 시 배열
+
 
     public void toDto(Map<String ,String> map){
         map.forEach((key, value)->{

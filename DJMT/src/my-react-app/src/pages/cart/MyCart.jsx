@@ -13,8 +13,8 @@ function Cart() {
   const memberKey = useRecoilValue(memberKeyAtom);
   const [checkItems, setCheckItems] = useState([]);
 
-  // 선택 삭제 기능 하려다 포기
-  /* const handleSingleCheck = (checked, id) => {
+  // 240212 미르 : 선택 삭제 기능 하려다 포기
+  const handleSingleCheck = (checked, id) => {
     if (checked) {
       // 단일 선택 시 체크된 아이템을 배열에 추가
       setCheckItems((prev) => [...prev, id]);
@@ -28,14 +28,15 @@ function Cart() {
     if (checked) {
       // 전체 선택 클릭 시 데이터의 모든 아이템(id)를 담은 배열로 checkItems 상태 업데이트
       const idArray = [];
-      data.forEach((el) => idArray.push(el.id));
+      list.forEach((el) => idArray.push(el.pdct_no));
       setCheckItems(idArray);
     } else {
       // 전체 선택 해제 시 checkItems 를 빈 배열로 상태 업데이트
       setCheckItems([]);
     }
-  }; */
+  };
 
+  console.log("checkItems ::", checkItems);
   useEffect(() => fetchList(), []);
 
   const fetchList = (e) => {
@@ -45,12 +46,21 @@ function Cart() {
   };
 
   const removeProduct = (pdct_no) => {
-    if (confirm("해당 상품을 장바구니에서 삭제하시겠습니까?")) {
-      axios
-        .post("/api/myCart/delete", { pdct_no: pdct_no, mem_no: memberKey })
-        .then((res) => {
-          fetchList();
-        });
+    if (pdct_no == null || pdct_no == "" || checkItems == []) {
+      return alert("삭제할 상품을 선택해주세요.");
+    } else {
+      if (confirm("해당 상품을 장바구니에서 삭제하시겠습니까?")) {
+        axios
+          .post("/api/myCart/delete", {
+            pdct_no: pdct_no,
+            mem_no: memberKey,
+            chkList: checkItems,
+          })
+          .then((res) => {
+            alert("삭제되었습니다.");
+            fetchList();
+          });
+      }
     }
   };
 
@@ -115,10 +125,8 @@ function Cart() {
         <button
           className="cancelBtn"
           onClick={() => {
-            // removeChild(checkedId);
-            // checkedDeleteHandler();
+            removeProduct();
           }}
-          // disabled={checkedProductTotal <= 0 ? true : false}
         >
           선택 삭제
         </button>
@@ -131,14 +139,10 @@ function Cart() {
                     type="checkbox"
                     name="select-all"
                     onChange={(e) => handleAllCheck(e.target.checked)}
-                    // 데이터 개수와 체크된 아이템의 개수가 다를 경우 선택 해제 (하나라도 해제 시 선택 해제)
                     checked={checkItems.length === list.length ? true : false}
                   />
-                  {/* <input type="checkbox" onClick={allCheckHandler} /> */}
                   전체선택
                 </th>
-                {/* <th className="td_width_1"></th>
-                <th className="td_width_2"></th> */}
                 <th className="td_width_3">상품명</th>
                 <th className="td_width_4">가격</th>
                 <th className="td_width_4">수량</th>
@@ -156,28 +160,17 @@ function Cart() {
                         onChange={(e) =>
                           handleSingleCheck(e.target.checked, item.pdct_no)
                         }
-                        // 체크된 아이템 배열에 해당 아이템이 있을 경우 선택 활성화, 아닐 시 해제
                         checked={
-                          checkItems.includes(list.pdct_no) ? true : false
+                          checkItems.includes(item.pdct_no) ? true : false
                         }
                       />
                     </td>
-                    {/* <td className="td_width_1"></td>
-                    <td className="td_width_2"></td> */}
                     <td className="td_width_3">{item.pdct_nm}</td>
                     <td className="td_width_4 price_td">
                       판매가 : {item.pdct_price} 원
                     </td>
                     <td className="td_width_4 table_text_align_center">
-                      <div
-                      // className="table_text_align_center quantity_div"
-                      >
-                        {/* <input
-                          id="cartAmt"
-                          type="text"
-                          defaultValue={item.cart_amt}
-                          className="quantity_input"
-                        /> */}
+                      <div>
                         <MinusBtn
                           onClick={() => {
                             handleSubstract(item.pdct_no);
@@ -258,7 +251,9 @@ function Cart() {
           </div>
         </div>
         <div className="content_btn_section">
-          <button type="button">주문하기</button>
+          <Link to={`/order`}>
+            <button type="button">선택상품 주문하기</button>
+          </Link>
         </div>
       </div>
     </>

@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -52,13 +53,29 @@ public class CartService {
     }
 
     public int deleteCart(CartDto cartDto){
-        CartDto cart = cartMapper.findByMemNoAndPdctNo(cartDto);
         int result = 0;
-        if(cart != null){
-            cartMapper.deleteCart(cartDto);
-            result = 1;
+        ArrayList<String> list = cartDto.getChkList();
+        System.out.println("list :: "+list);
+        if(cartDto.getChkList() != null && !cartDto.getChkList().isEmpty()){
+            for (int i = 0; i < list.size(); i++) {
+                String pdct_no = list.get(i);
+                cartDto.setPdct_no(pdct_no);
+                CartDto cartYn = cartMapper.findByMemNoAndPdctNo(cartDto);
+                if (cartYn != null) {
+                    CartDto cart = new CartDto();
+                    System.out.println("pdct_no :: "+pdct_no);
+                    cart.setPdct_no(list.get(i));
+                    cartMapper.deleteCart(cartDto);
+                    result = 1;
+                }
+            }
+        }else {
+            CartDto cartYn = cartMapper.findByMemNoAndPdctNo(cartDto);
+            if (cartYn != null) {
+                cartMapper.deleteCart(cartDto);
+                result = 1;
+            }
         }
-
         return result;
     }
 
