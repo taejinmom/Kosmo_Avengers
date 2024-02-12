@@ -10,12 +10,12 @@
         WHERE 1=1
     </select>
     <select id="getProductDetail"
-            parameterType="int"  resultType="com.app.avengers.DJMT.dto.product.ProductDto">
+            parameterType="String"  resultType="com.app.avengers.DJMT.dto.product.ProductDto">
         SELECT
         *
         FROM
         Product
         WHERE 1=1
-            and pdct_no = #{pdct_no}
+        and pdct_no = Cast(#{pdct_no} AS INTEGER)
     </select>
 </mapper>

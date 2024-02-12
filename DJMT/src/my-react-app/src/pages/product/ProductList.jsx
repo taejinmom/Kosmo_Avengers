@@ -42,14 +42,14 @@ function ProductList() {
             </div>
           </div>
           <ul className="item">
-            {list.map(function (a, i) {
+            {list.map((item) => {
               return (
-                <li>
-                  <Link to={`/productDetail/${list[i].pdct_no}`}>
+                <li key={item}>
+                  <Link to={`/productDetail/${item.pdct_no}`}>
                     <div className="item-img"></div>
-                    <p className="item-name">{list[i].pdct_nm}</p>
-                    <p className="item-price">{list[i].pdct_price}</p>
-                    <p className="item-comm">{list[i].pdct_comm}</p>
+                    <p className="item-name">{item.pdct_nm}</p>
+                    <p className="item-price">{item.pdct_price}</p>
+                    <p className="item-comm">{item.pdct_comm}</p>
                   </Link>
                 </li>
               );
