@@ -11,7 +11,8 @@
         join product p
         on c.pdct_no = p.pdct_no
         WHERE 1=1
-          AND MEM_NO = #{mem_no}
+          AND c.MEM_NO = #{mem_no}
+          AND STAT_CD != 9
     </select>
 
     <insert id="insertCart"  parameterType="com.app.avengers.DJMT.dto.cart.CartDto">
@@ -27,6 +28,7 @@
             , current_date
         )
     </insert>
+
     <select id="findByMemNoAndPdctNo"
             parameterType="com.app.avengers.DJMT.dto.cart.CartDto"
             resultType="com.app.avengers.DJMT.dto.cart.CartDto">
@@ -34,7 +36,9 @@
         from cart
         where mem_no = #{mem_no}
         and pdct_no = Cast(#{pdct_no} AS INTEGER)
+        and stat_cd = 1
     </select>
+
     <update id="updateCart" parameterType="com.app.avengers.DJMT.dto.cart.CartDto">
         update cart
         set
@@ -42,5 +46,23 @@
             , chg_date = current_date
         where mem_no = #{mem_no}
         and pdct_no = Cast(#{pdct_no} AS INTEGER)
+        and stat_cd = 1
+    </update>
+
+    <update id="updateCartAmt" parameterType="com.app.avengers.DJMT.dto.cart.CartDto">
+        update cart
+        set
+        cart_amt = #{cart_amt}
+        , chg_date = current_date
+        where mem_no = #{mem_no}
+        and pdct_no = Cast(#{pdct_no} AS INTEGER)
+    </update>
+
+    <update id="deleteCart" parameterType="com.app.avengers.DJMT.dto.cart.CartDto" >
+        update cart
+        set stat_cd = 9
+        WHERE pdct_no = Cast(#{pdct_no} AS INTEGER)
+        and mem_no = #{mem_no}
+        and stat_cd = 1
     </update>
 </mapper>

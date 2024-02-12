@@ -13,4 +13,6 @@ public interface CartMapper {
     public void insertCart(CartDto cartDto);
     public CartDto findByMemNoAndPdctNo(CartDto cartDto);
     public void updateCart(CartDto cartDto);
+    public void deleteCart(CartDto cartDto);
+    public void updateCartAmt(CartDto cartDto);
 }

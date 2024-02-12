@@ -15,16 +15,24 @@ import org.springframework.web.bind.annotation.*;
 public class CartController {
     private final CartService service;
 
+    @PostMapping("/api/myCart/{mem_no}")
+    public ResponseEntity<?> getMyCart(@PathVariable String mem_no){
+        return ResponseEntity.ok(service.getMyCart(mem_no));
+    }
+
     @PostMapping("/api/cart/insert")
     public ResponseEntity<?> insertCart(@RequestBody CartDto cartDto){
-        log.debug("CONTROLLER insertCart");
         return ResponseEntity.ok(service.insertCart(cartDto));
     }
 
-    @PostMapping("/api/myCart/{mem_no}")
-    public ResponseEntity<?> getMyCart(@PathVariable String mem_no){
-        log.debug("CONTROLLER getMyCart");
-        return ResponseEntity.ok(service.getMyCart(mem_no));
+    @PutMapping("/api/myCart/updateAmt")
+    public ResponseEntity<?> updateAmt(@RequestBody CartDto cartDto){
+        return ResponseEntity.ok(service.updateCartAmt(cartDto));
+    }
+
+    @PostMapping("api/myCart/delete")
+    public ResponseEntity<?> deleteCart(@RequestBody CartDto cartDto){
+        return ResponseEntity.ok(service.deleteCart(cartDto));
     }
 
 

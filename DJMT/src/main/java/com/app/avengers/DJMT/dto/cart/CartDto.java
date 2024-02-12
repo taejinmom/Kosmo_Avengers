@@ -22,8 +22,9 @@ public class CartDto {
     private String pdct_nm;
     private String pdct_price;
     private String pdct_comm;
-    private String pdct_amt;
+    private int pdct_amt;
     private String pdct_status;
+    private String cate;    // 장바구니 수량 변경 : puls/minus
 
     public void toDto(Map<String ,String> map){
         map.forEach((key, value)->{

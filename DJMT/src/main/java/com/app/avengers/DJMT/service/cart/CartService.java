@@ -1,7 +1,6 @@
 package com.app.avengers.DJMT.service.cart;
 
 import com.app.avengers.DJMT.dto.cart.CartDto;
-import com.app.avengers.DJMT.dto.product.ProductDto;
 import com.app.avengers.DJMT.mapper.cart.CartMapper;
 import com.app.avengers.DJMT.mapper.product.ProductMapper;
 import lombok.AllArgsConstructor;
@@ -35,6 +34,31 @@ public class CartService {
             cartMapper.updateCart(cart);
             result = 1;
         }
+        return result;
+    }
+
+    public int updateCartAmt(CartDto cartDto) {
+        CartDto cart = cartMapper.findByMemNoAndPdctNo(cartDto);
+        int result = 0;
+        if (cart != null && cartDto.getCart_amt() > 0){
+            cartMapper.updateCart(cartDto);
+            result = 1;
+        } else if (cartDto.getPdct_amt() <= 0){
+            cartDto.setCart_amt(0);
+            cartMapper.updateCart(cartDto);
+            result = 1;
+        }
+        return result;
+    }
+
+    public int deleteCart(CartDto cartDto){
+        CartDto cart = cartMapper.findByMemNoAndPdctNo(cartDto);
+        int result = 0;
+        if(cart != null){
+            cartMapper.deleteCart(cartDto);
+            result = 1;
+        }
+
         return result;
     }
 
