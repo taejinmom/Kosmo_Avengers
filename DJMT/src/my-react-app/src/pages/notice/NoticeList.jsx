@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios'
 import { Link, useNavigate } from "react-router-dom";
-import { Button } from "@mui/material";
 
 import Select from "react-select";
 
@@ -16,7 +15,7 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 
 import { isAdmin } from '../../pages/member/atom/LoginAtom';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 
 const columns = [
     { id: 'ntc_no', label: '숫자', minWidth: 50 },
@@ -169,15 +168,11 @@ const NoticeList = () => {
                 </Paper>
             </div>
 
-            {isAdminCheck ? (
+            {isAdminCheck &&
             <>
                 <button onClick={moveToWrite}>글쓰기</button>
             </>
-            ) : (
-            <>
-                {/* <button onClick={moveToWrite}>글쓰기</button> */}
-            </>
-            )}
+            }
             
         </div>
     )
