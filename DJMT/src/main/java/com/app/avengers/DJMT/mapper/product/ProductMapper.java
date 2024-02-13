@@ -9,5 +9,5 @@ import java.util.List;
 public interface ProductMapper {
 
     public List<ProductDto> getProduct();
-    public ProductDto getProductDetail(int pdct_no);
+    public ProductDto getProductDetail(String pdct_no);
 }

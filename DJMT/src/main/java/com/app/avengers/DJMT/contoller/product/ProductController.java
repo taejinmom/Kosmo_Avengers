@@ -21,8 +21,8 @@ public class ProductController {
         log.debug("CONTROLLER getProduct");
         return ResponseEntity.ok(service.getProduct());
     }
-    @GetMapping("/api/product/{pdct_no}")
-    public ResponseEntity<?> getProductDetail(@PathVariable("pdct_no") int pdct_no){
+    @GetMapping("/api/productDetail")
+    public ResponseEntity<?> getProductDetail(@RequestParam String pdct_no){
         log.debug("pdct_no :: ",pdct_no);
         return ResponseEntity.ok(service.getProductDetail(pdct_no));
     }
