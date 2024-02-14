@@ -25,7 +25,7 @@ public class ProductDto {
 
     public void toDto(Map<String ,String> map){
         map.forEach((key, value)->{
-            
+
         });
     }
 

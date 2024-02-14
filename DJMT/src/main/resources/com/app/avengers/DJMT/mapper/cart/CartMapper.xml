@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?> <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.app.avengers.DJMT.mapper.cart.CartMapper">
+
+    <select id="getMyCart" parameterType="String" resultType="com.app.avengers.DJMT.dto.cart.CartDto">
+        SELECT
+            c.*, p.*
+        FROM
+        CART c
+        join product p
+        on c.pdct_no = p.pdct_no
+        WHERE 1=1
+          AND c.MEM_NO = #{mem_no}
+          AND STAT_CD != 9
+    </select>
+
+    <insert id="insertCart"  parameterType="com.app.avengers.DJMT.dto.cart.CartDto">
+        INSERT INTO public.cart(
+            cart_amt
+            , pdct_no
+            , mem_no
+            , reg_date
+        )VALUES(
+            #{cart_amt}
+            , Cast(#{pdct_no} AS INTEGER)
+            , #{mem_no}
+            , current_date
+        )
+    </insert>
+
+    <select id="findByMemNoAndPdctNo"
+            parameterType="com.app.avengers.DJMT.dto.cart.CartDto"
+            resultType="com.app.avengers.DJMT.dto.cart.CartDto">
+        select *
+        from cart
+        where mem_no = #{mem_no}
+        and pdct_no = Cast(#{pdct_no} AS INTEGER)
+        and stat_cd = 1
+    </select>
+
+    <update id="updateCart" parameterType="com.app.avengers.DJMT.dto.cart.CartDto">
+        update cart
+        set
+            cart_amt = #{cart_amt}
+            , chg_date = current_date
+        where mem_no = #{mem_no}
+        and pdct_no = Cast(#{pdct_no} AS INTEGER)
+        and stat_cd = 1
+    </update>
+
+    <update id="updateCartAmt" parameterType="com.app.avengers.DJMT.dto.cart.CartDto">
+        update cart
+        set
+        cart_amt = #{cart_amt}
+        , chg_date = current_date
+        where mem_no = #{mem_no}
+        and pdct_no = Cast(#{pdct_no} AS INTEGER)
+    </update>
+
+    <update id="deleteCart" parameterType="com.app.avengers.DJMT.dto.cart.CartDto" >
+        update cart
+        set stat_cd = 9
+        WHERE pdct_no = Cast(#{pdct_no} AS INTEGER)
+        and mem_no = #{mem_no}
+        and stat_cd = 1
+    </update>
+</mapper>
