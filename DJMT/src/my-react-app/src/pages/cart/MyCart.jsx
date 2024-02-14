@@ -2,18 +2,19 @@ import { useRecoilValue } from "recoil";
 import { memberKeyAtom } from "../member/atom/LoginAtom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./cart.css";
 import styled from "styled-components";
 import { color } from "../../styles/color";
 import CheckBox from "../../components/cart/CheckBox";
+import OrderForm from "../order/OrderForm";
 
 function Cart() {
   const [list, setList] = useState([]);
   const memberKey = useRecoilValue(memberKeyAtom);
   const [checkItems, setCheckItems] = useState([]);
+  const navigate = useNavigate();
 
-  // 240212 미르 : 선택 삭제 기능 하려다 포기
   const handleSingleCheck = (checked, id) => {
     if (checked) {
       // 단일 선택 시 체크된 아이템을 배열에 추가
@@ -123,12 +124,13 @@ function Cart() {
 						mx-auto mt-6"
       >
         <button
-          className="cancelBtn"
+          type="button"
+          className="btn btn-secondary btn-sm"
           onClick={() => {
             removeProduct();
           }}
         >
-          선택 삭제
+          선택삭제
         </button>
         <div className="content_totalCount_section">
           <table className="subject_table">
@@ -236,7 +238,6 @@ function Cart() {
                   </td>
                 </tr>
               </tbody>
-              {/* <div className="boundary_div">구분선</div> */}
               <tbody>
                 <tr>
                   <td>
@@ -250,10 +251,16 @@ function Cart() {
             </table>
           </div>
         </div>
-        <div className="content_btn_section">
-          <Link to={`/order`}>
-            <button type="button">선택상품 주문하기</button>
-          </Link>
+        <div className="d-grid gap-2 d-md-flex justify-content-md-end">
+          {/* <Link to={`/order`} state={{ checkItems: checkItems }}> */}
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={() => navigate("/order", { state: { checkItems } })}
+          >
+            선택상품 주문하기
+          </button>
+          {/* </Link> */}
         </div>
       </div>
     </>

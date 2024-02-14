@@ -5,18 +5,14 @@ import { useDispatch } from "react-redux";
 import axios from "axios";
 import { useRecoilValue } from "recoil";
 import { memberKeyAtom } from "../member/atom/LoginAtom.jsx";
-// import { insertItem } from "../cart/CartSlice";
 
 function ProductDetail() {
-  let dispatch = useDispatch();
-  // const [products, setProducts] = useState([]);
   const [count, setCount] = useState(1);
   const [modal, setModal] = useState(false);
   const pdct_no = useParams().pdct_no;
   const memberKey = useRecoilValue(memberKeyAtom);
   const [pdct, setPdct] = useState([]);
   const price = pdct.pdct_price;
-  let tmp = {};
   useEffect(() => {
     axios
       .get("/api/productDetail", { params: { pdct_no: pdct_no } })
@@ -24,26 +20,6 @@ function ProductDetail() {
         setPdct(res.data);
       });
   }, []);
-
-  const handleClick = (itemId) => {
-    if (
-      //!cartItems.find((el)=>el.itemId === itemId)
-      cartItems.filter((el) => {
-        return el.itemId === itemId;
-      }).length !== 0
-    ) {
-      setCartItems(
-        cartItems.map((el) => {
-          if (el.itemId === itemId) {
-            el.quantity += 1;
-          }
-          return el;
-        })
-      );
-    } else {
-      setCartItems([...cartItems, { itemId: itemId, quantity: 1 }]);
-    }
-  };
 
   const formatPrice = (target) => {
     if (target) {
@@ -80,19 +56,6 @@ function ProductDetail() {
 
   return (
     <>
-      {/* <div className="product-detail">
-        <div className="inner"></div>
-        <div classclassName=Name="pdct-no">
-          <input type="hidden" value={pdct.pdct_no} />
-        </div>
-        <div className="pdct-content"> */}
-      {/* <p>{pdct.pdct_nm}</p>
-          <p>{pdct.pdct_price}</p>
-          <p>{pdct.pdct_amt}</p>
-          <p>{pdct.pdct_comm}</p> */}
-      {/* </div>
-      </div> */}
-
       <div className="d-flex">
         <div className="repImgDiv">
           <img src="" className="rounded repImg" alt={pdct.pdct_nm} />
@@ -129,7 +92,6 @@ function ProductDetail() {
           <div>
             <div>
               <p>구매 수량</p>
-              {/* 카운트 버튼 */}
               <div>
                 <button
                   onClick={() => {
@@ -166,23 +128,13 @@ function ProductDetail() {
               className="font-weight-bold"
             ></h3>
           </div>
-          <div
-            // if="${item.itemSellStatus.toString().equals('SELL')}"
-            className="text-right"
-          >
+          <div className="text-right">
             <button
               type="button"
               className="btn btn-light border btn-outline-dark btn-lg"
               onClick={(e) => {
                 handleInsItem(e);
-                // dispatch(
-                // insertItem({
-                //   pdct_no: pdct.pdct_no,
-                //   pdct_price: pdct.pdct_price,
-                //   pdct_amt: count,
-                // });
-                // );
-                setModal(true);
+                // setModal(true);
               }}
             >
               장바구니 담기
@@ -208,10 +160,7 @@ function ProductDetail() {
               주문하기
             </button>
           </div>
-          <div
-            // unless="${item.itemSellStatus.toString().equals('SELL')}"
-            className="text-right"
-          >
+          <div className="text-right">
             <button type="button" className="btn btn-danger btn-lg">
               품절
             </button>

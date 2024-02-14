@@ -118,8 +118,7 @@ function Home() {
               <Link to={"/ProductList"}>VIEW MORE +</Link>
             </div>
 
-            <div className="App">
-              <Welcome />
+            {/* <div className="App">
               {data.map((item) => {
                 return (
                   <div key={item}>
@@ -127,7 +126,7 @@ function Home() {
                   </div>
                 );
               })}
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

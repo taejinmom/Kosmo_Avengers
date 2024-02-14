@@ -55,7 +55,6 @@ public class CartService {
     public int deleteCart(CartDto cartDto){
         int result = 0;
         ArrayList<String> list = cartDto.getChkList();
-        System.out.println("list :: "+list);
         if(cartDto.getChkList() != null && !cartDto.getChkList().isEmpty()){
             for (int i = 0; i < list.size(); i++) {
                 String pdct_no = list.get(i);

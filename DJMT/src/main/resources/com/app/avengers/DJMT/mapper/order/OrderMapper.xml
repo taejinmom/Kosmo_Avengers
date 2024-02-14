@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?> <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.app.avengers.DJMT.mapper.cart.CartMapper">
+<mapper namespace="com.app.avengers.DJMT.mapper.order.OrderMapper">
 
-    <select id="getMyCart" parameterType="String" resultType="com.app.avengers.DJMT.dto.cart.CartDto">
+    <select id="getPdctInfo" parameterType="String" resultType="com.app.avengers.DJMT.dto.order.OrderDto">
         SELECT
             c.*, p.*
         FROM
@@ -11,8 +11,9 @@
         join product p
         on c.pdct_no = p.pdct_no
         WHERE 1=1
-          AND c.MEM_NO = #{mem_no}
-          AND STAT_CD != 9
+            AND c.MEM_NO = #{mem_no}
+            AND c.PDCT_NO = #{pdct_no}
+            AND STAT_CD != 9
     </select>
 
     <insert id="insertCart"  parameterType="com.app.avengers.DJMT.dto.cart.CartDto">
