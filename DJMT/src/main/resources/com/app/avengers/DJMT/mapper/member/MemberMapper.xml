@@ -44,14 +44,17 @@
         delete from MEMBER
         /* com\app\avengers\DJMT\mapper\member\MemberMapper.xml - start */
     </delete>
-
+    <!-- 사용자 정보 mem_no로 select-->
     <select id="getMemberInfoByMemNo" resultType="com.app.avengers.DJMT.dto.member.MemberDto">
         select * from
         member
         where mem_no = #{mem_no}
         /* com\app\avengers\DJMT\mapper\member\MemberMapper.xml - getMemberInfoByMemNo */
     </select>
-
+    <select id="getLoginIdByMemNo" resultType="String">
+        select login_id from member
+        where mem_no = #{mem_no}
+    </select>
 <!--    마이페이지 수정 -->
     <update id="editMemberInfo" parameterType="com.app.avengers.DJMT.dto.member.MemberDto" >
         update member
