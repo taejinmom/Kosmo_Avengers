@@ -65,10 +65,7 @@ const NoticeUpdate = () => {
     );
 
     return(
-        <div>
-            <h1>글 수정 페이지</h1>
-            로그인 된 id가 Chg_id에 넘어갈 수 있도록 해야함
-            <br />
+        <>
             <div>
                 <span>카테고리***</span>
                 {/*- 셀렉트박스로 수정하기*/}
@@ -96,7 +93,7 @@ const NoticeUpdate = () => {
                 <button onClick={updateNotice}>수정</button>
                 <button onClick={backToDetail}>취소</button>
             </div>
-        </div>
+        </>
     );
 };
 

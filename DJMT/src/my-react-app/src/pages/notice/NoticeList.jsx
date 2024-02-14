@@ -11,7 +11,7 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 
-import { isAdmin } from '../../pages/member/atom/LoginAtom';
+import { isLogin, isAdmin } from '../../pages/member/atom/LoginAtom';
 import { useRecoilValue } from 'recoil';
 
 const columns = [
@@ -24,6 +24,7 @@ const rows = null;
 
 
 const NoticeList = ({ntc_cate}) => {
+    const isLoginCheck = useRecoilValue(isLogin);
     const isAdminCheck = useRecoilValue(isAdmin);
 
     const navigate = useNavigate();
@@ -108,11 +109,6 @@ const NoticeList = ({ntc_cate}) => {
                                                 : value
                                         )}
                                     </TableCell>
-                                    // <TableCell key={column.id} align={column.align}>
-                                    // {column.format && typeof value === 'number'
-                                    //     ? column.format(value)
-                                    //     : value}
-                                    // </TableCell>
                                 );
                                 })}
                             </TableRow>
@@ -133,7 +129,7 @@ const NoticeList = ({ntc_cate}) => {
                 </Paper>
             </div>
 
-            {isAdminCheck &&
+            {(isLoginCheck && isAdminCheck) &&
             <>
                 <button onClick={moveToWrite}>글쓰기</button>
             </>

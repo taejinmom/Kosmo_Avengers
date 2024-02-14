@@ -28,7 +28,7 @@ import AdminPage from "./pages/member/view/admin/AdminPage.jsx";
 import Join from "./pages/member/view/join/Join.jsx";
 import InitDiv from "./pages/member/view/InitDiv.jsx";
 import NoticeList from "./pages/notice/NoticeList.jsx";
-import NoticeCategory from './pages/notice/NoticeCateList.jsx'
+import NoticeCategory from './pages/notice/NoticeCategory.jsx'
 import NoticeDetail from "./pages/notice/NoticeDetail.jsx";
 import NoticeWrite from "./pages/notice/NoticeWrite.jsx";
 import NoticeUpdate from "./pages/notice/NoticeUpdate.jsx";
@@ -59,6 +59,10 @@ function App() {
             <Route path="/productDetail/:pdct_no" element={<ProductDetail />} />
             <Route path="/myCart" element={<MyCart />} />
             <Route path="/order" element={<OrderForm />} />
+            <Route path="/notice" element={<NoticeCategory />} />
+            <Route path="/notice/:ntc_no" element={<NoticeDetail />} />
+            <Route path="/notice/write" element={<NoticeWrite />} />
+            <Route path="/notice/update/:ntc_no" element={<NoticeUpdate />} />
             <Route
               path="/member"
               element={
@@ -78,10 +82,7 @@ function App() {
             />
           </Route>
 		      <Route path="/test" element={<Test />} />
-		      <Route path="/notice" element={<NoticeCategory />} />
-          <Route path="/notice/:ntc_no" element={<NoticeDetail />} />
-          <Route path="/notice/write" element={<NoticeWrite />} />
-          <Route path="/notice/update/:ntc_no" element={<NoticeUpdate />} />
+
 
           <Route path="/*" element={<NotFound />} />
         </Routes>

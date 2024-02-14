@@ -56,12 +56,11 @@ const NoticeCategory = () => {
   useEffect(init, []);
 
   return (
-    <div>
-      <div>Category</div>
+    <>
       <div className="category-set">{makeCategories()}</div>
       <br/>
       <NoticeList ntc_cate={category}/>
-    </div>
+    </>
   );
 };
 

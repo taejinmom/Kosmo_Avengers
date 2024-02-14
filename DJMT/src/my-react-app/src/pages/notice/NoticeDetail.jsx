@@ -19,7 +19,6 @@ const NoticeDetail = () => {
                  (false);
             }
         )
-        
         // .catch(error => {
         //     console.log('error >> ')
         //     // if (error.response.data === 'fail') {
@@ -33,11 +32,9 @@ const NoticeDetail = () => {
     }, []);
 
     return(
-        <div>
-            게시판 상세보기 페이지
-            <hr />
+        <>
             <Notice notice={notice} />
-        </div>
+        </>
     );
 };
 

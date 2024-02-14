@@ -54,7 +54,7 @@ const Notice = ({notice}) => {
       }, [notice]);
   
     return (
-        <div>
+        <>
             <div>
                 <h5>카테고리 - {notice.ntc_cate}</h5>
                 <h2>제목 : {notice.ntc_title}</h2>
@@ -74,7 +74,7 @@ const Notice = ({notice}) => {
               }
               <button onClick={moveToList}>목록</button>
             </div>
-        </div>
+        </>
     );
 };
 export default Notice;

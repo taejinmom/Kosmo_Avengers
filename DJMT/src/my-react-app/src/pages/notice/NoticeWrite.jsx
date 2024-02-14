@@ -39,8 +39,7 @@ const NoticeWrite = () => {
     };
 
     return (
-        <div>
-            <h1>글 작성 페이지</h1>
+        <>
             <div>
                 <span>카테고리***</span>
                 {/*- 셀렉트박스로 수정하기*/}
@@ -52,8 +51,7 @@ const NoticeWrite = () => {
                 <input type="text" name="ntc_title" value={ntc_title} onChange={onChange} />
             </div>
             <br />
-           
-            {/*로그인 시에만 작성가능하도록 수정해야함*/}
+
             <input type="hidden" name="reg_id" value={reg_id} onChange={onChange} />
            
             <div>
@@ -66,7 +64,7 @@ const NoticeWrite = () => {
                 <button onClick={saveNotice}>저장</button>
                 <button onClick={backToList}>취소</button>
             </div>
-        </div>
+        </>
     );
 };
 
