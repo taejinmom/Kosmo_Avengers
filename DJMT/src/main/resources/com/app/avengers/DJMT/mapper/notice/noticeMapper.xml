@@ -10,11 +10,13 @@
         where 1 = 1
         and ntc_no = #{ntc_no}
     </select>
-    <select id="getNoticeList" resultType="com.app.avengers.DJMT.dto.notice.NoticeDto">
+    <select id="getNoticeList" parameterType="String" resultType="com.app.avengers.DJMT.dto.notice.NoticeDto" >
         select
         *
         from notice
         where 1 = 1
+        and ntc_cate = #{ntc_cate}
+        or #{ntc_cate} = '0';
     </select>
     <insert id="insertNotice" parameterType="com.app.avengers.DJMT.dto.notice.NoticeDto">
         insert into notice(ntc_no, ntc_title, ntc_comm, ntc_status, ntc_cate, reg_id, reg_date, chg_date, chg_id)
