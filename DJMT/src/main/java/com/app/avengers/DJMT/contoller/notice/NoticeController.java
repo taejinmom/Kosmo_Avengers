@@ -87,7 +87,7 @@ public class NoticeController {
         System.out.println("[getTokenLoginID] >>>>>token:"+token);
         String userPK = jwtTokenProvider.getUserPk(token);
         System.out.println("[getTokenLoginID] >>>>>userPK:"+userPK);
-        String login_id = memberService.getMemberInfoByMemNo(userPK).getLogin_id();
+        String login_id = memberService.getLoginIdByMemNo(userPK);
         System.out.println("[getTokenLoginID] >>>>>login_id:"+login_id);
         return login_id;
     }

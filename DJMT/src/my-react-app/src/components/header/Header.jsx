@@ -30,6 +30,11 @@ const Header = (props) => {
           <div className="inner">
             <ul>
               <li>
+                <Link to={"/myCart"} state={{ title: "장바구니" }}>
+                  장바구니
+                </Link>
+              </li>
+              <li>
                 <Link to={"/notice"} state={{ title: "Notice" }}>
                   Notice
                 </Link>
