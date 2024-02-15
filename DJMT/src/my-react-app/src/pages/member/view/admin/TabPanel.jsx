@@ -13,6 +13,7 @@ import {
 } from '@mui/x-data-grid'
 
 import { useState } from 'react'
+import ProgressBar from './progress/ProgressBar'
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props
@@ -69,7 +70,7 @@ export default function BasicTabs(props) {
             aria-label="basic tabs example"
           >
             <Tab label="Member List" {...a11yProps(0)} />
-            <Tab label="Item Two" {...a11yProps(1)} />
+            <Tab label="Item Two222" {...a11yProps(1)} />
             <Tab label="Item Three" {...a11yProps(2)} />
           </Tabs>
         </Box>
@@ -90,8 +91,9 @@ export default function BasicTabs(props) {
           />
           {React.Children.toArray(selectionModel.map(val => <h1>{val}</h1>))}
         </CustomTabPanel>
-        <CustomTabPanel value={value} index={1}>
-          Item Two
+        <CustomTabPanel value={'1'} index={1}>
+          <ProgressBar/>
+          asdasd
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
           Item Three

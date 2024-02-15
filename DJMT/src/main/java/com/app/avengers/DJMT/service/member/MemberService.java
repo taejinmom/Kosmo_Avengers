@@ -130,7 +130,13 @@ public class MemberService implements MemberRepository {
     public List<MemberDto> selectMemberList() {
         return memberMapper.selectMemberList();
     }
-
+    /**
+     * description    : 사용자 loginId - mem_no로찾기
+     * 2024-02-14   by  taejin       
+     */
+    public String getMemberLoginIdByMemNo(String mem_no){
+        return memberMapper.getLoginIdByMemNo(mem_no);
+    }
     /**
      * description    :  관리자 페이지 - 사용자 삭제(* 단건 *)
      * 2024-01-25   by  taejin       

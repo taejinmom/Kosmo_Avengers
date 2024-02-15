@@ -1,15 +1,16 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import App from "./App.jsx";
-import { RecoilRoot } from "recoil";
-import { QueryClient, QueryClientProvider } from "react-query";
-import "./styles/style.scss";
-import { Provider } from "react-redux";
-import store from "./pages/product/store.js";
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import App from './App.jsx'
+import { RecoilRoot } from 'recoil'
+import { QueryClient, QueryClientProvider } from 'react-query'
+import './styles/style.scss'
+import { Provider } from 'react-redux'
+import store from './pages/product/store.js'
+import './styles/style.scss'
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient()
 
-ReactDOM.createRoot(document.getElementById("root")).render(
+ReactDOM.createRoot(document.getElementById('root')).render(
   // <React.StrictMode>
   <Provider store={store}>
     <QueryClientProvider client={queryClient}>
@@ -19,4 +20,4 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     </QueryClientProvider>
     {/* // </React.StrictMode> */}
   </Provider>
-);
+)
