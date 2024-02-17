@@ -39,6 +39,7 @@ const NoticeList = ({ntc_cate}) => {
             console.log(res.data);
             setNoticeList(res.data);
             setRows(res.data);
+            setPage(0);
         })
         .catch(error => {
             console.log('error >> ')
