@@ -6,58 +6,19 @@ import { createContext } from 'react'
 import ChatMain from './pages/ChatMain.jsx'
 
 function Modal({ className, onClose, maskClosable, closable, visible }) {
-  let socket = null
-  useEffect(() => {
-    socket = io.connect('http://localhost:4000')
-  })
+  let socket = io.connect('http://localhost:4000')
+  useEffect(() => {})
   const onMaskClick = e => {
     if (e.target === e.currentTarget) {
       onClose(e)
     }
   }
 
-  // 이전방문 날짜
-  //   const VISITED_BEFORE_DATE = localStorage.getItem('VisitCookie')
-  // 현재 날짜
-  //   const VISITED_NOW_DATE = Math.floor(new Date().getDate())
-
-  // console.log(VISITED_BEFORE_DATE)
-  // console.log(VISITED_NOW_DATE)
-  // localStorage.removeItem('VisitCookie')
-
-  //   useEffect(() => {
-  //     // 팝업 오늘 하루닫기 체크
-  //     if (VISITED_BEFORE_DATE !== null) {
-  //       // 날짜가 같을경우 노출
-  //       if (VISITED_BEFORE_DATE === VISITED_NOW_DATE) {
-  //         localStorage.removeItem('VisitCookie')
-  //         onClose(true)
-  //       }
-  //       // 날짜가 다를경우 비노출
-  //       if (VISITED_BEFORE_DATE !== VISITED_NOW_DATE) {
-  //         onClose(false)
-  //       }
-  //     }
-  //   }, [VISITED_BEFORE_DATE])
-
-  // 하루동안 팝업 닫기
-  //   const Dayclose = e => {
-  //     if (onClose) {
-  //       onClose(e)
-
-  //       const expiry = new Date()
-  //       // +1일 계산
-  //       const expiryDate = expiry.getDate() + 1
-  //       // 로컬스토리지 저장
-  //       localStorage.setItem('VisitCookie', expiryDate)
-  //     }
+  // const close = e => {
+  //   if (onClose) {
+  //     onClose(e)
   //   }
-
-  const close = e => {
-    if (onClose) {
-      onClose(e)
-    }
-  }
+  // }
 
   return (
     <>

@@ -13,11 +13,15 @@ package com.app.avengers.DJMT.service.common;
 
 
 import com.fasterxml.uuid.Generators;
+import com.google.code.geocoder.Geocoder;
+import com.google.code.geocoder.GeocoderRequestBuilder;
+import com.google.code.geocoder.model.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -85,5 +89,55 @@ public class CommonService {
             }
         }
         return result;
+    }
+
+    //10진수를 radian(라디안)으로 변환
+    private static double deg2rad(double deg){
+        return (deg * Math.PI/180.0);
+    }
+    //radian(라디안)을 10진수로 변환
+    private static double rad2deg(double rad){
+        return (rad * 180 / Math.PI);
+    }
+    /**
+     * description    : 두 좌표 사이 거리
+     * 2024-02-17   by  taejin       
+     */
+    private static double distance(double lat1, double lon1, double lat2, double lon2){
+        double theta = lon1 - lon2;
+        double dist = Math.sin(deg2rad(lat1))* Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1))*Math.cos(deg2rad(lat2))*Math.cos(deg2rad(theta));
+        dist = Math.acos(dist);
+        dist = rad2deg(dist);
+        dist = dist * 60*1.1515*1609.344;
+
+        return dist; //단위 meter
+    }
+    
+    public static Float[] findGeoPoint(String location) {
+
+        if (location == null)
+            return null;
+
+        // setAddress : 변환하려는 주소 (경기도 성남시 분당구 등)
+        // setLanguate : 인코딩 설정
+        GeocoderRequest geocoderRequest = new GeocoderRequestBuilder().setAddress(location).setLanguage("ko").getGeocoderRequest();
+
+        try {
+            Geocoder geocoder = new Geocoder();
+            GeocodeResponse geocoderResponse = geocoder.geocode(geocoderRequest);
+
+            if (geocoderResponse.getStatus() == GeocoderStatus.OK & !geocoderResponse.getResults().isEmpty()) {
+                GeocoderResult geocoderResult=geocoderResponse.getResults().iterator().next();
+                LatLng latitudeLongitude = geocoderResult.getGeometry().getLocation();
+
+                Float[] coords = new Float[2];
+                coords[0] = latitudeLongitude.getLat().floatValue();
+                coords[1] = latitudeLongitude.getLng().floatValue();
+                return coords;
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return null;
     }
 }

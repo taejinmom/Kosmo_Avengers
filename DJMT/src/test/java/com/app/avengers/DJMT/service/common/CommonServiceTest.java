@@ -1,10 +1,14 @@
 package com.app.avengers.DJMT.service.common;
 
 import com.fasterxml.uuid.Generators;
+import com.google.code.geocoder.Geocoder;
+import com.google.code.geocoder.GeocoderRequestBuilder;
+import com.google.code.geocoder.model.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -87,5 +91,34 @@ class CommonServiceTest {
         } else {
             System.out.println("이미 폴더가 생성되어 있습니다." + builder.toString());
         }
+    }
+
+    @Test
+    public void findGeoPoint() {
+
+//        if (location == null)
+//            return null;
+        String location = "서울특별시 관악구 봉천동";
+        // setAddress : 변환하려는 주소 (경기도 성남시 분당구 등)
+        // setLanguate : 인코딩 설정
+        GeocoderRequest geocoderRequest = new GeocoderRequestBuilder().setAddress(location).setLanguage("ko").getGeocoderRequest();
+
+        try {
+            Geocoder geocoder = new Geocoder();
+            GeocodeResponse geocoderResponse = geocoder.geocode(geocoderRequest);
+
+            if (geocoderResponse.getStatus() == GeocoderStatus.OK & !geocoderResponse.getResults().isEmpty()) {
+                GeocoderResult geocoderResult=geocoderResponse.getResults().iterator().next();
+                LatLng latitudeLongitude = geocoderResult.getGeometry().getLocation();
+
+                Float[] coords = new Float[2];
+                coords[0] = latitudeLongitude.getLat().floatValue();
+                coords[1] = latitudeLongitude.getLng().floatValue();
+//                return coords;
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+//        return null;
     }
 }

@@ -6,7 +6,6 @@ import { QueryClient, QueryClientProvider } from 'react-query'
 import './styles/style.scss'
 import { Provider } from 'react-redux'
 import store from './pages/product/store.js'
-import './styles/style.scss'
 
 const queryClient = new QueryClient()
 

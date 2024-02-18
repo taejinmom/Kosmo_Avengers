@@ -30,6 +30,7 @@ const Header = props => {
                     setIsPopcheck(!isPopCheck)
                   }}
                 />
+                {/* <Link to={'/chat'}>관리자문의</Link> */}
               </li>
               <li>
                 <Link to={'/myCart'} state={{ title: '장바구니' }}>

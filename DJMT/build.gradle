@@ -27,7 +27,12 @@ dependencies {
 //	implementation 'org.springframework.boot:spring-boot-starter-websocket'
     implementation 'net.seesharpsoft.spring:sharping-multipart-boot:0.8.0'
     implementation 'commons-fileupload:commons-fileupload:1.5'
+    implementation 'com.google.code.geocoder-java:geocoder-java:0.16'
 //	implementation 'com.corundumstudio.socketio:netty-socketio:1.7.23'
+
+	// https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient
+	implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5'
+	implementation 'com.googlecode.json-simple:json-simple:1.1.1'
 
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
