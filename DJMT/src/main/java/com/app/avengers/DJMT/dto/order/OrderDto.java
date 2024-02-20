@@ -1,4 +1,4 @@
-package com.app.avengers.DJMT.dto.cart;
+package com.app.avengers.DJMT.dto.order;
 
 
 import lombok.Getter;
@@ -6,28 +6,33 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 @Getter
 @Setter
 @NoArgsConstructor
-public class CartDto {
-    private int cart_no;
-    private int cart_amt;
-    private String pdct_no;
+public class OrderDto {
+    private int ord_no;
     private String mem_no;
-    private String reg_date;
-    private String chg_date;
+    private int pdct_no;
+    private int ord_cnt;
+    private String ord_stat;
+    private String ord_addr;
+    private String ord_nm;
+    private String ord_date;
+    private String ord_edate;
 
     private String pdct_cate_no;
     private String pdct_nm;
     private String pdct_price;
     private String pdct_comm;
-    private int pdct_amt;
+    private String pdct_amt;
     private String pdct_status;
-    private String cate;    // 장바구니 수량 변경 : puls/minus
-    private ArrayList<String> chkList;  // 선택삭제 시 배열
+
+    private String reg_date;
+    private String chg_date;
+
+    private ArrayList<Integer> chkList;  // 선택상품 구매하기
 
 
     public void toDto(Map<String ,String> map){

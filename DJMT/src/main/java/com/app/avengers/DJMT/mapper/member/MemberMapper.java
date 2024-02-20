@@ -21,5 +21,6 @@ public interface MemberMapper {
     public int adminDeleteMember(String mem_no);
     public int addLoginHistory(LoginHistoryDto loginHistoryDto);
     public int updateLoginHistory(LoginHistoryDto loginHistoryDto);
+    public String getLoginIdByMemNo(String mem_no);
     public void start();
 }

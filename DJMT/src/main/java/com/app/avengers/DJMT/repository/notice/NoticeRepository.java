@@ -10,7 +10,7 @@ public interface NoticeRepository {
 
     public NoticeDto getNoticeInfoByNtcNo(long ntc_no); // 게시글 번호로 게시글 호출
 
-    public List<NoticeDto> getNoticeList(); // 게시글 리스트 뽑기
+    public List<NoticeDto> getNoticeList(String ntc_cate); // 카테고리별 게시글 리스트 뽑기
 
     public void insertNotice(NoticeDto noticeDto); // 게시글 작성
 

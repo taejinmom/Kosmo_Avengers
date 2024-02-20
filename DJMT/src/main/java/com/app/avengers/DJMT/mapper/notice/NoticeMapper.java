@@ -10,7 +10,7 @@ public interface NoticeMapper {
 
     public NoticeDto getNoticeInfoByNtcNo(long ntc_no);
 
-    public List<NoticeDto> getNoticeList();
+    public List<NoticeDto> getNoticeList(String ntc_cate);
 
     public void insertNotice(NoticeDto noticeDto);
 
