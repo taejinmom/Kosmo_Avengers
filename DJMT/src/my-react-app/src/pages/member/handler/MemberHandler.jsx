@@ -93,7 +93,7 @@ export const joinSubmitHandler = (joinData, navigate, confirm) => {
 }
 
 // 로그아웃 handler
-export const logoutHandler = async (removeCookie, isLoginCheck, memberKey) => {
+export const logoutHandler = async (removeCookie, isLoginCheck, memberKey, setMemberKey) => {
   console.log('logout!')
   // memberAxiosApi('logout','post' ,{mem_no : memberKey})
   await request
@@ -101,6 +101,7 @@ export const logoutHandler = async (removeCookie, isLoginCheck, memberKey) => {
     .then(res => {
       removeCookie('jwtToken')
       removeCookie('refreshToken')
+      setMemberKey('')
       isLoginCheck(false)
       window.location.href = '/'
     })

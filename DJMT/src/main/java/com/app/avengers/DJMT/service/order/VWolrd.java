@@ -27,7 +27,6 @@ import org.springframework.stereotype.Service;
  * 2024-02-17        Administrator       최초 생성
  */
 @Service
-@RequiredArgsConstructor
 @NoArgsConstructor
 public class VWolrd {
     @Value("${vworld.secretkey}")

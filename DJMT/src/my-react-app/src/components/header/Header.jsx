@@ -13,7 +13,7 @@ const Header = props => {
   const { cookies, setCookie, removeCookie } = props
   const [isLoginCheck, setIsLoginCheck] = useRecoilState(isLogin)
   const isAdminCheck = useRecoilValue(isAdmin)
-  const memberKey = useRecoilValue(memberKeyAtom)
+  const [memberKey, setMemberKey] = useRecoilState(memberKeyAtom)
   const [isPopCheck, setIsPopcheck] = useRecoilState(isPop)
 
   return (
@@ -79,7 +79,7 @@ const Header = props => {
                       href="/"
                       onClick={e => {
                         e.preventDefault()
-                        logoutHandler(removeCookie, setIsLoginCheck, memberKey)
+                        logoutHandler(emoveCookie, setIsLoginCheck, memberKey, setMemrberKey)
                       }}
                     >
                       로그아웃
