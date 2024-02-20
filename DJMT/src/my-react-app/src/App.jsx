@@ -32,8 +32,6 @@ function App() {
   const [isAdminCheck, setIsAdminCheck] = useRecoilState(isAdmin)
   const memberKey = useRecoilValue(memberKeyAtom)
 
-  const [modalVisible, setModalVisible] = useState(false)
-
   useEffect(() => {
     validateToken(cookies, setCookie, removeCookie, setIsLoginCheck, memberKey)
   }, [])

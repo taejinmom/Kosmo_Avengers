@@ -1,10 +1,13 @@
 package com.app.avengers.DJMT.service.order;
 
 import com.app.avengers.DJMT.dto.cart.CartDto;
+import com.app.avengers.DJMT.dto.member.MemberDto;
 import com.app.avengers.DJMT.dto.order.OrderDto;
 import com.app.avengers.DJMT.mapper.cart.CartMapper;
+import com.app.avengers.DJMT.mapper.member.MemberMapper;
 import com.app.avengers.DJMT.mapper.order.OrderMapper;
 import com.app.avengers.DJMT.mapper.product.ProductMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
@@ -12,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Slf4j
@@ -21,6 +25,8 @@ public class OrderService {
 
     private final OrderMapper orderMapper;
     private final ProductMapper productMapper;
+    private final MemberMapper memberMapper;
+    private final OrderProcess orderProcess;
 
     public List<OrderDto> getPdctInfo(OrderDto orderDto) {
         int result = 0;
@@ -93,19 +99,10 @@ public class OrderService {
 //        return result;
 //    }
 
-    public void orderEventHandler(String address){
-        // 선언
-//        JSONObject coordinate; //
-//        double address_lat; // 경도
-//        double address_lng; // 위도
-//        try {
-//            coordinate = OrderProcess
-//            address_lat = coordinate[0];
-//            address_lng = coordinate[1];
-//        } catch (IOException e) {
-//            log.error("[좌표 찾기 >>> ERROR]");
-//            e.printStackTrace();
-//            throw new RuntimeException(e);
-//        }
+    public void orderTest(String mem_no){
+        MemberDto memberDto = memberMapper.getMemberInfoByMemNo(mem_no);
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        orderProcess.excute(objectMapper.convertValue(memberDto, HashMap.class));
     }
 }

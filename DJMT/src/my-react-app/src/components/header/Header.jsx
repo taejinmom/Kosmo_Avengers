@@ -23,16 +23,6 @@ const Header = props => {
           <div className="inner">
             <ul>
               <li>
-                <input
-                  type="button"
-                  value={'관리자문의'}
-                  onClick={() => {
-                    setIsPopcheck(!isPopCheck)
-                  }}
-                />
-                {/* <Link to={'/chat'}>관리자문의</Link> */}
-              </li>
-              <li>
                 <Link to={'/myCart'} state={{ title: '장바구니' }}>
                   장바구니
                 </Link>

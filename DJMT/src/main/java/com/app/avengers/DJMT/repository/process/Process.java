@@ -1,5 +1,6 @@
 package com.app.avengers.DJMT.repository.process;
 
+import org.json.simple.JSONObject;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -19,5 +20,6 @@ import java.util.HashMap;
 @Repository
 public interface Process {
     public void excute(HashMap<String, String> map);
+    public void beforeEventHandler();
     public void afterEventHandler();
 }
