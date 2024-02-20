@@ -44,7 +44,7 @@
         delete from MEMBER
         /* com\app\avengers\DJMT\mapper\member\MemberMapper.xml - start */
     </delete>
-    <!-- 사용자 정보 mem_no로 select-->
+
     <select id="getMemberInfoByMemNo" resultType="com.app.avengers.DJMT.dto.member.MemberDto">
         select * from
         member

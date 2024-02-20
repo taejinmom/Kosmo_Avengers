@@ -1,25 +1,42 @@
-import "./Home.css";
-import "swiper/css";
-import "swiper/css/navigation";
-import { Link } from "react-router-dom";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Autoplay } from "swiper/modules";
-
-import Product from "../../components/Product.jsx";
-import Welcome from "../../components/Welcome.jsx";
-import Data from "../../components/Data.jsx";
+import './Home.css'
+import 'swiper/css'
+import 'swiper/css/navigation'
+import { Link } from 'react-router-dom'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Navigation, Autoplay } from 'swiper/modules'
+import { useRecoilState, useRecoilValue } from 'recoil'
+import Data from '../../components/Data.jsx'
+import Modal from '../member/chat/Modal.jsx'
+import { isPop } from '../member/atom/ModalAtom.jsx'
 
 function Home() {
-  const data = Data;
+  const data = Data
+  // const [modalVisible, setModalVisible] = useState(false)
+  const [modalVisible, setModalVisible] = useRecoilState(isPop)
+  // const openModal = () => {
+  //     setModalVisible(true)
+  // }
+  const closeModal = () => {
+    setModalVisible(false)
+  }
   return (
     <>
       <div className="home">
+        {modalVisible && (
+          <Modal
+            visible={modalVisible}
+            closable={true}
+            maskClosable={true}
+            onClose={closeModal}
+          ></Modal>
+        )}
+
         <div className="visual">
           <Swiper
             modules={[Navigation, Autoplay]}
             speed={1000}
             spaceBetween={20}
-            slidesPerView={"auto"}
+            slidesPerView={'auto'}
             navigation
             centeredSlides={true}
             loop={true}
@@ -45,14 +62,14 @@ function Home() {
             <h2>BEST PRODUCT</h2>
             <ul className="item">
               <li>
-                <Link to={"/productDetail"}>
+                <Link to={'/productDetail'}>
                   <div className="item-img">
                     <img src="/images/home/best-item-01.jpg" alt="" />
                   </div>
                   <div className="item-info">
                     <h3>비스코스 골지 니트 가디건</h3>
                     <p>
-                      <span className="percentage">20%</span> 279,200원{" "}
+                      <span className="percentage">20%</span> 279,200원{' '}
                       <span>349,000원</span>
                     </p>
                   </div>
@@ -60,7 +77,7 @@ function Home() {
                 </Link>
               </li>
               <li>
-                <Link to={"/productDetail"}>
+                <Link to={'/productDetail'}>
                   <div className="item-img">
                     <img src="/images/home/best-item-02.jpg" alt="" />
                   </div>
@@ -72,14 +89,14 @@ function Home() {
                 </Link>
               </li>
               <li>
-                <Link to={"/productDetail"}>
+                <Link to={'/productDetail'}>
                   <div className="item-img">
                     <img src="/images/home/best-item-03.jpg" alt="" />
                   </div>
                   <div className="item-info">
                     <h3>팬시 카라 코튼 셔츠</h3>
                     <p>
-                      <span className="percentage">7%</span> 352,470원{" "}
+                      <span className="percentage">7%</span> 352,470원{' '}
                       <span>379,000원</span>
                     </p>
                   </div>
@@ -87,14 +104,14 @@ function Home() {
                 </Link>
               </li>
               <li>
-                <Link to={"/productDetail"}>
+                <Link to={'/productDetail'}>
                   <div className="item-img">
                     <img src="/images/home/best-item-01.jpg" alt="" />
                   </div>
                   <div className="item-info">
                     <h3>Jane Cardigan</h3>
                     <p>
-                      <span className="percentage">5%</span> 436,050원{" "}
+                      <span className="percentage">5%</span> 436,050원{' '}
                       <span>459,000원</span>
                     </p>
                   </div>
@@ -102,7 +119,7 @@ function Home() {
                 </Link>
               </li>
               <li>
-                <Link to={"/productDetail"}>
+                <Link to={'/productDetail'}>
                   <div className="item-img">
                     <img src="/images/home/best-item-02.jpg" alt="" />
                   </div>
@@ -115,7 +132,7 @@ function Home() {
               </li>
             </ul>
             <div className="more">
-              <Link to={"/ProductList"}>VIEW MORE +</Link>
+              <Link to={'/ProductList'}>VIEW MORE +</Link>
             </div>
 
             {/* <div className="App">
@@ -131,7 +148,7 @@ function Home() {
         </div>
       </div>
     </>
-  );
+  )
 }
 
-export default Home;
+export default Home

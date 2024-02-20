@@ -2,7 +2,6 @@ import React, { Children, useEffect, useState } from 'react'
 import { memberAxiosApi } from '../../handler/MemberHandler'
 import { DeleteOutline } from '@mui/icons-material'
 import { useNavigate } from 'react-router-dom'
-import VerticalTabs from './TabPanel'
 import PropTypes from 'prop-types'
 import { Box, Button, Tab, Tabs } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
@@ -10,9 +9,10 @@ import { useRecoilState, useRecoilValue } from 'recoil'
 import { adminEditKeyAtom } from '../../atom/AdminAtom'
 import request from '../../../../api/core'
 import { isLogin, isAdmin } from '../../atom/LoginAtom'
+import './admin.css'
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props
-
+  console.log(value)
   return (
     <div
       role="tabpanel"
@@ -81,9 +81,7 @@ export function BasicTabs(props) {
           />
         </CustomTabPanel>
         {/* Tab 2 */}
-        <CustomTabPanel value={value} index={1}>
-          Item Two
-        </CustomTabPanel>
+        <CustomTabPanel value={value} index={1}></CustomTabPanel>
         {/* Tab 3 */}
         <CustomTabPanel value={value} index={2}>
           Item Three
@@ -94,13 +92,13 @@ export function BasicTabs(props) {
 }
 
 const AdminPage = props => {
-  const {confirm} = props
+  const { confirm } = props
   const isLoginCheck = useRecoilValue(isLogin)
   const isAdminCheck = useRecoilValue(isAdmin)
   const selectionModel = useRecoilValue(adminEditKeyAtom)
   const navigate = useNavigate()
   const [memberList, setMemberList] = useState([])
-  
+
   const editAdminHandler = e => {
     navigate('/member', {
       state: {
@@ -112,8 +110,8 @@ const AdminPage = props => {
   }
 
   const deleteAdminHandler = () => {
-    request.post('/admin/deleteMember', { mem_no: selectionModel[0] });
-    window.location.reload();
+    request.post('/admin/deleteMember', { mem_no: selectionModel[0] })
+    window.location.reload()
   }
 
   useEffect(() => {
@@ -124,7 +122,7 @@ const AdminPage = props => {
         null,
         navigate
       ).catch(error => {
-        if(error.response.status ==='403'){
+        if (error.response.status === '403') {
           navigate('/')
         }
       })
@@ -180,15 +178,18 @@ const AdminPage = props => {
           <>
             {params.id === selectionModel[0] ? (
               <>
-              
                 <button onClick={editAdminHandler} className="userListEdit">
                   Edit
                 </button>
                 <button
-                  onClick={e=> confirm('사용자를 삭제하시겠습니까?',deleteAdminHandler)}
+                  onClick={e =>
+                    confirm('사용자를 삭제하시겠습니까?', deleteAdminHandler)
+                  }
                   className="userListEdit"
-                  disabled={params.row.role === 'ADMIN'? true : false}
-                >Del</button>
+                  disabled={params.row.role === 'ADMIN' ? true : false}
+                >
+                  Del
+                </button>
               </>
             ) : (
               ''

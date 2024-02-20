@@ -7,8 +7,10 @@ import com.app.avengers.DJMT.mapper.order.OrderMapper;
 import com.app.avengers.DJMT.mapper.product.ProductMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -91,5 +93,19 @@ public class OrderService {
 //        return result;
 //    }
 
-
+    public void orderEventHandler(String address){
+        // 선언
+//        JSONObject coordinate; //
+//        double address_lat; // 경도
+//        double address_lng; // 위도
+//        try {
+//            coordinate = OrderProcess
+//            address_lat = coordinate[0];
+//            address_lng = coordinate[1];
+//        } catch (IOException e) {
+//            log.error("[좌표 찾기 >>> ERROR]");
+//            e.printStackTrace();
+//            throw new RuntimeException(e);
+//        }
+    }
 }
