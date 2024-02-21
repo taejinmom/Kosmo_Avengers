@@ -4,6 +4,7 @@ import com.app.avengers.DJMT.repository.process.Process;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 
@@ -20,6 +21,7 @@ import java.util.HashMap;
  */
 
 @Slf4j
+@Component
 @RequiredArgsConstructor
 public  class OrderProcess extends Thread implements Process {
 
@@ -48,9 +50,13 @@ public  class OrderProcess extends Thread implements Process {
             public void run() {
                 for(int i = 0; i < distance; i++) {
                     try {
-                        Thread.sleep(1000);
-                        if(i==distance/2){
-                            log.info("반");
+                        Thread.sleep(500);
+                        if(i==(distance * 0.2)){
+                            log.info("20퍼");
+                        } else if (i > (distance * 0.8)) {
+                            log.info("80퍼");
+                        } else if (i == distance) {
+                            log.info("배송완료");
                         }
                         i++;
                     } catch (InterruptedException e) {

@@ -29,9 +29,9 @@ import org.springframework.stereotype.Service;
 @Service
 @NoArgsConstructor
 public class VWolrd {
-    @Value("${vworld.secretkey}")
-    private String secretkey;
-//    private String secretkey = "38DFA757-E21B-37A4-ACF1-E9A3FB309B38";
+//    @Value("${vworld.secretkey}")
+//    private String secretkey;
+    private String secretkey = "38DFA757-E21B-37A4-ACF1-E9A3FB309B38";
     String searchType = "parcel";
     String searchAddr = "삼평동 624";
     String epsg = "epsg:4326";
@@ -54,7 +54,7 @@ public class VWolrd {
             JSONObject jsResult = (JSONObject) jsrs.get("result");
             JSONObject jspoitn = (JSONObject) jsResult.get("point");
 
-            return (JSONObject) jspoitn.get("point");
+            return (JSONObject) jspoitn;
         } catch (IOException | ParseException e) {
             throw new RuntimeException(e);
         }

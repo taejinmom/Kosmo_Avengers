@@ -8,6 +8,7 @@ import {
   isAdmin,
 } from '../../pages/member/atom/LoginAtom'
 import { isPop } from '../../pages/member/atom/ModalAtom'
+import request from '../../api/core'
 
 const Header = props => {
   const { cookies, setCookie, removeCookie } = props
@@ -22,6 +23,15 @@ const Header = props => {
         <div className="submenu">
           <div className="inner">
             <ul>
+              <li>
+                <input
+                  type="button"
+                  onClick={() => {
+                    request.post('/postTest', { mem_no: memberKey })
+                  }}
+                  value={'테스트'}
+                ></input>
+              </li>
               <li>
                 <Link to={'/myCart'} state={{ title: '장바구니' }}>
                   장바구니
@@ -69,7 +79,12 @@ const Header = props => {
                       href="/"
                       onClick={e => {
                         e.preventDefault()
-                        logoutHandler(emoveCookie, setIsLoginCheck, memberKey, setMemrberKey)
+                        logoutHandler(
+                          removeCookie,
+                          setIsLoginCheck,
+                          memberKey,
+                          setMemberKey
+                        )
                       }}
                     >
                       로그아웃
