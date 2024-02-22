@@ -59,3 +59,6 @@ file:
   volume-path:
   file-path:
   repository: D:\project-repository
+
+vworld:
+  secretkey: 38DFA757-E21B-37A4-ACF1-E9A3FB309B38

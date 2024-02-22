@@ -7,6 +7,7 @@ import com.app.avengers.DJMT.dto.member.MemberDto;
 import com.app.avengers.DJMT.dto.token.TokenDto;
 import com.app.avengers.DJMT.service.jwt.JwtService;
 import com.app.avengers.DJMT.service.member.MemberService;
+import com.app.avengers.DJMT.service.order.OrderService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,6 +39,7 @@ public class MemberController {
     private final MemberService memberService;
     private final JwtTokenProvider jwtTokenProvider;
     private final JwtService jwtService;
+    private final OrderService orderService;
 
     /**
      * description    : 로그인 액션
@@ -149,16 +151,11 @@ public class MemberController {
         return "OK";
     }
 
-    @PostMapping(path = "/postTest",consumes = {MediaType.MULTIPART_FORM_DATA_VALUE,MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_OCTET_STREAM_VALUE})
-//    @PostMapping(path = "/postTest")
-    public String postTest(@RequestPart(name = "file", required = false) MultipartFile multipartFile,
-                           @RequestPart(name = "memberData", required = false) Map<String,Object> map){
+//    @PostMapping(path = "/postTest",consumes = {MediaType.MULTIPART_FORM_DATA_VALUE,MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_OCTET_STREAM_VALUE})
+    @PostMapping(path = "/postTest")
+    public String postTest(@RequestBody HashMap<String,String> map){
+        orderService.orderTest(map.get("mem_no"));
 
-        memberService.editMemberInfo(Constants.MEM_PROFILE, multipartFile, map);
-        // 파일 저장        
-
-        log.info("postTest >>> " + multipartFile);
-        log.info("postTest >>> " + map);
         return "OK";
     }
 
