@@ -3,6 +3,7 @@ import "./Layout.css";
 import "../../styles/Common.css";
 import Header from "../header/Header.jsx";
 import Footer from "../footer/Footer.jsx";
+import Aside from "../aside/Aside.jsx";
 import { useCookies } from "react-cookie";
 
 const Layout = () => {
@@ -18,6 +19,7 @@ const Layout = () => {
         <Outlet />
       </main>
       <Footer />
+      <Aside />
     </>
   );
 };

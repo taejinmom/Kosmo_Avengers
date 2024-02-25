@@ -13,15 +13,18 @@ function Cart() {
   const [list, setList] = useState([]);
   const memberKey = useRecoilValue(memberKeyAtom);
   const [checkItems, setCheckItems] = useState([]);
+  const [totPrice, setTotPrice] = useState(0);
   const navigate = useNavigate();
 
-  const handleSingleCheck = (checked, id) => {
+  const handleSingleCheck = (checked, item) => {
     if (checked) {
       // 단일 선택 시 체크된 아이템을 배열에 추가
-      setCheckItems((prev) => [...prev, id]);
+      setCheckItems((prev) => [...prev, item.pdct_no]);
+      setTotPrice(totPrice + item.pdct_price * item.cart_amt);
     } else {
       // 단일 선택 해제 시 체크된 아이템을 제외한 배열 (필터)
-      setCheckItems(checkItems.filter((el) => el !== id));
+      setCheckItems(checkItems.filter((el) => el !== item.pdct_no));
+      setTotPrice(totPrice - item.pdct_price * item.cart_amt);
     }
   };
 
@@ -29,11 +32,18 @@ function Cart() {
     if (checked) {
       // 전체 선택 클릭 시 데이터의 모든 아이템(id)를 담은 배열로 checkItems 상태 업데이트
       const idArray = [];
-      list.forEach((el) => idArray.push(el.pdct_no));
+      var tmpPrice = 0;
+      list.forEach(
+        (el) => idArray.push(el.pdct_no),
+        (tmpPrice += el.pdct_price * el.cart_amt)
+      );
+      // list.forEach((el) => );
+      setTotPrice(tmpPrice);
       setCheckItems(idArray);
     } else {
       // 전체 선택 해제 시 checkItems 를 빈 배열로 상태 업데이트
       setCheckItems([]);
+      setTotPrice(0);
     }
   };
 
@@ -49,8 +59,8 @@ function Cart() {
     });
   };
 
-  const removeProduct = (pdct_no) => {
-    if (pdct_no == null || pdct_no == "" || checkItems == []) {
+  const removeProduct = (pdct_no, checkItems) => {
+    if ((pdct_no == null && pdct_no == "") || checkItems == []) {
       return alert("삭제할 상품을 선택해주세요.");
     } else {
       if (confirm("해당 상품을 장바구니에서 삭제하시겠습니까?")) {
@@ -118,6 +128,13 @@ function Cart() {
     setList(substractQty);
   };
 
+  const formatPrice = (target) => {
+    if (target) {
+      let result = target.toLocaleString("ko-KR");
+      return result;
+    }
+  };
+
   return (
     <>
       <div
@@ -130,7 +147,7 @@ function Cart() {
           type="button"
           className="btn btn-secondary btn-sm"
           onClick={() => {
-            removeProduct();
+            removeProduct("", checkItems);
           }}
         >
           선택삭제
@@ -163,7 +180,7 @@ function Cart() {
                       <input
                         type="checkbox"
                         onChange={(e) =>
-                          handleSingleCheck(e.target.checked, item.pdct_no)
+                          handleSingleCheck(e.target.checked, item)
                         }
                         checked={
                           checkItems.includes(item.pdct_no) ? true : false
@@ -197,13 +214,17 @@ function Cart() {
                       </div>
                     </td>
                     <td className="td_width_4 table_text_align_center">
-                      총액 :{item.pdct_price * item.cart_amt}
+                      총액 :
+                      {
+                        item.pdct_price * item.cart_amt
+                        // setTotPrice(item.pdct_price * item.cart_amt)
+                      }
                     </td>
                     <td className="td_width_4 table_text_align_center delete_btn">
                       <button
                         className="cancelBtn"
                         onClick={() => {
-                          removeProduct(item.pdct_no);
+                          removeProduct(item.pdct_no, checkItems);
                         }}
                       >
                         ✕
@@ -224,7 +245,7 @@ function Cart() {
                 <tr>
                   <td>총 상품 가격</td>
                   <td>
-                    <span className="totalPrice_span">70000</span> 원
+                    <span className="totalPrice_span">{totPrice}</span> 원
                   </td>
                 </tr>
                 <tr>
@@ -236,8 +257,9 @@ function Cart() {
                 <tr>
                   <td>총 주문 상품수</td>
                   <td>
-                    <span className="totalKind_span"></span>종{" "}
-                    <span className="totalCount_span"></span>권
+                    <span className="totalKind_span"></span>총
+                    {" " + checkItems.length}
+                    <span className="totalCount_span"></span> 개
                   </td>
                 </tr>
               </tbody>
@@ -247,7 +269,10 @@ function Cart() {
                     <strong>총 결제 예상 금액</strong>
                   </td>
                   <td>
-                    <span className="finalTotalPrice_span">70000</span> 원
+                    <span className="finalTotalPrice_span">
+                      {totPrice + 3000}
+                    </span>{" "}
+                    원
                   </td>
                 </tr>
               </tbody>
