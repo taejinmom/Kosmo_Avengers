@@ -22,14 +22,17 @@ public class OrderService {
 
     public List<OrderDto> getPdctInfo(OrderDto orderDto) {
         int result = 0;
+        int totPrice = 0;
         ArrayList<Integer> list = orderDto.getChkList();
         System.out.println("list :: "+list);
         List<OrderDto> ords = new ArrayList<>();
         if(orderDto.getChkList() != null && !orderDto.getChkList().isEmpty()) {
             for (int i = 0; i < list.size(); i++) {
+                orderDto.setPdct_no(list.get(i));
                 OrderDto ord = orderMapper.getPdctInfo(orderDto);
+                totPrice += ord.getCart_amt() * ord.getPdct_price();
+                ord.setTotPrice(totPrice);
                 ords.add(ord);
-
             }
         }
         return ords;

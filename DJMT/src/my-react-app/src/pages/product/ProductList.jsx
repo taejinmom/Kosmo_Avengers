@@ -31,10 +31,12 @@ function ProductList() {
               </li>
             </ul>
             <div className="select-box">
-              <select>
-                <option value="1" selected>
-                  인기순
-                </option>
+              <select
+                defaultValue="1"
+                // name="displayyn"
+                // onChange={onChangeHandler}
+              >
+                <option value="1">인기순</option>
                 <option value="2">구매후기순</option>
                 <option value="3">낮은가격순</option>
                 <option value="4">높은가격순</option>
@@ -44,7 +46,7 @@ function ProductList() {
           <ul className="item">
             {list.map((item) => {
               return (
-                <li key={item}>
+                <li key={item.pdct_no}>
                   <Link to={`/productDetail/${item.pdct_no}`}>
                     <div className="item-img"></div>
                     <p className="item-name">{item.pdct_nm}</p>
