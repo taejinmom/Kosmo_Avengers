@@ -1,0 +1,30 @@
+aside {
+    position: fixed;
+    right: 0;
+    bottom: 100px;
+    z-index: 99;
+  }
+  aside ul {
+    border: 1px solid #e5e5e5;
+    border-radius: 6px 0 0 6px;
+    background-color: rgba(255, 255, 255, .8);
+  }
+  aside ul li {
+    border-bottom: 1px solid #e5e5e5;
+  }
+  aside ul li:last-child {
+    border: none;
+  }
+  aside ul li a {
+    padding: 10px;
+    color: #888;
+  }
+  aside ul li a:hover {
+    color: #888;
+  }
+  aside ul li a.red {
+    color: #e84e4e;
+  }
+  aside ul li a.red:hover {
+    color: #e84e4e;
+  }
