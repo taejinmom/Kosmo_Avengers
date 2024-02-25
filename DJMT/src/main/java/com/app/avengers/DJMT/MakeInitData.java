@@ -27,8 +27,7 @@ public class MakeInitData {
 
     @PostConstruct
     public void makeVolume() {
-        VolumeDto volumeDto = new VolumeDto();
-        fileService.addVolume(Constants.MEM_PROFILE);
+        fileService.checkVolumeInit();
 
     }
 //    @PostConstruct

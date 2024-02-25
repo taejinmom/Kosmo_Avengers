@@ -38,7 +38,7 @@ public  class OrderProcess extends Thread implements Process {
         double end_lng; // 위도
 
         // 목적지 좌표 endXY
-        coordinate = vWolrd.findByEndAddress(map.get("address"));
+        coordinate = vWolrd.findByEndAddress(map.get("mem_addr1"));
         end_lat = Double.parseDouble(coordinate.get("x").toString());
         end_lng = Double.parseDouble(coordinate.get("y").toString());
         vWolrd.distance(x,y, end_lat,end_lng);

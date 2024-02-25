@@ -2,16 +2,23 @@ package com.app.avengers.DJMT.service.order;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.web.client.RestTemplate;
+
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
+
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
@@ -88,7 +95,7 @@ class VWolrdTest {
         double end_lng; // 위도
 
         // 목적지 좌표 endXY
-        coordinate = vWolrd.findByEndAddress("서울특별시 종로구 무악동");
+        coordinate = vWolrd.findByEndAddress("서울특별시 관악구 봉천동 1637-5");
         end_lat = Double.parseDouble(coordinate.get("x").toString());
         end_lng = Double.parseDouble(coordinate.get("y").toString());
         vWolrd.distance(x,y, end_lat,end_lng);

@@ -36,6 +36,8 @@ public class VWolrd {
     String searchAddr = "삼평동 624";
     String epsg = "epsg:4326";
     public JSONObject findByEndAddress(String address) {
+        String[] j = address.split(" ");
+
         StringBuilder sb = new StringBuilder("https://api.vworld.kr/req/address");
         sb.append("?service=address");
         sb.append("&request=getCoord");

@@ -46,10 +46,16 @@
     <delete id="doStart" parameterType="com.app.avengers.DJMT.dto.file.VolumeDto">
         delete from file_volume
     </delete>
+    <!-- volume 체크 -->
+    <select id="checkVolumeRepositoryInit" parameterType="String">
+        select vol_type from file_volume
+        where vol_type = #{vol_type}
+    </select>
     <!-- 시작할 때 volume 추가하고 시작 -->
     <insert id="addVolume" parameterType="com.app.avengers.DJMT.dto.file.VolumeDto" >
         insert into file_volume
         (vol_id, vol_path, vol_type ) values
         (#{vol_id}, #{vol_path}, #{vol_type})
     </insert>
+
 </mapper>
