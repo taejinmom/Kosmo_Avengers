@@ -105,17 +105,21 @@ public class MemberController {
      * 2024-01-13   by  taejin       
      */
     @PostMapping(path = "/editMemberInfo",consumes = {MediaType.MULTIPART_FORM_DATA_VALUE,MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> editMemberInfo( @RequestBody MemberDto memberDto){
+    public ResponseEntity<?> editMemberInfo(@RequestPart(name = "file", required = false) MultipartFile multipartFile,
+                                            @RequestPart(name = "memberData", required = false) Map<String,Object> map){
         try{
-//            memberService.editMemberInfo(memberDto);
-            log.info("editMemberInfo >> " + memberDto.getEtc_param1());
-            log.info("editMemberInfo >> 회원정보 수정! "+ memberDto.getMem_name());
+            memberService.editMemberInfo(Constants.MEM_PROFILE, multipartFile, map);
+            // 파일 저장
+
+            log.info("editMemberInfo >>> " + multipartFile);
+            log.info("editMemberInfo >>> " + map);
             return new ResponseEntity<>(Constants.RESPONSE_SUCCESS,HttpStatus.OK);
         }catch (Exception e){
             log.error(e.getMessage());
             return new ResponseEntity<>(Constants.RESPONSE_SUCCESS,HttpStatus.OK);
         }
     }
+
     /**
      * description    : 관리자페이지 - 사용자 리스트 출력
      * 2024-01-27   by  taejin
@@ -152,10 +156,16 @@ public class MemberController {
     }
 
 //    @PostMapping(path = "/postTest",consumes = {MediaType.MULTIPART_FORM_DATA_VALUE,MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_OCTET_STREAM_VALUE})
-    @PostMapping(path = "/postTest")
-    public String postTest(@RequestBody HashMap<String,String> map){
-        orderService.orderTest(map.get("mem_no"));
+    @PostMapping(path = "/postTest",consumes = {MediaType.MULTIPART_FORM_DATA_VALUE,MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_OCTET_STREAM_VALUE})
+    //    @PostMapping(path = "/postTest")
+    public String postTest(@RequestPart(name = "file", required = false) MultipartFile multipartFile,
+                           @RequestPart(name = "memberData", required = false) Map<String,Object> map){
 
+        memberService.editMemberInfo(Constants.MEM_PROFILE, multipartFile, map);
+        // 파일 저장
+
+        log.info("postTest >>> " + multipartFile);
+        log.info("postTest >>> " + map);
         return "OK";
     }
 

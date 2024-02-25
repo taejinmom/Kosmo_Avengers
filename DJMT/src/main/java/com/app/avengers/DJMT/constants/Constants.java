@@ -28,8 +28,11 @@ public class Constants {
     public static final String RESPONSE_SUCCESS = "SUCCESS"; // 성공
     public static final String RESPONSE_FAIL = "FAILURE"; // 실패
 
+    // OS 구분
+    public static final String OS_WINDOWS = "Windows";
+    public static final String OS_MAC = "Mac";
 
-
-
+    // Repository Path
+    public static final String REPOSITORY = "project-repository";
 
 }
