@@ -59,7 +59,7 @@ function OrderForm(prop) {
         pay_method: "card",
         merchant_uid: new Date().getTime(),
         name: "DJMT 의류",
-        amount: totPrice,
+        amount: totPrice + 3000,
         buyer_name: payInfo.buyer_name,
         buyer_tel: payInfo.buyer_tel,
         buyer_addr: payInfo.buyer_addr,
@@ -206,8 +206,10 @@ function OrderForm(prop) {
         })}
 
         <div className="mb-3">
-          <p className="text-center fs-2 fw-bold">총 결제 금액</p>
-          <p className="text-center fs-4 fw-semibold">{totPrice} 원</p>
+          <p className="text-center fs-4 fw-bold">
+            총 결제 금액 (배송비 3000원 포함)
+          </p>
+          <p className="text-center fs-2 fw-semibold">{totPrice + 3000} 원</p>
         </div>
 
         <div className="d-grid gap-2 col-6 mx-auto">

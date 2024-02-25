@@ -24,6 +24,8 @@ import java.nio.file.StandardCopyOption;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * packageName    : com.app.avengers.DJMT.service.file
@@ -48,7 +50,7 @@ public class FileService {
      * description    : 파일 저장하기 위해 volume폴더 생성
      * 2024-02-04   by  taejin
      */
-    public String addVolume(String category) {
+    public String addVolume(String category, String repository) {
         StringBuilder builder = new StringBuilder();
 //
         VolumeDto volumeDto = new VolumeDto();
@@ -79,7 +81,7 @@ public class FileService {
         // 파일 경로
         String filePath = fileMgr.getFilePath();
         // full 경로
-        String fileFullPath = Paths.get(repository,type,filePath).toString();
+        String fileFullPath = Paths.get(fileMgr.getRepositoryByOS(),type,filePath).toString();
 
         // fileDto 세팅
         fileDto.setFile_path(filePath);
@@ -99,7 +101,7 @@ public class FileService {
             log.info("이미 폴더가 생성되어 있습니다." + filePath);
         }
         // 파일 생성
-        Path savePath = Paths.get(repository,type,filePath,fileDto.getFile_name());
+        Path savePath = Paths.get(fileFullPath, fileDto.getFile_name());
         try {
             fileMapper.editFileInfo(mem_no); // 사용자 정보 업데이트 이전 파일 delYn -> Y
             fileMapper.fileSave(fileDto); // 새로 추가 된 파일 insert
@@ -135,6 +137,10 @@ public class FileService {
                 throw new RuntimeException(e);
         }
     }
+    /**
+     * description    : 현재 db에 volume check해서 없는 volume추가
+     * 2024-02-25   by  taejin       
+     */
     public boolean checkVolumeInit() {
         VolumeContainer container = new VolumeContainer();
 
@@ -150,7 +156,7 @@ public class FileService {
                         // volume 체크
                         volume_type = f.toString().substring(f.toString().lastIndexOf(".") + 1);
                         //
-                        volumeDto = fileMgr.makeVolumeDto(volumeDto ,repository,volume_type);
+                        volumeDto = fileMgr.makeVolumeDto(volumeDto, fileMgr.getRepositoryByOS(), volume_type);
                         // insert
                         fileMapper.addVolume(volumeDto);
                         log.info("DB에 없음 볼륨 추가 >> " + volume_type);
@@ -158,4 +164,7 @@ public class FileService {
                 });
         return false;
     }
+
+
+
 }

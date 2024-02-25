@@ -93,7 +93,12 @@ export const joinSubmitHandler = (joinData, navigate, confirm) => {
 }
 
 // 로그아웃 handler
-export const logoutHandler = async (removeCookie, isLoginCheck, memberKey, setMemberKey) => {
+export const logoutHandler = async (
+  removeCookie,
+  isLoginCheck,
+  memberKey,
+  setMemberKey
+) => {
   console.log('logout!')
   // memberAxiosApi('logout','post' ,{mem_no : memberKey})
   await request
@@ -155,7 +160,7 @@ export const myPageHandler = async memberKey => {
 // 수정하기
 export const editMyPageHandler = async data => {
   return request
-    .post('/postTest', data)
+    .post('/editMemberInfo', data)
     .then(res => {
       console.log(res)
     })
