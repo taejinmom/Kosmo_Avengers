@@ -1,6 +1,7 @@
 package com.app.avengers.DJMT.service.file;
 
 import com.app.avengers.DJMT.dto.file.FileDto;
+import com.app.avengers.DJMT.dto.file.VolumeContainer;
 import com.app.avengers.DJMT.dto.file.VolumeDto;
 import com.app.avengers.DJMT.mapper.file.FileMapper;
 import com.app.avengers.DJMT.mgr.file.FileMgr;
@@ -22,6 +23,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 
 /**
  * packageName    : com.app.avengers.DJMT.service.file
@@ -132,5 +134,28 @@ public class FileService {
         } catch (IOException e) {
                 throw new RuntimeException(e);
         }
+    }
+    public boolean checkVolumeInit() {
+        VolumeContainer container = new VolumeContainer();
+
+        Arrays.stream(container.getClass().getFields())
+                .forEach(f -> {
+                    String volume_type = "";
+                    // 해당 볼륨 db에 있는지 체크
+                    if(fileMapper.checkVolumeRepositoryInit(f.toString().substring(f.toString().lastIndexOf(".") + 1)) != null){
+                        log.info("DB에 이미 있음 >> " + f.toString().substring(f.toString().lastIndexOf(".") + 1));
+                        volume_type = "";
+                    }else{
+                        VolumeDto volumeDto = new VolumeDto();
+                        // volume 체크
+                        volume_type = f.toString().substring(f.toString().lastIndexOf(".") + 1);
+                        //
+                        volumeDto = fileMgr.makeVolumeDto(volumeDto ,repository,volume_type);
+                        // insert
+                        fileMapper.addVolume(volumeDto);
+                        log.info("DB에 없음 볼륨 추가 >> " + volume_type);
+                    }
+                });
+        return false;
     }
 }

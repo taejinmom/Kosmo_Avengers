@@ -24,10 +24,12 @@ public class OrderDto {
 
     private String pdct_cate_no;
     private String pdct_nm;
-    private String pdct_price;
+    private int pdct_price;
     private String pdct_comm;
     private String pdct_amt;
     private String pdct_status;
+    private int cart_amt;
+    private int totPrice;
 
     private String reg_date;
     private String chg_date;

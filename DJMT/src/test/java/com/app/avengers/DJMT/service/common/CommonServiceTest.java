@@ -1,5 +1,6 @@
 package com.app.avengers.DJMT.service.common;
 
+import com.app.avengers.DJMT.dto.file.VolumeContainer;
 import com.fasterxml.uuid.Generators;
 import com.google.code.geocoder.Geocoder;
 import com.google.code.geocoder.GeocoderRequestBuilder;
@@ -12,6 +13,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.UUID;
 
 import static org.apache.commons.codec.binary.Base64.encodeBase64URLSafeString;
@@ -92,7 +94,20 @@ class CommonServiceTest {
             System.out.println("이미 폴더가 생성되어 있습니다." + builder.toString());
         }
     }
+    @Test
+    public boolean checkVolumeInit() {
+        VolumeContainer container = new VolumeContainer();
+        container.getClass().getFields();
+        System.out.println(container.getClass().getFields());
+        return false;
+    }
 
+    @Test
+    public void test() {
+        VolumeContainer container = new VolumeContainer();
+        Arrays.stream(container.getClass().getFields()).forEach(f -> { System.out.println("f = " + f.toString().substring(f.toString().lastIndexOf(".") + 1));});
+        System.out.println(container.getClass().getFields());
+    }
     @Test
     public void findGeoPoint() {
 
@@ -121,4 +136,5 @@ class CommonServiceTest {
         }
 //        return null;
     }
+
 }

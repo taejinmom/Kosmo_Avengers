@@ -45,11 +45,25 @@ spring :
 part4:
   upload:
     path: D:/project-repository/
+#        format_sql: tr
+#mybatis:
+#  type-aliases-package: com.app.avengers.DJMT.dto
+##  configuration:
+##    map-underscore-to-camel-case: true
+#socket:
+#  port: 3000
+#
+#logging:
+#  level:
+#    root: infoue
 
 mybatis:
   type-aliases-package: com.app.avengers.DJMT.dto
 #  configuration:
 #    map-underscore-to-camel-case: true
+iamport:
+  key: 5385338862575340
+  secret: hSxCjCQV3nxAFKQBpFRWPCi8CIPOYf6GZxum3KylOd9RlCgP4Nhl4WYU3CTiPWtEisviifbT1IZdzhQE
 
 logging:
   level:

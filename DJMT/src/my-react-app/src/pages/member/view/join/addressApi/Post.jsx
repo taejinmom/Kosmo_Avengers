@@ -5,6 +5,7 @@ import './post.css'
 const Post = props => {
   const { data, setData } = props
   const complete = postData => {
+    console.log('postData >> ', postData)
     let fullAddress = postData.address
     let extraAddress = ''
 
@@ -29,8 +30,13 @@ const Post = props => {
   }
 
   return (
-    <div >
-      <DaumPostcode className="postmodal" autoClose onComplete={complete} style={{zIndex:30}}/>
+    <div>
+      <DaumPostcode
+        className="postmodal"
+        autoClose
+        onComplete={complete}
+        style={{ zIndex: 30 }}
+      />
     </div>
   )
 }
