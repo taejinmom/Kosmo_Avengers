@@ -3,7 +3,7 @@
 
 <mapper namespace="com.app.avengers.DJMT.mapper.order.OrderMapper">
 
-    <select id="getPdctInfo" parameterType="String" resultType="com.app.avengers.DJMT.dto.order.OrderDto">
+    <select id="getPdctInfo" parameterType="com.app.avengers.DJMT.dto.order.OrderDto" resultType="com.app.avengers.DJMT.dto.order.OrderDto">
         SELECT
             c.*, p.*
         FROM

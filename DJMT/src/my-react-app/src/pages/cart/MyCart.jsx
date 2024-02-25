@@ -38,7 +38,10 @@ function Cart() {
   };
 
   console.log("checkItems ::", checkItems);
-  useEffect(() => fetchList(), []);
+  useEffect(() => {
+    fetchList();
+    // handleAllCheck(true);
+  }, []);
 
   const fetchList = (e) => {
     axios.post("/api/myCart/" + memberKey).then((res) => {
