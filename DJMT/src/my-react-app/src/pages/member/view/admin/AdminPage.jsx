@@ -10,6 +10,7 @@ import { adminEditKeyAtom } from '../../atom/AdminAtom'
 import request from '../../../../api/core'
 import { isLogin, isAdmin } from '../../atom/LoginAtom'
 import './admin.css'
+import ItemTwo from './tab/ItemTwo'
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props
   console.log(value)
@@ -81,7 +82,9 @@ export function BasicTabs(props) {
           />
         </CustomTabPanel>
         {/* Tab 2 */}
-        <CustomTabPanel value={value} index={1}></CustomTabPanel>
+        <CustomTabPanel value={value} index={1}>
+          <ItemTwo />
+        </CustomTabPanel>
         {/* Tab 3 */}
         <CustomTabPanel value={value} index={2}>
           Item Three
