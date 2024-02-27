@@ -81,7 +81,7 @@ public class FileService {
         // 파일 경로
         String filePath = fileMgr.getFilePath();
         // full 경로
-        String fileFullPath = Paths.get(fileMgr.getRepositoryByOS(),type,filePath).toString();
+        String fileFullPath = Paths.get(fileMgr.getRepository(),type,filePath).toString();
 
         // fileDto 세팅
         fileDto.setFile_path(filePath);
@@ -156,7 +156,7 @@ public class FileService {
                         // volume 체크
                         volume_type = f.toString().substring(f.toString().lastIndexOf(".") + 1);
                         //
-                        volumeDto = fileMgr.makeVolumeDto(volumeDto, fileMgr.getRepositoryByOS(), volume_type);
+                        volumeDto = fileMgr.makeVolumeDto(volumeDto, fileMgr.getRepository(), volume_type);
                         // insert
                         fileMapper.addVolume(volumeDto);
                         log.info("DB에 없음 볼륨 추가 >> " + volume_type);

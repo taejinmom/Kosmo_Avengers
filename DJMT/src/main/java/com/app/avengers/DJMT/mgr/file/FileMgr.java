@@ -96,7 +96,7 @@ public class FileMgr {
      * description    : OS 별로 Repository 나누기... 서버의 os가 달라서..
      * 2024-02-25   by  taejin       
      */
-    public String getRepositoryByOS() {
+    public String getRepository() {
         HashMap<String, String> result = new HashMap<>();
 
         result.put("os.name", System.getProperty("os.name"));
