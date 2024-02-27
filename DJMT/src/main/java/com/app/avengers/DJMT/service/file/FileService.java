@@ -81,7 +81,7 @@ public class FileService {
         // 파일 경로
         String filePath = fileMgr.getFilePath();
         // full 경로
-        String fileFullPath = Paths.get(fileMgr.getRepository(),type,filePath).toString();
+        String fileFullPath = Paths.get(fileMgr.getRepository(),type,filePath).toString().replaceAll("/","\\");
 
         // fileDto 세팅
         fileDto.setFile_path(filePath);

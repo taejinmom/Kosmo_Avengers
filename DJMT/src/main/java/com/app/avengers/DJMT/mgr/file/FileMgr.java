@@ -86,7 +86,7 @@ public class FileMgr {
         String os   = map.get("os.name").split(" ")[0];
         String user = map.get("user.name");
         if(os.equals(Constants.OS_MAC)){
-            return Paths.get(os,user,Constants.REPOSITORY).toString();
+            return Paths.get("","Users",user,Constants.REPOSITORY).toString();
         }else {
             return Paths.get("D:",Constants.REPOSITORY).toString();
         }
