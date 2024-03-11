@@ -5,7 +5,6 @@ import Header from "../header/Header.jsx";
 import Footer from "../footer/Footer.jsx";
 import Aside from "../aside/Aside.jsx";
 import { useCookies } from "react-cookie";
-import Sidebar from '../../pages/coordinate/Sidebar.jsx';
 
 const Layout = () => {
   const [cookies, setCookie, removeCookie] = useCookies([]);
@@ -21,9 +20,6 @@ const Layout = () => {
       </main>
       <Footer />
       <Aside />
-       <Sidebar width={320}> {/* 원하는 width사이즈 */}
-        
-      </Sidebar>
     </>
   );
 };
