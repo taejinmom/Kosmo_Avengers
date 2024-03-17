@@ -15,18 +15,20 @@ aside {
   aside ul li:last-child {
     border: none;
   }
-  aside ul li a {
+  aside ul li span {
     padding: 10px;
     color: #888;
   }
-  aside ul li a:hover {
+  aside ul li span:hover {
     color: #888;
+    cursor:pointer;
   }
-  aside ul li a.red {
+  aside ul li span.red {
     color: #e84e4e;
   }
-  aside ul li a.red:hover {
+  aside ul li span.red:hover {
     color: #e84e4e;
+    cursor:pointer;
   }
 
 /* Aside.css */
@@ -59,7 +61,7 @@ aside {
   font-weight: bold;
 }
 
-.close:hover,
+.close:hover, 
 .close:focus {
   color: black;
   text-decoration: none;

@@ -1,5 +1,8 @@
 import './Aside.css'
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { coordinateIsPop, coordinateTop } from '../../pages/coordinate/atom/CoordinateModalAtom';
 
 // 최근 본 목록을 보여줄 모달 컴포넌트
 const RecentlyViewedModal = ({ recentItems, onClose }) => {
@@ -7,60 +10,59 @@ const RecentlyViewedModal = ({ recentItems, onClose }) => {
     <div className="modal">
       <div className="modal-content">
         <span className="close" onClick={onClose}>&times;</span>
-        <h3>최근 본 상품</h3>
-        <ul>
-          {recentItems.map((item, index) => (
-            <li key={index}>{item}</li>
-          ))}
-        </ul>
+        <h2><b>코디 목록</b></h2>
+        {/* // TODO: 슬라이더로 변경 예정 & 개수 제한 */}
+        <div>
+          <h3>상의</h3>
+          <ul>
+            {recentItems.map((item, index) => (
+              <li key={index}>
+                [{item.id}] {item.name}
+              </li>
+            ))}
+          </ul>
+          <hr /> {/* 상, 하 구분선 */}
+        </div>
+        <div>
+          <h3>하의</h3>
+          <ul>
+            
+          </ul>
+        </div>
       </div>
     </div>
   );
 };
 
-function Aside() {
-  // 최근 본 목록 상태 관리
-  const [recentItems, setRecentItems] = useState([]);
-  // 모달 표시 여부 상태 관리
-  const [modalVisible, setModalVisible] = useState(false);
+const Aside = () => {
+  const coordinateIsPopVal = useRecoilValue(coordinateIsPop);
+  const topList = useRecoilValue(coordinateTop);
 
-  // 최근 본 목록에 상품 추가하는 함수
-  const addToRecentItems = (item) => {
-    setRecentItems([...recentItems, item]);
+  const setcoordinateIsPopState = useSetRecoilState(coordinateIsPop);
+
+  const showModal = () => {
+    setcoordinateIsPopState(true);
   };
 
-  // 버튼 클릭 시 최근 본 목록에 상품 추가
-  const handleButtonClick = () => {
-    const randomItem = "청바지"; // 추가
-    addToRecentItems(randomItem);
-    setModalVisible(true); // 모달을 표시
+  const closeModal = () => {
+    setcoordinateIsPopState(false);
   };
-
-  // 모달 닫기 함수
-  const handleCloseModal = () => {
-    setModalVisible(false);
-  };
-
-  useEffect(() => {
-    console.log(">>>>modalVisible:", modalVisible);
-  }, [modalVisible, recentItems]);
 
   return (
     <>
       <aside>
         <ul>
           <li>
-          <button onClick={handleButtonClick}>최근 본 상품 추가</button>
-          {/* 우측 배너 클릭 시 모달 표시 */}
-          {modalVisible && (
-            <RecentlyViewedModal recentItems={recentItems} onClose={handleCloseModal} />
-          )}
+            <span>찜 목록</span>
           </li>
           <li>
-            <a className='material-icons' href='javascript:void(0)'>checkroom</a>
+             <span className='material-icons' onClick={showModal}>checkroom</span> {/* 코디할 목록 */}
+            {coordinateIsPopVal && (
+              <RecentlyViewedModal recentItems={topList} onClose={closeModal} />
+            )}
           </li>
           <li>
-            <a className='material-icons red' href='javascript:void(0)'>favorite</a>
+            <span className='material-icons red'>favorite</span>
           </li>
         </ul>
       </aside>
